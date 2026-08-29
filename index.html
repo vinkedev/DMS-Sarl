@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DMS-CONSTRUCTION — BTP • Métallerie • Équipements</title>
+    <!-- Font Awesome (icônes) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ============================================================
+                   VARIABLES & RESET
+                   ============================================================ */
+        :root {
+            --bleu: #0073E6;
+            --bleu-fonce: #0B66C2;
+            --blanc: #FFFFFF;
+            --gris-clair: #F5F7FA;
+            --gris-texte: #333333;
+            --gris-moyen: #6B7A8F;
+            --orange: #F2994A;
+            --jaune: #F2C94C;
+            --ombre: 0 8px 30px rgba(0, 0, 0, 0.10);
+            --transition: 0.30s ease;
+            --radius: 12px;
+            --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            color: var(--gris-texte);
+            background: var(--blanc);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ============================================================
+                   BOUTONS
+                   ============================================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            justify-content: center;
+        }
+
+        .btn--primaire {
+            background: var(--bleu);
+            color: var(--blanc);
+            box-shadow: 0 4px 14px rgba(0, 115, 230, 0.35);
+        }
+        .btn--primaire:hover {
+            background: var(--bleu-fonce);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 115, 230, 0.45);
+        }
+
+        .btn--accent {
+            background: var(--orange);
+            color: var(--blanc);
+            box-shadow: 0 4px 14px rgba(242, 153, 74, 0.35);
+        }
+        .btn--accent:hover {
+            background: #e0843a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(242, 153, 74, 0.45);
+        }
+
+        .btn--secondaire {
+            background: transparent;
+            color: var(--bleu);
+            border: 2px solid var(--bleu);
+        }
+        .btn--secondaire:hover {
+            background: var(--bleu);
+            color: var(--blanc);
+        }
+
+        .btn--blanc {
+            background: var(--blanc);
+            color: var(--bleu);
+        }
+        .btn--blanc:hover {
+            background: var(--gris-clair);
+        }
+
+        .btn--whatsapp {
+            background: #25D366;
+            color: var(--blanc);
+            box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+        }
+        .btn--whatsapp:hover {
+            background: #1da851;
+            transform: translateY(-2px);
+        }
+
+        /* ============================================================
+                   HEADER
+                   ============================================================ */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+            padding: 12px 0;
+            transition: var(--transition);
+        }
+
+        .header__inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .header__logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--bleu);
+        }
+        .header__logo span {
+            color: var(--orange);
+        }
+        .header__logo small {
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: var(--gris-moyen);
+            display: block;
+            margin-top: -4px;
+        }
+
+        .header__logo-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--bleu);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanc);
+            font-size: 1.5rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            color: var(--gris-texte);
+        }
+        .nav a:hover,
+        .nav a.active {
+            background: var(--bleu);
+            color: var(--blanc);
+        }
+
+        .header__actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header__actions .btn {
+            padding: 10px 20px;
+            font-size: 0.85rem;
+        }
+
+        /* Hamburger (mobile) */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .hamburger span {
+            display: block;
+            width: 26px;
+            height: 3px;
+            background: var(--bleu);
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        /* ============================================================
+                   HERO
+                   ============================================================ */
+        .hero {
+            padding-top: 100px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #eef4ff 0%, #dce6f5 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero__carousel {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .hero__carousel-slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+        }
+        .hero__carousel-slide.active {
+            opacity: 1;
+        }
+
+        .hero__carousel-slide::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 20, 50, 0.45);
+            background: linear-gradient(135deg, rgba(0, 20, 50, 0.55) 0%, rgba(0, 20, 50, 0.30) 100%);
+        }
+
+        /* Slides simulées avec dégradés + icônes (pas d'images externes) */
+        .slide-1 {
+            background: linear-gradient(135deg, #1a2a6c, #2d4373, #4a6fa5);
+        }
+        .slide-2 {
+            background: linear-gradient(135deg, #1a3a2a, #2d5a3d, #4a8a5a);
+        }
+        .slide-3 {
+            background: linear-gradient(135deg, #3d1a1a, #6a2d2d, #9a4a4a);
+        }
+
+        .hero__content {
+            position: relative;
+            z-index: 2;
+            max-width: 780px;
+            padding: 40px 0;
+        }
+
+        .hero__badge {
+            display: inline-block;
+            background: var(--orange);
+            color: var(--blanc);
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--blanc);
+            margin-bottom: 16px;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.20);
+        }
+        .hero h1 span {
+            color: var(--jaune);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.90);
+            margin-bottom: 28px;
+            max-width: 580px;
+            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero__actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .hero__carousel-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            display: flex;
+            gap: 12px;
+        }
+        .hero__carousel-dots button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            background: transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 0;
+        }
+        .hero__carousel-dots button.active {
+            background: var(--blanc);
+            border-color: var(--blanc);
+            transform: scale(1.2);
+        }
+
+        /* ============================================================
+                   STATS BANNER
+                   ============================================================ */
+        .stats {
+            background: var(--bleu);
+            color: var(--blanc);
+            padding: 40px 0;
+            margin-top: -2px;
+        }
+
+        .stats__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 24px;
+            text-align: center;
+        }
+
+        .stats__item h3 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+        .stats__item p {
+            font-size: 1rem;
+            opacity: 0.85;
+            margin-top: 4px;
+        }
+
+        /* ============================================================
+                   SECTIONS GÉNÉRIQUES
+                   ============================================================ */
+        .section {
+            padding: 80px 0;
+        }
+        .section--gris {
+            background: var(--gris-clair);
+        }
+        .section--blanc {
+            background: var(--blanc);
+        }
+
+        .section__titre {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto 50px;
+        }
+        .section__titre h2 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--bleu);
+            margin-bottom: 12px;
+        }
+        .section__titre h2 span {
+            color: var(--orange);
+        }
+        .section__titre p {
+            color: var(--gris-moyen);
+            font-size: 1.1rem;
+        }
+
+        .section__titre--blanc h2 {
+            color: var(--blanc);
+        }
+        .section__titre--blanc p {
+            color: rgba(255, 255, 255, 0.80);
+        }
+
+        /* ============================================================
+                   CARTES PÔLES
+                   ============================================================ */
+        .poles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .pole {
+            background: var(--blanc);
+            border-radius: var(--radius);
+            padding: 32px 24px 28px;
+            box-shadow: var(--ombre);
+            transition: var(--transition);
+            border-top: 4px solid var(--bleu);
+            text-align: center;
+        }
+        .pole:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .pole__icon {
+            font-size: 2.8rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .pole h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--bleu);
+            margin-bottom: 10px;
+        }
+        .pole p {
+            color: var(--gris-moyen);
+            font-size: 0.95rem;
+            margin-bottom: 18px;
+        }
+        .pole .btn {
+            font-size: 0.85rem;
+            padding: 10px 22px;
+        }
+
+        /* ============================================================
+                   POURQUOI NOUS CHOISIR
+                   ============================================================ */
+        .pourquoi {
+            background: var(--bleu);
+            color: var(--blanc);
+            padding: 80px 0;
+        }
+
+        .pourquoi__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 32px;
+            margin-top: 20px;
+        }
+
+        .pourquoi__item {
+            text-align: center;
+            padding: 20px;
+        }
+        .pourquoi__item i {
+            font-size: 2.8rem;
+            color: var(--jaune);
+            margin-bottom: 16px;
+        }
+        .pourquoi__item h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .pourquoi__item p {
+            opacity: 0.85;
+            font-size: 0.95rem;
+        }
+
+        /* ============================================================
+                   GALERIE / RÉALISATIONS
+                   ============================================================ */
+        .gallery__filters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 32px;
+        }
+        .gallery__filters button {
+            padding: 8px 22px;
+            border-radius: 40px;
+            border: 2px solid var(--bleu);
+            background: transparent;
+            color: var(--bleu);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .gallery__filters button.active,
+        .gallery__filters button:hover {
+            background: var(--bleu);
+            color: var(--blanc);
+        }
+
+        .gallery__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .gallery__card {
+            background: var(--blanc);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--ombre);
+            transition: var(--transition);
+        }
+        .gallery__card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+        }
+
+        .gallery__card-img {
+            height: 200px;
+            background: linear-gradient(135deg, #dce6f5, #b0c8e8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--bleu);
+            font-weight: 300;
+        }
+
+        .gallery__card-body {
+            padding: 18px 20px 20px;
+        }
+        .gallery__card-body h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .gallery__card-body p {
+            color: var(--gris-moyen);
+            font-size: 0.9rem;
+        }
+        .gallery__card-body .tag {
+            display: inline-block;
+            background: var(--gris-clair);
+            padding: 2px 14px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--bleu);
+            margin-top: 8px;
+        }
+
+        /* ============================================================
+                   CATALOGUE (VÉHICULES & MACHINES)
+                   ============================================================ */
+        .catalogue__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 28px;
+        }
+
+        .catalogue__card {
+            background: var(--blanc);
+            border-radius: var(--radius);
+            box-shadow: var(--ombre);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid #f0f0f0;
+        }
+        .catalogue__card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+        }
+
+        .catalogue__card-img {
+            height: 180px;
+            background: linear-gradient(135deg, #e8edf5, #d0dbe8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.6rem;
+            color: var(--bleu);
+            font-weight: 300;
+        }
+
+        .catalogue__card-body {
+            padding: 16px 18px 20px;
+        }
+        .catalogue__card-body h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+        .catalogue__card-body .specs {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+            margin: 6px 0 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 14px;
+        }
+        .catalogue__card-body .specs span {
+            background: var(--gris-clair);
+            padding: 2px 12px;
+            border-radius: 40px;
+        }
+        .catalogue__card-body .statut {
+            display: inline-block;
+            padding: 3px 16px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+        .statut--dispo {
+            background: #d4edda;
+            color: #155724;
+        }
+        .statut--commande {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .catalogue__card-body .btn {
+            width: 100%;
+            font-size: 0.85rem;
+            padding: 10px;
+        }
+
+        /* ============================================================
+                   FOOTER
+                   ============================================================ */
+        .footer {
+            background: #0B1A2E;
+            color: rgba(255, 255, 255, 0.80);
+            padding: 60px 0 30px;
+        }
+
+        .footer__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer h4 {
+            color: var(--blanc);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+        }
+
+        .footer p,
+        .footer li {
+            font-size: 0.92rem;
+            line-height: 1.8;
+        }
+        .footer ul {
+            list-style: none;
+        }
+        .footer ul li {
+            margin-bottom: 6px;
+        }
+        .footer ul li i {
+            width: 20px;
+            color: var(--orange);
+        }
+
+        .footer__legal {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 24px;
+            margin-top: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 12px;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .footer__socials {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .footer__socials a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--blanc);
+            transition: var(--transition);
+            font-size: 1.1rem;
+        }
+        .footer__socials a:hover {
+            background: var(--bleu);
+            transform: translateY(-2px);
+        }
+
+        .footer__form input,
+        .footer__form textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--blanc);
+            font-family: inherit;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .footer__form input::placeholder,
+        .footer__form textarea::placeholder {
+            color: rgba(255, 255, 255, 0.40);
+        }
+        .footer__form textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        .footer__form .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* ============================================================
+                   RESPONSIVE
+                   ============================================================ */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.6rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header__inner {
+                flex-wrap: wrap;
+            }
+            .nav {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background: var(--blanc);
+                padding: 16px 0;
+                border-radius: var(--radius);
+                box-shadow: var(--ombre);
+                margin-top: 8px;
+            }
+            .nav.open {
+                display: flex;
+            }
+            .nav a {
+                width: 100%;
+                padding: 12px 16px;
+                border-radius: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .header__actions .btn--primaire {
+                display: none;
+            }
+
+            .hero {
+                padding-top: 80px;
+                min-height: 90vh;
+            }
+            .hero h1 {
+                font-size: 2.0rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section {
+                padding: 50px 0;
+            }
+            .section__titre h2 {
+                font-size: 1.8rem;
+            }
+
+            .stats__grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .stats__item h3 {
+                font-size: 1.6rem;
+            }
+
+            .poles {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer__grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .poles {
+                grid-template-columns: 1fr;
+            }
+            .stats__grid {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 1.7rem;
+            }
+            .hero__actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .gallery__grid {
+                grid-template-columns: 1fr;
+            }
+            .catalogue__grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ============================================================
+                   ANIMATION SCROLL (AOS simplifié)
+                   ============================================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header class="header" id="header">
+        <div class="container header__inner">
+            <!-- Logo -->
+            <a href="#" class="header__logo">
+                <div class="header__logo-icon">D</div>
+                <div>
+                    DMS-CONSTRUCTION
+                    <small>Inventons le futur !</small>
+                </div>
+            </a>
+
+            <!-- Navigation -->
+            <nav class="nav" id="nav">
+                <a href="#hero" class="active">Accueil</a>
+                <a href="#poles">Nos Métiers</a>
+                <a href="#gallery">Réalisations</a>
+                <a href="#catalogue">Catalogue</a>
+                <a href="#footer">Contact</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="header__actions">
+                <a href="#footer" class="btn btn--accent">
+                    <i class="fas fa-file-invoice"></i> Devis gratuit
+                </a>
+                <a href="https://wa.me/22674087512" target="_blank" class="btn btn--whatsapp">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+                <button class="hamburger" id="hamburger" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    HERO
+    ============================================================ -->
+    <section class="hero" id="hero">
+        <!-- Carousel -->
+        <div class="hero__carousel">
+            <div class="hero__carousel-slide slide-1 active"></div>
+            <div class="hero__carousel-slide slide-2"></div>
+            <div class="hero__carousel-slide slide-3"></div>
+        </div>
+
+        <div class="container hero__content">
+            <span class="hero__badge"><i class="fas fa-hard-hat"></i> Partenaire de confiance</span>
+            <h1>De la conception à la livraison : <br /><span>Bâtissons vos projets</span> partout au Burkina Faso.</h1>
+            <p>DMS-CONSTRUCTION — Spécialiste BTP, Métallerie, Vente d'équipements et Fournitures Diverses.</p>
+            <div class="hero__actions">
+                <a href="#gallery" class="btn btn--blanc"><i class="fas fa-images"></i> Nos Réalisations</a>
+                <a href="#footer" class="btn btn--secondaire" style="border-color:rgba(255,255,255,0.5);color:#fff;">
+                    <i class="fas fa-phone"></i> Nous Contacter
+                </a>
+            </div>
+        </div>
+
+        <!-- Dots -->
+        <div class="hero__carousel-dots">
+            <button class="active" data-index="0" aria-label="Slide 1"></button>
+            <button data-index="1" aria-label="Slide 2"></button>
+            <button data-index="2" aria-label="Slide 3"></button>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    STATS
+    ============================================================ -->
+    <section class="stats">
+        <div class="container stats__grid">
+            <div class="stats__item">
+                <h3>+10 ans</h3>
+                <p>d'expérience</p>
+            </div>
+            <div class="stats__item">
+                <h3>+50</h3>
+                <p>Chantiers livrés</p>
+            </div>
+            <div class="stats__item">
+                <h3>+100</h3>
+                <p>Engins &amp; véhicules vendus</p>
+            </div>
+            <div class="stats__item">
+                <h3>🌍</h3>
+                <p>Intervention toute région</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    PÔLES D'ACTIVITÉ
+    ============================================================ -->
+    <section class="section section--blanc" id="poles">
+        <div class="container">
+            <div class="section__titre">
+                <h2>Nos <span>4 Pôles</span> d'Expertise</h2>
+                <p>Une offre complète pour tous vos projets de construction, d'équipement et d'ingénierie.</p>
+            </div>
+
+            <div class="poles">
+                <!-- 1 -->
+                <div class="pole reveal">
+                    <span class="pole__icon">🏗️</span>
+                    <h3>Construction &amp; Aménagement</h3>
+                    <p>Villas, immeubles R+1/R+2, bâtiments scolaires, génie civil et aménagements intérieurs.</p>
+                    <a href="#gallery" class="btn btn--secondaire">Découvrir nos chantiers</a>
+                </div>
+                <!-- 2 -->
+                <div class="pole reveal">
+                    <span class="pole__icon">🛠️</span>
+                    <h3>Soudure &amp; Métallerie</h3>
+                    <p>Portails, grilles, charpentes métalliques, escaliers, garde-corps et structures sur-mesure.</p>
+                    <a href="#gallery" class="btn btn--secondaire">Voir les ouvrages</a>
+                </div>
+                <!-- 3 -->
+                <div class="pole reveal">
+                    <span class="pole__icon">🚜</span>
+                    <h3>Import / Export &amp; Équipements</h3>
+                    <p>Motoculteurs, tracteurs, consommables, matériel agricole et fournitures diverses.</p>
+                    <a href="#catalogue" class="btn btn--secondaire">Consulter le catalogue</a>
+                </div>
+                <!-- 4 -->
+                <div class="pole reveal">
+                    <span class="pole__icon">📐</span>
+                    <h3>Études &amp; Services Techniques</h3>
+                    <p>Plans architecturaux, devis, dimensionnement, suivi de chantier et permis de construire.</p>
+                    <a href="#footer" class="btn btn--secondaire">Demander un devis</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    POURQUOI NOUS CHOISIR
+    ============================================================ -->
+    <section class="pourquoi">
+        <div class="container">
+            <div class="section__titre section__titre--blanc">
+                <h2>Pourquoi <span style="color:var(--jaune);">DMS-CONSTRUCTION</span> ?</h2>
+                <p>Des valeurs qui font la différence sur vos chantiers et dans vos projets.</p>
+            </div>
+
+            <div class="pourquoi__grid">
+                <div class="pourquoi__item reveal">
+                    <i class="fas fa-user-tie"></i>
+                    <h4>Professionnalisme</h4>
+                    <p>Experts qualifiés à chaque étape de votre projet, du devis à la livraison.</p>
+                </div>
+                <div class="pourquoi__item reveal">
+                    <i class="fas fa-check-circle"></i>
+                    <h4>Qualité garantie</h4>
+                    <p>Respect des normes et utilisation de matériaux certifiés pour une durabilité maximale.</p>
+                </div>
+                <div class="pourquoi__item reveal">
+                    <i class="fas fa-file-invoice"></i>
+                    <h4>Transparence</h4>
+                    <p>Devis clairs, détaillés et communication continue tout au long du chantier.</p>
+                </div>
+                <div class="pourquoi__item reveal">
+                    <i class="fas fa-handshake"></i>
+                    <h4>Confiance</h4>
+                    <p>Agrément N°6834 &amp; RCCM BF OUA – 01 – 2022 – B13 – 5577.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    GALERIE / RÉALISATIONS
+    ============================================================ -->
+    <section class="section section--gris" id="gallery">
+        <div class="container">
+            <div class="section__titre">
+                <h2>Nos <span>Réalisations</span></h2>
+                <p>Découvrez nos projets en BTP, soudure et aménagement.</p>
+            </div>
+
+            <div class="gallery__filters">
+                <button class="active" data-filter="all">Tous</button>
+                <button data-filter="btp">BTP</button>
+                <button data-filter="soudure">Charpentes / Soudure</button>
+                <button data-filter="batiment">Bâtiments</button>
+            </div>
+
+            <div class="gallery__grid" id="galleryGrid">
+                <!-- Les cartes seront injectées par JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    CATALOGUE
+    ============================================================ -->
+    <section class="section section--blanc" id="catalogue">
+        <div class="container">
+            <div class="section__titre">
+                <h2>Catalogue <span>Véhicules &amp; Matériel</span></h2>
+                <p>Découvrez notre sélection de véhicules et machines agricoles disponibles.</p>
+            </div>
+
+            <div class="catalogue__grid" id="catalogueGrid">
+                <!-- injecté par JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer__grid">
+                <!-- Infos -->
+                <div>
+                    <h4><i class="fas fa-building" style="color:var(--orange);"></i> DMS-CONSTRUCTION</h4>
+                    <p style="margin-bottom:12px;">
+                        <strong>IFU :</strong> 001801191V<br />
+                        <strong>Agrément :</strong> N°6834<br />
+                        <strong>RCCM :</strong> BF OUA – 01 – 2022 – B13 – 5577
+                    </p>
+                    <p>
+                        <i class="fas fa-map-marker-alt" style="color:var(--orange);"></i>
+                        En bas de l'échangeur de Gounghin, non loin de SARAMAYA, Ouagadougou
+                    </p>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4><i class="fas fa-phone" style="color:var(--orange);"></i> Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-phone-alt"></i> (+226) 76 69 28 69</li>
+                        <li><i class="fas fa-phone-alt"></i> (+226) 70 18 20 76</li>
+                        <li><i class="fas fa-phone-alt"></i> (+226) 78 75 78 54</li>
+                        <li><i class="fab fa-whatsapp" style="color:#25D366;"></i> (+226) 74 08 75 12</li>
+                        <li><i class="fas fa-envelope"></i> dmsa6611@gmail.com</li>
+                    </ul>
+                    <div class="footer__socials">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://wa.me/22674087512" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <!-- Formulaire rapide -->
+                <div>
+                    <h4><i class="fas fa-paper-plane" style="color:var(--orange);"></i> Envoyez-nous votre projet</h4>
+                    <form class="footer__form" id="quickForm">
+                        <input type="text" placeholder="Votre nom" required />
+                        <input type="tel" placeholder="Téléphone" required />
+                        <textarea placeholder="Décrivez votre projet..." required></textarea>
+                        <button type="submit" class="btn btn--accent">
+                            <i class="fas fa-paper-plane"></i> Envoyer
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Legal -->
+            <div class="footer__legal">
+                <span>&copy; 2026 DMS-CONSTRUCTION — Tous droits réservés.</span>
+                <span>
+                    <i class="fas fa-code"></i> Conçu avec <i class="fas fa-heart" style="color:var(--orange);"></i> pour le Burkina Faso
+                </span>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ------------------------------------------------------------
+            // 1. HAMBURGER MENU
+            // ------------------------------------------------------------
+            const hamburger = document.getElementById('hamburger');
+            const nav = document.getElementById('nav');
+
+            hamburger.addEventListener('click', function() {
+                nav.classList.toggle('open');
+            });
+
+            // Fermer le menu au clic sur un lien
+            nav.querySelectorAll('a').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    nav.classList.remove('open');
+                });
+            });
+
+            // ------------------------------------------------------------
+            // 2. HERO CAROUSEL
+            // ------------------------------------------------------------
+            const slides = document.querySelectorAll('.hero__carousel-slide');
+            const dots = document.querySelectorAll('.hero__carousel-dots button');
+            let currentSlide = 0;
+            let carouselInterval;
+
+            function goToSlide(index) {
+                slides.forEach(function(s, i) {
+                    s.classList.toggle('active', i === index);
+                });
+                dots.forEach(function(d, i) {
+                    d.classList.toggle('active', i === index);
+                });
+                currentSlide = index;
+            }
+
+            function nextSlide() {
+                const next = (currentSlide + 1) % slides.length;
+                goToSlide(next);
+            }
+
+            // Démarrer le carousel
+            function startCarousel() {
+                if (carouselInterval) clearInterval(carouselInterval);
+                carouselInterval = setInterval(nextSlide, 5000);
+            }
+
+            // Arrêter au survol
+            const hero = document.querySelector('.hero');
+            hero.addEventListener('mouseenter', function() {
+                if (carouselInterval) clearInterval(carouselInterval);
+            });
+            hero.addEventListener('mouseleave', startCarousel);
+
+            // Clic sur les dots
+            dots.forEach(function(dot) {
+                dot.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index, 10);
+                    goToSlide(index);
+                    startCarousel(); // réinitialise le timer
+                });
+            });
+
+            // Démarrer
+            goToSlide(0);
+            startCarousel();
+
+            // ------------------------------------------------------------
+            // 3. GALERIE DATA
+            // ------------------------------------------------------------
+            const galleryData = [{
+                id: 1,
+                titre: 'Villa moderne R+1',
+                lieu: 'Ouagadougou',
+                duree: '6 mois',
+                category: 'btp',
+                icon: '🏠'
+            }, {
+                id: 2,
+                titre: 'Charpente métallique - Hangar',
+                lieu: 'Gounghin',
+                duree: '3 mois',
+                category: 'soudure',
+                icon: '🔩'
+            }, {
+                id: 3,
+                titre: 'Immeuble administratif R+2',
+                lieu: 'Zone des ambassades',
+                duree: '10 mois',
+                category: 'batiment',
+                icon: '🏢'
+            }, {
+                id: 4,
+                titre: 'Escalier & garde-corps sur-mesure',
+                lieu: 'Résidence privée',
+                duree: '2 mois',
+                category: 'soudure',
+                icon: '🪜'
+            }, {
+                id: 5,
+                titre: 'Bâtiment scolaire',
+                lieu: 'Koudougou',
+                duree: '8 mois',
+                category: 'batiment',
+                icon: '📚'
+            }, {
+                id: 6,
+                titre: 'Voirie & assainissement',
+                lieu: 'Bobo-Dioulasso',
+                duree: '5 mois',
+                category: 'btp',
+                icon: '🛣️'
+            }];
+
+            const galleryGrid = document.getElementById('galleryGrid');
+
+            function renderGallery(filter) {
+                const filtered = filter === 'all' ? galleryData : galleryData.filter(function(item) {
+                    return item.category === filter;
+                });
+
+                galleryGrid.innerHTML = filtered.map(function(item) {
+                    return `
+                                <div class="gallery__card" data-category="${item.category}">
+                                    <div class="gallery__card-img">${item.icon}</div>
+                                    <div class="gallery__card-body">
+                                        <h4>${item.titre}</h4>
+                                        <p><i class="fas fa-map-pin"></i> ${item.lieu} · ${item.duree}</p>
+                                        <span class="tag">${item.category.toUpperCase()}</span>
+                                    </div>
+                                </div>
+                            `;
+                }).join('');
+            }
+
+            // Filtres galerie
+            const filterBtns = document.querySelectorAll('.gallery__filters button');
+            filterBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    filterBtns.forEach(function(b) { b.classList.remove('active'); });
+                    this.classList.add('active');
+                    const filter = this.dataset.filter;
+                    renderGallery(filter);
+                });
+            });
+
+            // Initial render
+            renderGallery('all');
+
+            // ------------------------------------------------------------
+            // 4. CATALOGUE DATA
+            // ------------------------------------------------------------
+            const catalogueData = [{
+                id: 1,
+                nom: 'Motoculteur BCS 740',
+                annee: '2024',
+                carburant: 'Diesel',
+                puissance: '12 CV',
+                etat: 'Neuf',
+                statut: 'disponible',
+                icon: '🚜'
+            }, {
+                id: 2,
+                nom: 'Camionnette Renault Master',
+                annee: '2023',
+                carburant: 'Diesel',
+                puissance: '130 CV',
+                etat: 'Très bon état',
+                statut: 'disponible',
+                icon: '🚐'
+            }, {
+                id: 3,
+                nom: 'Tracteur Massey Ferguson 375',
+                annee: '2022',
+                carburant: 'Diesel',
+                puissance: '75 CV',
+                etat: 'Révisé',
+                statut: 'commande',
+                icon: '🚜'
+            }, {
+                id: 4,
+                nom: '4x4 Toyota Hilux',
+                annee: '2023',
+                carburant: 'Essence',
+                puissance: '150 CV',
+                etat: 'Neuf',
+                statut: 'disponible',
+                icon: '🚙'
+            }];
+
+            const catalogueGrid = document.getElementById('catalogueGrid');
+
+            function renderCatalogue() {
+                catalogueGrid.innerHTML = catalogueData.map(function(item) {
+                    const statutLabel = item.statut === 'disponible' ? 'Disponible' : 'Sur Commande';
+                    const statutClass = item.statut === 'disponible' ? 'statut--dispo' : 'statut--commande';
+                    return `
+                                <div class="catalogue__card">
+                                    <div class="catalogue__card-img">${item.icon}</div>
+                                    <div class="catalogue__card-body">
+                                        <h4>${item.nom}</h4>
+                                        <div class="specs">
+                                            <span>${item.annee}</span>
+                                            <span>${item.carburant}</span>
+                                            <span>${item.puissance}</span>
+                                            <span>${item.etat}</span>
+                                        </div>
+                                        <span class="statut ${statutClass}">${statutLabel}</span>
+                                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20${encodeURIComponent(item.nom)}" target="_blank" class="btn btn--whatsapp">
+                                            <i class="fab fa-whatsapp"></i> Réserver / Demander le prix
+                                        </a>
+                                    </div>
+                                </div>
+                            `;
+                }).join('');
+            }
+
+            renderCatalogue();
+
+            // ------------------------------------------------------------
+            // 5. FORMULAIRE RAPIDE (simulation)
+            // ------------------------------------------------------------
+            const quickForm = document.getElementById('quickForm');
+            quickForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('✅ Votre message a été envoyé ! Nous vous recontacterons dans les 24h.');
+                this.reset();
+            });
+
+            // ------------------------------------------------------------
+            // 6. REVEAL ON SCROLL (simple Intersection Observer)
+            // ------------------------------------------------------------
+            const reveals = document.querySelectorAll('.reveal');
+
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, {
+                    threshold: 0.15,
+                    rootMargin: '0px 0px -40px 0px'
+                });
+
+                reveals.forEach(function(el) {
+                    observer.observe(el);
+                });
+
+                // Forcer un premier check
+                setTimeout(function() {
+                    reveals.forEach(function(el) {
+                        const rect = el.getBoundingClientRect();
+                        if (rect.top < window.innerHeight) {
+                            el.classList.add('visible');
+                        }
+                    });
+                }, 200);
+            } else {
+                // Fallback: tout afficher
+                reveals.forEach(function(el) {
+                    el.classList.add('visible');
+                });
+            }
+
+            // ------------------------------------------------------------
+            // 7. ACTIVE NAV LINK ON SCROLL
+            // ------------------------------------------------------------
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav a');
+
+            function updateActiveNav() {
+                let current = '';
+                sections.forEach(function(section) {
+                    const top = section.offsetTop - 120;
+                    if (window.scrollY >= top) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(function(link) {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateActiveNav);
+            window.addEventListener('load', updateActiveNav);
+
+        })();
+    </script>
+
+</body>
+</html>
