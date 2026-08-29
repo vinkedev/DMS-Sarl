@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DMS-CONSTRUCTION — BTP • Métallerie • Équipements</title>
-    <!-- Font Awesome (icônes) -->
+    <!-- Google Fonts pour une typographie plus raffinée -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
         /* ============================================================
@@ -14,15 +16,17 @@
             --bleu: #0073E6;
             --bleu-fonce: #0B66C2;
             --blanc: #FFFFFF;
-            --gris-clair: #F5F7FA;
-            --gris-texte: #333333;
-            --gris-moyen: #6B7A8F;
+            --gris-clair: #F8FAFC;
+            --gris-texte: #1E293B;
+            --gris-moyen: #64748B;
+            --gris-border: #E2E8F0;
             --orange: #F2994A;
             --jaune: #F2C94C;
-            --ombre: 0 8px 30px rgba(0, 0, 0, 0.10);
-            --transition: 0.30s ease;
-            --radius: 12px;
-            --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            --ombre: 0 10px 40px rgba(0, 0, 0, 0.08);
+            --ombre-hover: 0 20px 50px rgba(0, 0, 0, 0.12);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius: 16px;
+            --font: 'Inter', -apple-system, system-ui, sans-serif;
         }
 
         *,
@@ -42,6 +46,7 @@
             color: var(--gris-texte);
             background: var(--blanc);
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
         a {
@@ -64,38 +69,39 @@
         .btn {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             padding: 12px 28px;
-            border-radius: 40px;
+            border-radius: 50px;
             font-weight: 600;
             font-size: 0.95rem;
             border: none;
             cursor: pointer;
             transition: var(--transition);
             text-align: center;
-            justify-content: center;
+            letter-spacing: 0.01em;
         }
 
         .btn--primaire {
             background: var(--bleu);
             color: var(--blanc);
-            box-shadow: 0 4px 14px rgba(0, 115, 230, 0.35);
+            box-shadow: 0 4px 16px rgba(0, 115, 230, 0.25);
         }
         .btn--primaire:hover {
             background: var(--bleu-fonce);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 115, 230, 0.45);
+            box-shadow: 0 8px 24px rgba(0, 115, 230, 0.35);
         }
 
         .btn--accent {
             background: var(--orange);
             color: var(--blanc);
-            box-shadow: 0 4px 14px rgba(242, 153, 74, 0.35);
+            box-shadow: 0 4px 16px rgba(242, 153, 74, 0.3);
         }
         .btn--accent:hover {
             background: #e0843a;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(242, 153, 74, 0.45);
+            box-shadow: 0 8px 24px rgba(242, 153, 74, 0.4);
         }
 
         .btn--secondaire {
@@ -111,19 +117,22 @@
         .btn--blanc {
             background: var(--blanc);
             color: var(--bleu);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
         }
         .btn--blanc:hover {
             background: var(--gris-clair);
+            transform: translateY(-2px);
         }
 
         .btn--whatsapp {
             background: #25D366;
             color: var(--blanc);
-            box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+            box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3);
         }
         .btn--whatsapp:hover {
             background: #1da851;
             transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
         }
 
         /* ============================================================
@@ -135,10 +144,11 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(8px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
-            padding: 12px 0;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            padding: 10px 0;
             transition: var(--transition);
         }
 
@@ -153,50 +163,51 @@
         .header__logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             font-weight: 700;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--bleu);
         }
-        .header__logo span {
-            color: var(--orange);
-        }
-        .header__logo small {
-            font-size: 0.7rem;
-            font-weight: 400;
-            color: var(--gris-moyen);
-            display: block;
-            margin-top: -4px;
+
+        .header__logo img {
+            height: 44px;
+            width: auto;
+            object-fit: contain;
         }
 
-        .header__logo-icon {
-            width: 44px;
-            height: 44px;
-            background: var(--bleu);
-            border-radius: 50%;
+        .header__logo-text {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--blanc);
-            font-size: 1.5rem;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .header__logo-text strong {
+            font-size: 1.15rem;
             font-weight: 800;
-            flex-shrink: 0;
+            letter-spacing: -0.02em;
+        }
+        .header__logo-text small {
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: var(--gris-moyen);
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
         }
 
         .nav {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             flex-wrap: wrap;
         }
 
         .nav a {
-            padding: 8px 14px;
+            padding: 8px 16px;
             border-radius: 40px;
             font-weight: 500;
             font-size: 0.9rem;
             transition: var(--transition);
             color: var(--gris-texte);
+            letter-spacing: 0.01em;
         }
         .nav a:hover,
         .nav a.active {
@@ -211,11 +222,11 @@
         }
 
         .header__actions .btn {
-            padding: 10px 20px;
+            padding: 8px 20px;
             font-size: 0.85rem;
         }
 
-        /* Hamburger (mobile) */
+        /* Hamburger */
         .hamburger {
             display: none;
             flex-direction: column;
@@ -228,7 +239,7 @@
         .hamburger span {
             display: block;
             width: 26px;
-            height: 3px;
+            height: 2.5px;
             background: var(--bleu);
             border-radius: 4px;
             transition: var(--transition);
@@ -242,9 +253,9 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
-            background: linear-gradient(135deg, #eef4ff 0%, #dce6f5 100%);
             position: relative;
             overflow: hidden;
+            background: #0B1A2E;
         }
 
         .hero__carousel {
@@ -269,11 +280,11 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: rgba(0, 20, 50, 0.45);
-            background: linear-gradient(135deg, rgba(0, 20, 50, 0.55) 0%, rgba(0, 20, 50, 0.30) 100%);
+            background: rgba(11, 26, 46, 0.65);
+            background: linear-gradient(135deg, rgba(11, 26, 46, 0.75) 0%, rgba(11, 26, 46, 0.4) 100%);
         }
 
-        /* Slides simulées avec dégradés + icônes (pas d'images externes) */
+        /* Slides élégants avec dégradés */
         .slide-1 {
             background: linear-gradient(135deg, #1a2a6c, #2d4373, #4a6fa5);
         }
@@ -298,19 +309,21 @@
             padding: 6px 20px;
             border-radius: 40px;
             font-weight: 600;
-            font-size: 0.8rem;
-            letter-spacing: 0.5px;
+            font-size: 0.75rem;
+            letter-spacing: 0.06em;
             text-transform: uppercase;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(242, 153, 74, 0.3);
         }
 
         .hero h1 {
-            font-size: 3.2rem;
+            font-size: 3.4rem;
             font-weight: 800;
-            line-height: 1.2;
+            line-height: 1.15;
             color: var(--blanc);
             margin-bottom: 16px;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.20);
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            letter-spacing: -0.02em;
         }
         .hero h1 span {
             color: var(--jaune);
@@ -318,21 +331,23 @@
 
         .hero p {
             font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.90);
-            margin-bottom: 28px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 32px;
             max-width: 580px;
-            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+            font-weight: 400;
+            line-height: 1.6;
         }
 
         .hero__actions {
             display: flex;
             flex-wrap: wrap;
-            gap: 14px;
+            gap: 16px;
         }
 
         .hero__carousel-dots {
             position: absolute;
-            bottom: 30px;
+            bottom: 32px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 3;
@@ -340,10 +355,10 @@
             gap: 12px;
         }
         .hero__carousel-dots button {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.5);
             background: transparent;
             cursor: pointer;
             transition: var(--transition);
@@ -352,39 +367,41 @@
         .hero__carousel-dots button.active {
             background: var(--blanc);
             border-color: var(--blanc);
-            transform: scale(1.2);
+            transform: scale(1.25);
         }
 
         /* ============================================================
-                   STATS BANNER
+                   STATS
                    ============================================================ */
         .stats {
             background: var(--bleu);
             color: var(--blanc);
-            padding: 40px 0;
+            padding: 48px 0;
             margin-top: -2px;
         }
 
         .stats__grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 24px;
             text-align: center;
         }
 
         .stats__item h3 {
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             font-weight: 800;
-            letter-spacing: 0.5px;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
         }
         .stats__item p {
             font-size: 1rem;
             opacity: 0.85;
             margin-top: 4px;
+            font-weight: 500;
         }
 
         /* ============================================================
-                   SECTIONS GÉNÉRIQUES
+                   SECTIONS
                    ============================================================ */
         .section {
             padding: 80px 0;
@@ -399,31 +416,33 @@
         .section__titre {
             text-align: center;
             max-width: 720px;
-            margin: 0 auto 50px;
+            margin: 0 auto 56px;
         }
         .section__titre h2 {
-            font-size: 2.4rem;
-            font-weight: 700;
-            color: var(--bleu);
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--gris-texte);
             margin-bottom: 12px;
+            letter-spacing: -0.02em;
         }
         .section__titre h2 span {
-            color: var(--orange);
+            color: var(--bleu);
         }
         .section__titre p {
             color: var(--gris-moyen);
             font-size: 1.1rem;
+            font-weight: 400;
         }
 
         .section__titre--blanc h2 {
             color: var(--blanc);
         }
         .section__titre--blanc p {
-            color: rgba(255, 255, 255, 0.80);
+            color: rgba(255, 255, 255, 0.8);
         }
 
         /* ============================================================
-                   CARTES PÔLES
+                   PÔLES
                    ============================================================ */
         .poles {
             display: grid;
@@ -442,7 +461,7 @@
         }
         .pole:hover {
             transform: translateY(-6px);
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+            box-shadow: var(--ombre-hover);
         }
 
         .pole__icon {
@@ -453,21 +472,22 @@
         .pole h3 {
             font-size: 1.3rem;
             font-weight: 700;
-            color: var(--bleu);
+            color: var(--gris-texte);
             margin-bottom: 10px;
         }
         .pole p {
             color: var(--gris-moyen);
             font-size: 0.95rem;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
+            line-height: 1.5;
         }
         .pole .btn {
             font-size: 0.85rem;
-            padding: 10px 22px;
+            padding: 10px 24px;
         }
 
         /* ============================================================
-                   POURQUOI NOUS CHOISIR
+                   POURQUOI
                    ============================================================ */
         .pourquoi {
             background: var(--bleu);
@@ -478,18 +498,19 @@
         .pourquoi__grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 32px;
+            gap: 40px;
             margin-top: 20px;
         }
 
         .pourquoi__item {
             text-align: center;
-            padding: 20px;
+            padding: 16px;
         }
         .pourquoi__item i {
             font-size: 2.8rem;
             color: var(--jaune);
             margin-bottom: 16px;
+            display: block;
         }
         .pourquoi__item h4 {
             font-size: 1.2rem;
@@ -499,24 +520,25 @@
         .pourquoi__item p {
             opacity: 0.85;
             font-size: 0.95rem;
+            line-height: 1.5;
         }
 
         /* ============================================================
-                   GALERIE / RÉALISATIONS
+                   GALERIE
                    ============================================================ */
         .gallery__filters {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 10px;
-            margin-bottom: 32px;
+            margin-bottom: 36px;
         }
         .gallery__filters button {
-            padding: 8px 22px;
+            padding: 8px 24px;
             border-radius: 40px;
-            border: 2px solid var(--bleu);
+            border: 2px solid var(--gris-border);
             background: transparent;
-            color: var(--bleu);
+            color: var(--gris-moyen);
             font-weight: 600;
             font-size: 0.85rem;
             cursor: pointer;
@@ -526,12 +548,13 @@
         .gallery__filters button:hover {
             background: var(--bleu);
             color: var(--blanc);
+            border-color: var(--bleu);
         }
 
         .gallery__grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 24px;
+            gap: 28px;
         }
 
         .gallery__card {
@@ -540,30 +563,31 @@
             overflow: hidden;
             box-shadow: var(--ombre);
             transition: var(--transition);
+            border: 1px solid var(--gris-border);
         }
         .gallery__card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+            box-shadow: var(--ombre-hover);
         }
 
         .gallery__card-img {
             height: 200px;
-            background: linear-gradient(135deg, #dce6f5, #b0c8e8);
+            background: linear-gradient(135deg, #e9edf5, #d5dde8);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
+            font-size: 3.4rem;
             color: var(--bleu);
-            font-weight: 300;
         }
 
         .gallery__card-body {
-            padding: 18px 20px 20px;
+            padding: 20px 22px 22px;
         }
         .gallery__card-body h4 {
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             font-weight: 700;
             margin-bottom: 4px;
+            color: var(--gris-texte);
         }
         .gallery__card-body p {
             color: var(--gris-moyen);
@@ -572,21 +596,23 @@
         .gallery__card-body .tag {
             display: inline-block;
             background: var(--gris-clair);
-            padding: 2px 14px;
+            padding: 3px 14px;
             border-radius: 40px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             color: var(--bleu);
-            margin-top: 8px;
+            margin-top: 10px;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
         }
 
         /* ============================================================
-                   CATALOGUE (VÉHICULES & MACHINES)
+                   CATALOGUE
                    ============================================================ */
         .catalogue__grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 28px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px;
         }
 
         .catalogue__card {
@@ -595,38 +621,38 @@
             box-shadow: var(--ombre);
             overflow: hidden;
             transition: var(--transition);
-            border: 1px solid #f0f0f0;
+            border: 1px solid var(--gris-border);
         }
         .catalogue__card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+            box-shadow: var(--ombre-hover);
         }
 
         .catalogue__card-img {
-            height: 180px;
-            background: linear-gradient(135deg, #e8edf5, #d0dbe8);
+            height: 170px;
+            background: linear-gradient(135deg, #edf0f5, #dae0e8);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.6rem;
+            font-size: 2.8rem;
             color: var(--bleu);
-            font-weight: 300;
         }
 
         .catalogue__card-body {
-            padding: 16px 18px 20px;
+            padding: 18px 20px 22px;
         }
         .catalogue__card-body h4 {
             font-size: 1.05rem;
             font-weight: 700;
+            color: var(--gris-texte);
         }
         .catalogue__card-body .specs {
             font-size: 0.85rem;
             color: var(--gris-moyen);
-            margin: 6px 0 10px;
+            margin: 8px 0 12px;
             display: flex;
             flex-wrap: wrap;
-            gap: 6px 14px;
+            gap: 6px 12px;
         }
         .catalogue__card-body .specs span {
             background: var(--gris-clair);
@@ -637,19 +663,19 @@
             display: inline-block;
             padding: 3px 16px;
             border-radius: 40px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 10px;
+            letter-spacing: 0.04em;
+            margin-bottom: 12px;
         }
         .statut--dispo {
-            background: #d4edda;
-            color: #155724;
+            background: #DCFCE7;
+            color: #166534;
         }
         .statut--commande {
-            background: #fff3cd;
-            color: #856404;
+            background: #FEF3C7;
+            color: #92400E;
         }
 
         .catalogue__card-body .btn {
@@ -663,7 +689,7 @@
                    ============================================================ */
         .footer {
             background: #0B1A2E;
-            color: rgba(255, 255, 255, 0.80);
+            color: rgba(255, 255, 255, 0.8);
             padding: 60px 0 30px;
         }
 
@@ -677,20 +703,21 @@
         .footer h4 {
             color: var(--blanc);
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             margin-bottom: 16px;
+            letter-spacing: -0.01em;
         }
 
         .footer p,
         .footer li {
-            font-size: 0.92rem;
+            font-size: 0.9rem;
             line-height: 1.8;
         }
         .footer ul {
             list-style: none;
         }
         .footer ul li {
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
         .footer ul li i {
             width: 20px;
@@ -698,15 +725,15 @@
         }
 
         .footer__legal {
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
             padding-top: 24px;
             margin-top: 8px;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             gap: 12px;
-            font-size: 0.85rem;
-            opacity: 0.7;
+            font-size: 0.8rem;
+            opacity: 0.6;
         }
 
         .footer__socials {
@@ -735,18 +762,24 @@
         .footer__form textarea {
             width: 100%;
             padding: 10px 14px;
-            border-radius: 8px;
-            border: none;
-            background: rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.05);
             color: var(--blanc);
             font-family: inherit;
             margin-bottom: 10px;
             font-size: 0.9rem;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: var(--transition);
+        }
+        .footer__form input:focus,
+        .footer__form textarea:focus {
+            outline: none;
+            border-color: var(--orange);
+            background: rgba(255, 255, 255, 0.08);
         }
         .footer__form input::placeholder,
         .footer__form textarea::placeholder {
-            color: rgba(255, 255, 255, 0.40);
+            color: rgba(255, 255, 255, 0.3);
         }
         .footer__form textarea {
             min-height: 80px;
@@ -762,7 +795,7 @@
                    ============================================================ */
         @media (max-width: 992px) {
             .hero h1 {
-                font-size: 2.6rem;
+                font-size: 2.8rem;
             }
         }
 
@@ -779,13 +812,14 @@
                 border-radius: var(--radius);
                 box-shadow: var(--ombre);
                 margin-top: 8px;
+                border: 1px solid var(--gris-border);
             }
             .nav.open {
                 display: flex;
             }
             .nav a {
                 width: 100%;
-                padding: 12px 16px;
+                padding: 12px 20px;
                 border-radius: 0;
             }
 
@@ -802,24 +836,24 @@
                 min-height: 90vh;
             }
             .hero h1 {
-                font-size: 2.0rem;
+                font-size: 2.2rem;
             }
             .hero p {
                 font-size: 1rem;
             }
 
             .section {
-                padding: 50px 0;
+                padding: 60px 0;
             }
             .section__titre h2 {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
 
             .stats__grid {
                 grid-template-columns: 1fr 1fr;
             }
             .stats__item h3 {
-                font-size: 1.6rem;
+                font-size: 1.8rem;
             }
 
             .poles {
@@ -839,7 +873,7 @@
                 grid-template-columns: 1fr;
             }
             .hero h1 {
-                font-size: 1.7rem;
+                font-size: 1.8rem;
             }
             .hero__actions .btn {
                 width: 100%;
@@ -876,9 +910,9 @@
         <div class="container header__inner">
             <!-- Logo -->
             <a href="#" class="header__logo">
-                <div class="header__logo-icon">D</div>
-                <div>
-                    DMS-CONSTRUCTION
+                <img src="DMS/logo.jpg" alt="Logo DMS-CONSTRUCTION" />
+                <div class="header__logo-text">
+                    <strong>DMS-CONSTRUCTION</strong>
                     <small>Inventons le futur !</small>
                 </div>
             </a>
@@ -924,7 +958,7 @@
             <p>DMS-CONSTRUCTION — Spécialiste BTP, Métallerie, Vente d'équipements et Fournitures Diverses.</p>
             <div class="hero__actions">
                 <a href="#gallery" class="btn btn--blanc"><i class="fas fa-images"></i> Nos Réalisations</a>
-                <a href="#footer" class="btn btn--secondaire" style="border-color:rgba(255,255,255,0.5);color:#fff;">
+                <a href="#footer" class="btn btn--secondaire" style="border-color:rgba(255,255,255,0.4); color:#fff;">
                     <i class="fas fa-phone"></i> Nous Contacter
                 </a>
             </div>
@@ -1158,7 +1192,6 @@
                 nav.classList.toggle('open');
             });
 
-            // Fermer le menu au clic sur un lien
             nav.querySelectorAll('a').forEach(function(link) {
                 link.addEventListener('click', function() {
                     nav.classList.remove('open');
@@ -1188,29 +1221,25 @@
                 goToSlide(next);
             }
 
-            // Démarrer le carousel
             function startCarousel() {
                 if (carouselInterval) clearInterval(carouselInterval);
                 carouselInterval = setInterval(nextSlide, 5000);
             }
 
-            // Arrêter au survol
             const hero = document.querySelector('.hero');
             hero.addEventListener('mouseenter', function() {
                 if (carouselInterval) clearInterval(carouselInterval);
             });
             hero.addEventListener('mouseleave', startCarousel);
 
-            // Clic sur les dots
             dots.forEach(function(dot) {
                 dot.addEventListener('click', function() {
                     const index = parseInt(this.dataset.index, 10);
                     goToSlide(index);
-                    startCarousel(); // réinitialise le timer
+                    startCarousel();
                 });
             });
 
-            // Démarrer
             goToSlide(0);
             startCarousel();
 
@@ -1282,7 +1311,6 @@
                 }).join('');
             }
 
-            // Filtres galerie
             const filterBtns = document.querySelectorAll('.gallery__filters button');
             filterBtns.forEach(function(btn) {
                 btn.addEventListener('click', function() {
@@ -1293,7 +1321,6 @@
                 });
             });
 
-            // Initial render
             renderGallery('all');
 
             // ------------------------------------------------------------
@@ -1377,7 +1404,7 @@
             });
 
             // ------------------------------------------------------------
-            // 6. REVEAL ON SCROLL (simple Intersection Observer)
+            // 6. REVEAL ON SCROLL
             // ------------------------------------------------------------
             const reveals = document.querySelectorAll('.reveal');
 
@@ -1397,7 +1424,6 @@
                     observer.observe(el);
                 });
 
-                // Forcer un premier check
                 setTimeout(function() {
                     reveals.forEach(function(el) {
                         const rect = el.getBoundingClientRect();
@@ -1407,7 +1433,6 @@
                     });
                 }, 200);
             } else {
-                // Fallback: tout afficher
                 reveals.forEach(function(el) {
                     el.classList.add('visible');
                 });
