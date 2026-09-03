@@ -133,7 +133,8 @@
         /* ===== HERO CAROUSEL ===== */
         .hero {
             padding-top: 80px;
-            min-height: 100vh;
+            /* HAUTEUR RÉDUITE : 100vh → 80vh */
+            min-height: 80vh;
             display: flex;
             align-items: center;
             position: relative;
@@ -305,7 +306,7 @@
         .btn--accent { background: var(--orange); color: var(--blanc); }
         .btn--accent:hover { background: #e0843a; }
 
-        /* ===== POURQUOI ===== */
+        /* ===== POURQUOI (3 items seulement) ===== */
         .pourquoi {
             background: var(--bleu);
             color: var(--blanc);
@@ -313,7 +314,7 @@
         }
         .pourquoi__grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 40px;
             margin-top: 20px;
         }
@@ -511,6 +512,7 @@
             .hero h1 { font-size: 2.8rem; }
             .apropos { grid-template-columns: 1fr; }
             .contact__grid { grid-template-columns: 1fr; }
+            .pourquoi__grid { grid-template-columns: 1fr 1fr; }
         }
         @media (max-width: 768px) {
             .header__inner { flex-wrap: wrap; }
@@ -529,7 +531,7 @@
             .nav a { width: 100%; padding: 12px 20px; border-radius: 0; }
             .hamburger { display: flex; }
             .header__actions .btn--primaire { display: none; }
-            .hero { padding-top: 80px; min-height: 90vh; }
+            .hero { padding-top: 80px; min-height: 70vh; }
             .hero h1 { font-size: 2.2rem; }
             .hero p { font-size: 1rem; }
             .section { padding: 60px 0; }
@@ -538,6 +540,7 @@
             .stats__item h3 { font-size: 1.8rem; }
             .poles { grid-template-columns: 1fr; }
             .footer__grid { grid-template-columns: 1fr; }
+            .pourquoi__grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 480px) {
             .stats__grid { grid-template-columns: 1fr; }
@@ -622,7 +625,7 @@
         </div>
     </section>
 
-    <!-- ===== SECTION À PROPOS MODIFIÉE ===== -->
+    <!-- À PROPOS -->
     <section class="section section--blanc" id="apropos">
         <div class="container">
             <div class="section__titre">
@@ -634,9 +637,7 @@
                     <img src="DMS/apropos.jpeg" alt="DMS">
                 </div>
                 <div class="apropos__texte">
-                    <!-- Nouveau titre plus général -->
                     <h3>Des savoir-faire multiples pour vos projets.</h3>
-                    <!-- Texte recentré sur la polyvalence -->
                     <p>
                         <strong>DMS</strong> est une entreprise dynamique active dans de nombreux secteurs : la <strong>construction (BTP)</strong>, la <strong>vente de véhicules</strong> neufs et d'occasion, les <strong>machines agricoles</strong>, la <strong>soudure</strong>, ainsi que diverses autres prestations adaptées aux besoins de ses clients.
                     </p>
@@ -654,7 +655,7 @@
         </div>
     </section>
 
-    <!-- NOS DOMAINES (on garde les deux pôles bien identifiés ici) -->
+    <!-- NOS DOMAINES -->
     <section class="section section--gris" id="poles">
         <div class="container">
             <div class="section__titre">
@@ -678,19 +679,29 @@
         </div>
     </section>
 
-    <!-- POURQUOI DMS -->
+    <!-- ===== POURQUOI DMS (3 ITEMS UNIQUEMENT) ===== -->
     <section class="pourquoi">
         <div class="container">
             <div class="section__titre section__titre--blanc">
                 <h2>Pourquoi <span style="color:var(--jaune);">choisir DMS</span> ?</h2>
-                <p>Des valeurs qui font la différence.</p>
+                <p>Trois raisons de nous faire confiance.</p>
             </div>
             <div class="pourquoi__grid">
-                <div class="pourquoi__item reveal"><i class="fas fa-user-tie"></i><h4>Expertise</h4><p>Une expérience solide dans la construction et l'automobile.</p></div>
-                <div class="pourquoi__item reveal"><i class="fas fa-check-circle"></i><h4>Qualité</h4><p>Des prestations réalisées avec sérieux et professionnalisme.</p></div>
-                <div class="pourquoi__item reveal"><i class="fas fa-arrows-alt-h"></i><h4>Diversité</h4><p>Construction, automobile, équipements agricoles, soudure et plus.</p></div>
-                <div class="pourquoi__item reveal"><i class="fas fa-smile"></i><h4>Satisfaction client</h4><p>Votre satisfaction est notre priorité absolue.</p></div>
-                <div class="pourquoi__item reveal"><i class="fas fa-hand-holding-heart"></i><h4>Accompagnement</h4><p>Nous vous suivons à chaque étape de votre projet.</p></div>
+                <div class="pourquoi__item reveal">
+                    <i class="fas fa-user-tie"></i>
+                    <h4>Expertise &amp; Polyvalence</h4>
+                    <p>Une expérience solide dans le BTP, l'automobile, les machines agricoles et la soudure.</p>
+                </div>
+                <div class="pourquoi__item reveal">
+                    <i class="fas fa-arrows-alt-h"></i>
+                    <h4>Diversité des services</h4>
+                    <p>Nous intervenons dans de multiples domaines pour répondre à tous vos besoins en un seul partenaire.</p>
+                </div>
+                <div class="pourquoi__item reveal">
+                    <i class="fas fa-smile"></i>
+                    <h4>Satisfaction client</h4>
+                    <p>Votre entière satisfaction est notre priorité absolue, de la conception à la livraison.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -842,7 +853,7 @@
                 });
             });
 
-            // --- CAROUSEL (3 secondes) ---
+            // --- CAROUSEL (3 secondes, SANS PAUSE) ---
             const slides = document.querySelectorAll('.hero__carousel-slide');
             const dots = document.querySelectorAll('.hero__carousel-dots button');
             const heroContent = document.getElementById('heroContent');
@@ -906,23 +917,21 @@
 
             function startCarousel() {
                 if (interval) clearInterval(interval);
-                // DÉLAI BIEN RÉGLÉ À 3000 ms (3 secondes)
+                // Défilement toutes les 3 secondes (3000 ms)
                 interval = setInterval(nextSlide, 3000);
             }
 
+            // Clic sur les dots : on change la slide et on relance le timer
             dots.forEach(function(dot) {
                 dot.addEventListener('click', function() {
                     const index = parseInt(this.dataset.index, 10);
                     goToSlide(index);
-                    startCarousel();
+                    startCarousel(); // réinitialise le compte à rebours
                 });
             });
 
-            const hero = document.querySelector('.hero');
-            hero.addEventListener('mouseenter', function() {
-                if (interval) clearInterval(interval);
-            });
-            hero.addEventListener('mouseleave', startCarousel);
+            // SUPPRESSION de la pause au survol (mouseenter/mouseleave)
+            // Le carrousel tourne désormais en continu, même si la souris passe dessus.
 
             goToSlide(0);
             startCarousel();
