@@ -1,1251 +1,1060 @@
-// screens/dashboard/dashboard_screen.dart
-import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../providers/product_provider.dart';
-import '../../providers/vente_provider.dart';
-import '../../providers/categorie_provider.dart';
-import '../../providers/auth_provider.dart';
-import '../../cores/constants/app_colors.dart';
-import '../../models/product.dart';
-import '../../models/vente.dart';
-
-class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
-
-  @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
-}
-
-class _DashboardScreenState extends State<DashboardScreen> {
-  final NumberFormat _currencyFormat = NumberFormat.currency(
-    locale: 'fr',
-    symbol: 'FCFA ',
-    decimalDigits: 0,
-  );
-
-  final DateFormat _dateFormat = DateFormat('dd/MM/yyyy');
-  final DateFormat _heureFormat = DateFormat('HH:mm');
-  final DateFormat _shortDateFormat = DateFormat('dd/MM');
-
-  bool _isInitialized = false;
-  int _seuilAlerte = 5;
-
-  // Logs admin
-  List<Map<String, dynamic>> _logs = [];
-  bool _isLoadingLogs = false;
-  bool _isAdmin = false;
-  StreamSubscription<QuerySnapshot>? _logsSubscription;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!_isInitialized) {
-      _isInitialized = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _loadData();
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    _logsSubscription?.cancel();
-    super.dispose();
-  }
-
-  // ----------------------------------------------------------
-  // _loadData() : écoute temps réel pour produits + logs
-  // ----------------------------------------------------------
-  Future<void> _loadData() async {
-    final auth = Provider.of<AuthProvider>(context, listen: false);
-    if (auth.currentUser == null) return;
-
-    final boutiqueId = auth.currentUser!.boutiqueId;
-
-    try {
-      // Vérifier si admin
-      final userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(auth.currentUser!.id)
-          .get();
-      final role = userDoc.data()?['role'] ?? 'caissier';
-      setState(() => _isAdmin = role == 'admin');
-
-      await _loadSeuilAlerte(boutiqueId);
-
-      // Démarrer l'écoute temps réel pour les produits
-      Provider.of<ProductProvider>(
-        context,
-        listen: false,
-      ).listenToProducts(boutiqueId);
-
-      // Charger les autres données
-      await Future.wait<void>([
-        Provider.of<ProductProvider>(
-          context,
-          listen: false,
-        ).loadLowStockProducts(boutiqueId, seuilAlerte: _seuilAlerte),
-        Provider.of<VenteProvider>(
-          context,
-          listen: false,
-        ).loadVentesDuJour(boutiqueId),
-        Provider.of<VenteProvider>(
-          context,
-          listen: false,
-        ).loadRecentVentes(boutiqueId),
-        Provider.of<CategorieProvider>(
-          context,
-          listen: false,
-        ).loadCategories(boutiqueId),
-      ]);
-
-      Provider.of<ProductProvider>(context, listen: false).calculateStats();
-
-      // Écoute temps réel des logs si admin
-      if (_isAdmin) _listenToLogs(boutiqueId);
-    } catch (e) {
-      print('❌ Erreur chargement données: $e');
-    }
-  }
-
-  Future<void> _loadSeuilAlerte(String boutiqueId) async {
-    try {
-      final doc = await FirebaseFirestore.instance
-          .collection('boutiques')
-          .doc(boutiqueId)
-          .get();
-
-      if (doc.exists) {
-        final data = doc.data();
-        _seuilAlerte = data?['seuilAlerte'] ?? 5;
-      }
-    } catch (e) {
-      print('❌ Erreur chargement seuil alerte: $e');
-    }
-  }
-
-  // ---------- ÉCOUTE TEMPS RÉEL DES LOGS ----------
-  void _listenToLogs(String boutiqueId) {
-    _logsSubscription?.cancel();
-
-    setState(() => _isLoadingLogs = true);
-
-    final now = DateTime.now();
-    final debutSemaine = now.subtract(Duration(days: now.weekday - 1));
-    final debut = DateTime(
-      debutSemaine.year,
-      debutSemaine.month,
-      debutSemaine.day,
-    );
-    final fin = debut.add(const Duration(days: 7));
-
-    _logsSubscription = FirebaseFirestore.instance
-        .collection('logs')
-        .where('boutiqueId', isEqualTo: boutiqueId)
-        .where('date', isGreaterThanOrEqualTo: debut)
-        .where('date', isLessThan: fin)
-        .orderBy('date', descending: true)
-        .limit(30)
-        .snapshots()
-        .listen(
-          (snapshot) {
-            setState(() {
-              _logs = snapshot.docs.map((doc) => doc.data()).toList();
-              _isLoadingLogs = false;
-            });
-          },
-          onError: (error) {
-            debugPrint('❌ Erreur stream logs: $error');
-            setState(() => _isLoadingLogs = false);
-          },
-        );
-  }
-
-  Future<void> _refreshData() async {
-    await _loadData();
-  }
-
-  String _formatProduitsList(List<ArticleVendu> articles) {
-    if (articles.isEmpty) return '';
-    if (articles.length == 1) {
-      return articles.first.nom;
-    }
-    return '${articles.first.nom} +${articles.length - 1}';
-  }
-
-  // ---- Méthodes pour les logs (labels FR et couleurs) ----
-  IconData _getLogIcon(String type) {
-    if (type == 'DELETE') return Icons.delete_outline;
-    if (type == 'UPDATE') return Icons.edit_outlined;
-    if (type == 'CREATE') return Icons.add_box_outlined;
-    if (type.contains('vente')) return Icons.receipt_outlined;
-    return Icons.info_outline;
-  }
-
-  Color _getLogColor(String type) {
-    if (type == 'DELETE') return AppColors.error;      // Rouge
-    if (type == 'UPDATE') return AppColors.warning;    // Orange
-    if (type == 'CREATE') return AppColors.success;    // Vert
-    if (type.contains('vente')) return AppColors.success;
-    return AppColors.info;
-  }
-
-  String _getLogLabel(String type) {
-    switch (type) {
-      case 'DELETE': return 'Suppression';
-      case 'UPDATE': return 'Modification';
-      case 'CREATE': return 'Ajout';
-      default: return type;
-    }
-  }
-
-  // Détails du log
-  Widget _buildLogDetails(Map<String, dynamic> log) {
-    final type = log['type'] ?? '';
-    final oldValues = log['anciennesValeurs'] as Map<String, dynamic>?;
-    final newValues = log['nouvellesValeurs'] as Map<String, dynamic>?;
-
-    // Pour une suppression, on affiche le nom du produit et le stock supprimé
-    if (type == 'DELETE') {
-      final nom = log['nomProduit'] ?? 'Produit inconnu';
-      final quantite = log['quantite'] ?? '?';
-      return Text(
-        'Produit : $nom (stock : $quantite)',
-        style: const TextStyle(fontSize: 12, color: AppColors.textPrimary),
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-      );
-    }
-
-    // Pour une mise à jour, on affiche les changements
-    if (type == 'UPDATE' && oldValues != null && newValues != null) {
-      final differences = <String>[];
-      for (var key in oldValues.keys) {
-        if (oldValues[key] != newValues[key]) {
-          final oldVal = oldValues[key] ?? 'null';
-          final newVal = newValues[key] ?? 'null';
-          differences.add('$key: $oldVal → $newVal');
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DMS — Construction &amp; Automobile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET & VARIABLES ===== */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        :root {
+            --bleu: #0073E6;
+            --bleu-fonce: #0B66C2;
+            --blanc: #FFFFFF;
+            --gris-clair: #F8FAFC;
+            --gris-texte: #1E293B;
+            --gris-moyen: #64748B;
+            --orange: #F2994A;
+            --jaune: #F2C94C;
+            --shadow: 0 10px 40px rgba(0,0,0,0.08);
+            --radius: 16px;
+            --font: 'Inter', sans-serif;
         }
-      }
-      if (differences.isEmpty) {
-        return Text(
-          'Modification (aucun changement visible)',
-          style: TextStyle(fontSize: 11, color: AppColors.textSecondary),
-        );
-      }
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: differences.take(3).map((diff) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 2),
-            child: Text(
-              '• $diff',
-              style: TextStyle(fontSize: 10, color: AppColors.textSecondary),
-              overflow: TextOverflow.ellipsis,
-            ),
-          );
-        }).toList(),
-      );
-    }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font); color: var(--gris-texte); background: var(--blanc); line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+        img { max-width: 100%; display: block; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-    // Ajout : on affiche le nom du produit
-    if (type == 'CREATE') {
-      final nom = log['nomProduit'] ?? 'Produit inconnu';
-      return Text(
-        'Produit : $nom',
-        style: const TextStyle(fontSize: 12, color: AppColors.textPrimary),
-      );
-    }
+        /* ===== BOUTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn--blanc {
+            background: var(--blanc);
+            color: var(--bleu);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+        .btn--blanc:hover { background: var(--gris-clair); transform: translateY(-2px); }
+        .btn--secondaire {
+            background: transparent;
+            color: var(--blanc);
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+        .btn--secondaire:hover { background: rgba(255,255,255,0.1); }
 
-    // Fallback
-    return Text(
-      'Action : $type',
-      style: TextStyle(fontSize: 11, color: AppColors.textSecondary),
-    );
-  }
+        /* ===== HEADER ===== */
+        .header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+            padding: 10px 0;
+        }
+        .header__inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .header__logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            color: var(--bleu);
+        }
+        .header__logo img {
+            height: 44px;
+            width: auto;
+            object-fit: contain;
+        }
+        .header__logo-text strong { font-size: 1.15rem; font-weight: 800; }
+        .header__logo-text small { font-size: 0.65rem; font-weight: 500; color: var(--gris-moyen); text-transform: uppercase; display: block; }
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .nav a {
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            color: var(--gris-texte);
+        }
+        .nav a:hover, .nav a.active {
+            background: var(--bleu);
+            color: var(--blanc);
+        }
+        .header__actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header__actions .btn { padding: 8px 20px; font-size: 0.85rem; }
+        .btn--whatsapp { background: #25D366; color: var(--blanc); }
+        .btn--whatsapp:hover { background: #1da851; }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .hamburger span {
+            display: block;
+            width: 26px;
+            height: 2.5px;
+            background: var(--bleu);
+            border-radius: 4px;
+            transition: 0.3s;
+        }
 
-  @override
-  Widget build(BuildContext context) {
-    final auth = Provider.of<AuthProvider>(context);
-    final productProvider = Provider.of<ProductProvider>(context);
-    final venteProvider = Provider.of<VenteProvider>(context);
-    final categorieProvider = Provider.of<CategorieProvider>(context);
-    final isMobile = MediaQuery.of(context).size.width < 600;
+        /* ===== HERO CAROUSEL ===== */
+        .hero {
+            padding-top: 80px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero__carousel {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        .hero__carousel-slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        .hero__carousel-slide.active { opacity: 1; }
+        .hero__carousel-slide::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(11,26,46,0.6);
+            background: linear-gradient(135deg, rgba(11,26,46,0.7) 0%, rgba(11,26,46,0.3) 100%);
+        }
 
-    if (auth.currentUser == null) {
-      return const Center(child: Text('Utilisateur non connecté'));
-    }
+        .hero__content {
+            position: relative;
+            z-index: 2;
+            max-width: 780px;
+            padding: 40px 0;
+        }
+        .hero__badge {
+            display: inline-block;
+            background: var(--orange);
+            color: var(--blanc);
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-size: 3.4rem;
+            font-weight: 800;
+            line-height: 1.15;
+            color: var(--blanc);
+            margin-bottom: 16px;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.2);
+        }
+        .hero h1 span { color: var(--jaune); }
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 32px;
+            max-width: 580px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.15);
+        }
+        .hero__actions { display: flex; flex-wrap: wrap; gap: 16px; }
 
-    // Calcul des indicateurs
-    final nombreProduits = productProvider.products.length;
-    final quantiteTotaleStock = productProvider.products.fold<int>(
-      0,
-      (sum, product) => sum + product.quantite,
-    );
-    final ventesAujourdhui = venteProvider.ventesDuJour.length;
-    final chiffreAffairesJour = venteProvider.ventesDuJour.fold<double>(
-      0,
-      (sum, vente) => sum + vente.montantRecu,
-    );
+        .hero__carousel-dots {
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            display: flex;
+            gap: 12px;
+        }
+        .hero__carousel-dots button {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.5);
+            background: transparent;
+            cursor: pointer;
+            transition: 0.3s;
+            padding: 0;
+        }
+        .hero__carousel-dots button.active {
+            background: var(--blanc);
+            border-color: var(--blanc);
+            transform: scale(1.25);
+        }
 
-    final produitsEnAlerte = productProvider.products
-        .where((p) => p.quantite <= _seuilAlerte)
-        .toList();
-    final stockFaible = produitsEnAlerte.length;
+        /* ===== STATS ===== */
+        .stats {
+            background: var(--bleu);
+            color: var(--blanc);
+            padding: 48px 0;
+        }
+        .stats__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+            gap: 24px;
+            text-align: center;
+        }
+        .stats__item h3 { font-size: 2.4rem; font-weight: 800; }
+        .stats__item p { opacity: 0.85; margin-top: 4px; font-weight: 500; }
 
-    final totalValeurAchat = productProvider.products.fold<int>(
-      0,
-      (sum, p) => sum + ((p.prixAchat ?? 0) * p.quantite),
-    );
-    final totalValeurVente = productProvider.products.fold<int>(
-      0,
-      (sum, p) => sum + (p.prix * p.quantite),
-    );
+        /* ===== SECTIONS ===== */
+        .section { padding: 80px 0; }
+        .section--gris { background: var(--gris-clair); }
+        .section--blanc { background: var(--blanc); }
+        .section__titre {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto 56px;
+        }
+        .section__titre h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--gris-texte);
+            margin-bottom: 12px;
+        }
+        .section__titre h2 span { color: var(--bleu); }
+        .section__titre p { color: var(--gris-moyen); font-size: 1.1rem; }
 
-    final repartitionCategories = _getRepartitionCategories(
-      productProvider.products,
-    );
+        /* ===== À PROPOS ===== */
+        .apropos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        .apropos__image img {
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+        .apropos__texte h3 { font-size: 1.8rem; font-weight: 700; margin-bottom: 16px; }
+        .apropos__texte p { color: var(--gris-moyen); font-size: 1.05rem; line-height: 1.7; margin-bottom: 16px; }
+        .apropos__chiffres {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px,1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+        .apropos__chiffres strong { display: block; font-size: 2rem; font-weight: 800; color: var(--bleu); }
+        .apropos__chiffres span { font-size: 0.9rem; color: var(--gris-moyen); font-weight: 500; }
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: const Text(
-          'Tableau de bord',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 8),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.refresh),
-              onPressed: _refreshData,
-              tooltip: 'Rafraîchir',
-            ),
-          ),
-          const SizedBox(width: 8),
-        ],
-      ),
-      body: RefreshIndicator(
-        onRefresh: _refreshData,
-        color: AppColors.primary,
-        child: productProvider.isLoading
-            ? const Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
-                ),
-              )
-            : SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.all(isMobile ? 12 : 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildKPIcards(
-                      nombreProduits,
-                      quantiteTotaleStock,
-                      ventesAujourdhui,
-                      chiffreAffairesJour,
-                      stockFaible,
-                      totalValeurAchat,
-                      totalValeurVente,
-                      isMobile,
-                    ),
-                    const SizedBox(height: 20),
+        /* ===== PÔLES ===== */
+        .poles {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .pole {
+            background: var(--blanc);
+            border-radius: var(--radius);
+            padding: 40px 32px;
+            box-shadow: var(--shadow);
+            transition: 0.3s;
+            border-top: 6px solid var(--bleu);
+            text-align: center;
+        }
+        .pole:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.12); }
+        .pole--auto { border-top-color: var(--orange); }
+        .pole__icon { font-size: 3.2rem; margin-bottom: 16px; display: block; }
+        .pole h3 { font-size: 1.6rem; font-weight: 700; margin-bottom: 10px; }
+        .pole p { color: var(--gris-moyen); margin-bottom: 20px; }
+        .btn--primaire { background: var(--bleu); color: var(--blanc); }
+        .btn--primaire:hover { background: var(--bleu-fonce); }
+        .btn--accent { background: var(--orange); color: var(--blanc); }
+        .btn--accent:hover { background: #e0843a; }
 
-                    if (_isAdmin) _buildLogsSection(isMobile),
-                    const SizedBox(height: 20),
+        /* ===== POURQUOI ===== */
+        .pourquoi {
+            background: var(--bleu);
+            color: var(--blanc);
+            padding: 80px 0;
+        }
+        .pourquoi__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+            gap: 40px;
+            margin-top: 20px;
+        }
+        .pourquoi__item { text-align: center; padding: 16px; }
+        .pourquoi__item i { font-size: 2.8rem; color: var(--jaune); margin-bottom: 16px; display: block; }
+        .pourquoi__item h4 { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
+        .pourquoi__item p { opacity: 0.85; }
 
-                    if (stockFaible > 0)
-                      _buildStockAlertSection(
-                        produitsEnAlerte,
-                        isMobile,
-                        _seuilAlerte,
-                      ),
-                    const SizedBox(height: 20),
+        /* ===== GALERIE ===== */
+        .gallery__filters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 36px;
+        }
+        .gallery__filters button {
+            padding: 8px 24px;
+            border-radius: 40px;
+            border: 2px solid #E2E8F0;
+            background: transparent;
+            color: var(--gris-moyen);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .gallery__filters button.active,
+        .gallery__filters button:hover {
+            background: var(--bleu);
+            color: var(--blanc);
+            border-color: var(--bleu);
+        }
+        .gallery__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+            gap: 28px;
+        }
+        .gallery__card {
+            background: var(--blanc);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid #E2E8F0;
+        }
+        .gallery__card-img {
+            height: 200px;
+            background: #e9edf5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.4rem;
+        }
+        .gallery__card-body { padding: 20px 22px 22px; }
+        .gallery__card-body h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+        .gallery__card-body p { color: var(--gris-moyen); font-size: 0.9rem; }
+        .gallery__card-body .tag {
+            display: inline-block;
+            background: var(--gris-clair);
+            padding: 3px 14px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--bleu);
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
 
-                    if (repartitionCategories.isNotEmpty)
-                      _buildCategoryDistribution(
-                        repartitionCategories,
-                        categorieProvider.categories.length,
-                        isMobile,
-                      ),
-                    const SizedBox(height: 20),
+        /* ===== CATALOGUE ===== */
+        .catalogue__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+            gap: 30px;
+        }
+        .catalogue__card {
+            background: var(--blanc);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 1px solid #E2E8F0;
+        }
+        .catalogue__card-img {
+            height: 170px;
+            background: #edf0f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+        }
+        .catalogue__card-body { padding: 18px 20px 22px; }
+        .catalogue__card-body h4 { font-size: 1.05rem; font-weight: 700; }
+        .catalogue__card-body .specs {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+            margin: 8px 0 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 12px;
+        }
+        .catalogue__card-body .specs span {
+            background: var(--gris-clair);
+            padding: 2px 12px;
+            border-radius: 40px;
+        }
+        .statut {
+            display: inline-block;
+            padding: 3px 16px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .statut--dispo { background: #DCFCE7; color: #166534; }
+        .statut--commande { background: #FEF3C7; color: #92400E; }
+        .catalogue__card-body .btn { width: 100%; justify-content: center; }
 
-                    _buildRecentSales(
-                      venteProvider.ventesDuJour.take(5).toList(),
-                      isMobile,
-                    ),
-                    const SizedBox(height: 20),
+        /* ===== CONTACT ===== */
+        .contact__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+        .contact__infos h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; }
+        .contact__infos ul { list-style: none; margin-bottom: 20px; }
+        .contact__infos ul li { padding: 8px 0; display: flex; align-items: center; gap: 12px; color: var(--gris-moyen); }
+        .contact__infos ul li i { width: 24px; color: var(--bleu); font-size: 1.2rem; }
+        .contact__form input,
+        .contact__form textarea,
+        .contact__form select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            font-family: inherit;
+            font-size: 1rem;
+            margin-bottom: 14px;
+            background: var(--blanc);
+        }
+        .contact__form input:focus,
+        .contact__form textarea:focus,
+        .contact__form select:focus {
+            outline: none;
+            border-color: var(--bleu);
+            box-shadow: 0 0 0 3px rgba(0,115,230,0.1);
+        }
+        .contact__form textarea { min-height: 130px; resize: vertical; }
 
-                    _buildQuickActions(isMobile),
-                  ],
-                ),
-              ),
-      ),
-    );
-  }
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0B1A2E;
+            color: rgba(255,255,255,0.8);
+            padding: 60px 0 30px;
+        }
+        .footer__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer h4 { color: var(--blanc); font-weight: 700; margin-bottom: 16px; }
+        .footer ul { list-style: none; }
+        .footer ul li { margin-bottom: 4px; }
+        .footer ul li i { width: 20px; color: var(--orange); }
+        .footer__legal {
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 12px;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+        .footer__socials {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .footer__socials a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            color: var(--blanc);
+            transition: 0.3s;
+        }
+        .footer__socials a:hover { background: var(--bleu); transform: translateY(-2px); }
 
-  // ---- LOGS SECTION (admin) ----
-  Widget _buildLogsSection(bool isMobile) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Icon(
-                    Icons.history,
-                    color: AppColors.primary,
-                    size: 20,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                const Text(
-                  'Logs de la semaine (temps réel)',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                const Spacer(),
-                if (_isLoadingLogs)
-                  const SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            if (_logs.isEmpty && !_isLoadingLogs)
-              const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(12),
-                  child: Text(
-                    'Aucune activité cette semaine',
-                    style: TextStyle(color: AppColors.textSecondary),
-                  ),
-                ),
-              )
-            else
-              ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: _logs.length,
-                separatorBuilder: (_, __) => const Divider(height: 2),
-                itemBuilder: (context, index) {
-                  final log = _logs[index];
-                  final type = log['type'] ?? '';
-                  final icon = _getLogIcon(type);
-                  final color = _getLogColor(type);
-                  final label = _getLogLabel(type);
-                  final nom = log['nomProduit'] ?? '';
-                  final date = log['date'] != null
-                      ? _dateFormat.format((log['date'] as Timestamp).toDate())
-                      : '';
-                  final heure = log['date'] != null
-                      ? _heureFormat.format((log['date'] as Timestamp).toDate())
-                      : '';
-                  final utilisateurNom = log['utilisateurNom'] ?? 'Inconnu';
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 2.8rem; }
+            .apropos { grid-template-columns: 1fr; }
+            .contact__grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .header__inner { flex-wrap: wrap; }
+            .nav {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background: var(--blanc);
+                padding: 16px 0;
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                margin-top: 8px;
+                border: 1px solid #E2E8F0;
+            }
+            .nav.open { display: flex; }
+            .nav a { width: 100%; padding: 12px 20px; border-radius: 0; }
+            .hamburger { display: flex; }
+            .header__actions .btn--primaire { display: none; }
+            .hero { padding-top: 80px; min-height: 90vh; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero p { font-size: 1rem; }
+            .section { padding: 60px 0; }
+            .section__titre h2 { font-size: 2rem; }
+            .stats__grid { grid-template-columns: 1fr 1fr; }
+            .stats__item h3 { font-size: 1.8rem; }
+            .poles { grid-template-columns: 1fr; }
+            .footer__grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            .stats__grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 1.8rem; }
+            .hero__actions .btn { width: 100%; justify-content: center; }
+            .gallery__grid, .catalogue__grid { grid-template-columns: 1fr; }
+            .apropos__chiffres { grid-template-columns: 1fr 1fr; }
+        }
 
-                  return Container(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 4,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: color,
-                            borderRadius: BorderRadius.circular(2),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(icon, size: 14, color: color),
-                                  const SizedBox(width: 6),
-                                  Text(
-                                    label,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: color,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    '$date $heure',
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      color: AppColors.textSecondary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 4),
-                              if (nom.isNotEmpty)
-                                Text(
-                                  'Produit : $nom',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.textPrimary,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              // Détails des modifications
-                              _buildLogDetails(log),
-                              const SizedBox(height: 2),
-                              Text(
-                                'Par : $utilisateurNom',
-                                style: TextStyle(
-                                  fontSize: 9,
-                                  color: AppColors.textSecondary,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-          ],
-        ),
-      ),
-    );
-  }
+        /* ===== REVEAL ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
 
-  // ---- KPI CARDS ----
-  Widget _buildKPIcards(
-    int nombreProduits,
-    int quantiteTotaleStock,
-    int ventesAujourdhui,
-    double caJour,
-    int stockFaible,
-    int totalValeurAchat,
-    int totalValeurVente,
-    bool isMobile,
-  ) {
-    final commonCards = [
-      _buildKPIcard(
-        'Produits',
-        nombreProduits.toString(),
-        Icons.category,
-        AppColors.primary,
-        isMobile,
-      ),
-      _buildKPIcard(
-        'Articles en stock',
-        quantiteTotaleStock.toString(),
-        Icons.inventory,
-        AppColors.info,
-        isMobile,
-      ),
-      _buildKPIcard(
-        'Ventes (j)',
-        ventesAujourdhui.toString(),
-        Icons.receipt,
-        AppColors.success,
-        isMobile,
-      ),
-      _buildKPIcard(
-        'CA Jour',
-        _currencyFormat.format(caJour),
-        Icons.payments,
-        AppColors.accent,
-        isMobile,
-      ),
-      _buildKPIcard(
-        'Stock faible',
-        stockFaible.toString(),
-        Icons.warning,
-        AppColors.warning,
-        isMobile,
-      ),
-    ];
+    <!-- HEADER -->
+    <header class="header" id="header">
+        <div class="container header__inner">
+            <a href="#" class="header__logo">
+                <img src="DMS/logo.jpg" alt="Logo DMS">
+                <div class="header__logo-text">
+                    <strong>DMS</strong>
+                    <small>Construction &amp; Automobile</small>
+                </div>
+            </a>
+            <nav class="nav" id="nav">
+                <a href="#hero" class="active">Accueil</a>
+                <a href="#apropos">À propos</a>
+                <a href="#poles">Nos domaines</a>
+                <a href="#gallery">Réalisations</a>
+                <a href="#catalogue">Véhicules</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <div class="header__actions">
+                <a href="#contact" class="btn btn--primaire"><i class="fas fa-file-invoice"></i> Devis</a>
+                <a href="https://wa.me/22674087512" target="_blank" class="btn btn--whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </header>
 
-    final adminCards = [
-      _buildKPIcard(
-        'Prix d\'achat total',
-        _currencyFormat.format(totalValeurAchat),
-        Icons.shopping_bag,
-        AppColors.info,
-        isMobile,
-      ),
-      _buildKPIcard(
-        'Prix de vente total',
-        _currencyFormat.format(totalValeurVente),
-        Icons.attach_money,
-        AppColors.success,
-        isMobile,
-      ),
-    ];
+    <!-- HERO CAROUSEL -->
+    <section class="hero" id="hero">
+        <div class="hero__carousel">
+            <!-- Slide 1 : DMS Général -->
+            <div class="hero__carousel-slide active" style="background-image: url('DMS/acceuil.jpg');"></div>
+            <!-- Slide 2 : DMS Construction -->
+            <div class="hero__carousel-slide" style="background-image: url('DMS/acceuil_construction.jpg');"></div>
+            <!-- Slide 3 : DMS Automobile -->
+            <div class="hero__carousel-slide" style="background-image: url('DMS/acceuil_automobile.jpg');"></div>
+        </div>
 
-    if (isMobile) {
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          GridView.count(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 8,
-            childAspectRatio: 1.2,
-            children: commonCards,
-          ),
-          if (_isAdmin) ...[
-            const SizedBox(height: 4),
-            GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 8,
-              childAspectRatio: 1.2,
-              children: adminCards,
-            ),
-          ],
-        ],
-      );
-    } else {
-      final allCards = _isAdmin ? [...commonCards, ...adminCards] : commonCards;
-      return GridView.count(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        crossAxisCount: _isAdmin ? 7 : 5,
-        crossAxisSpacing: 8,
-        mainAxisSpacing: 8,
-        childAspectRatio: 1.3,
-        children: allCards,
-      );
-    }
-  }
+        <div class="container hero__content" id="heroContent">
+            <span class="hero__badge"><i class="fas fa-building"></i> DMS — Groupe</span>
+            <h1>Des solutions pour <span>construire, équiper</span> et avancer.</h1>
+            <p>Entreprise active dans plusieurs domaines : BTP, vente de véhicules, machines agricoles, soudure et diverses autres prestations.</p>
+            <div class="hero__actions">
+                <a href="#apropos" class="btn btn--blanc"><i class="fas fa-info-circle"></i> Découvrir DMS</a>
+                <a href="#contact" class="btn btn--secondaire"><i class="fas fa-phone"></i> Nous contacter</a>
+            </div>
+        </div>
 
-  Widget _buildKPIcard(
-    String title,
-    String value,
-    IconData icon,
-    Color color,
-    bool isMobile,
-  ) {
-    return Container(
-      padding: EdgeInsets.all(isMobile ? 6 : 10),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Icon(icon, color: color, size: isMobile ? 14 : 18),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: isMobile ? 12 : 16,
-              fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
-            ),
-            overflow: TextOverflow.ellipsis,
-          ),
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: isMobile ? 8 : 10,
-              color: AppColors.textSecondary,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
-    );
-  }
+        <div class="hero__carousel-dots">
+            <button class="active" data-index="0"></button>
+            <button data-index="1"></button>
+            <button data-index="2"></button>
+        </div>
+    </section>
 
-  // ---- STOCK ALERT ----
-  Widget _buildStockAlertSection(
-    List<Product> produitsAlertes,
-    bool isMobile,
-    int seuilAlerte,
-  ) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: AppColors.warning.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Icon(
-                    Icons.warning,
-                    color: AppColors.warning,
-                    size: 20,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    '⚠️ Alertes stock (${produitsAlertes.length})',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.warning.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    'Seuil: $seuilAlerte',
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: AppColors.warning,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            ...produitsAlertes.take(5).map((produit) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 4,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: produit.quantite == 0
-                            ? AppColors.error
-                            : AppColors.warning,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            produit.nom,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Row(
-                            children: [
-                              Text(
-                                'Stock: ${produit.quantite}',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: produit.quantite == 0
-                                      ? AppColors.error
-                                      : AppColors.warning,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                'Seuil: $seuilAlerte',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.textSecondary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (produit.quantite == 0)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.error.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          'RUPTURE',
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: AppColors.error,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              );
-            }).toList(),
-            if (produitsAlertes.length > 5)
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/produits');
-                  },
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Voir tous les produits'),
-                      Icon(Icons.arrow_forward, size: 16),
-                    ],
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
+    <!-- STATS -->
+    <section class="stats">
+        <div class="container stats__grid">
+            <div class="stats__item"><h3>+10 ans</h3><p>d'expérience</p></div>
+            <div class="stats__item"><h3>+50</h3><p>Chantiers livrés</p></div>
+            <div class="stats__item"><h3>+100</h3><p>Véhicules &amp; machines vendus</p></div>
+            <div class="stats__item"><h3>🌍</h3><p>Intervention toute région</p></div>
+        </div>
+    </section>
 
-  // ---- CATEGORY DISTRIBUTION ----
-  Widget _buildCategoryDistribution(
-    Map<String, double> repartition,
-    int totalCategories,
-    bool isMobile,
-  ) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: AppColors.info.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Icon(Icons.pie_chart, color: AppColors.info, size: 20),
-                ),
-                const SizedBox(width: 12),
-                const Text(
-                  'Répartition par catégorie',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            if (repartition.isEmpty)
-              const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text('Aucune catégorie'),
-                ),
-              )
-            else
-              ...repartition.entries.take(5).map((entry) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: Text(
-                              entry.key,
-                              style: const TextStyle(
-                                color: AppColors.textPrimary,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Text(
-                              '${entry.value.toStringAsFixed(1)}%',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.primary,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      LinearProgressIndicator(
-                        value: entry.value / 100,
-                        backgroundColor: AppColors.divider,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          AppColors.primary,
-                        ),
-                        minHeight: 6,
-                        borderRadius: BorderRadius.circular(3),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
-          ],
-        ),
-      ),
-    );
-  }
+    <!-- ===== SECTION À PROPOS MODIFIÉE ===== -->
+    <section class="section section--blanc" id="apropos">
+        <div class="container">
+            <div class="section__titre">
+                <h2>À propos de <span>DMS</span></h2>
+                <p>Une entreprise polyvalente, des expertises variées.</p>
+            </div>
+            <div class="apropos">
+                <div class="apropos__image">
+                    <img src="DMS/apropos.jpeg" alt="DMS">
+                </div>
+                <div class="apropos__texte">
+                    <!-- Nouveau titre plus général -->
+                    <h3>Des savoir-faire multiples pour vos projets.</h3>
+                    <!-- Texte recentré sur la polyvalence -->
+                    <p>
+                        <strong>DMS</strong> est une entreprise dynamique active dans de nombreux secteurs : la <strong>construction (BTP)</strong>, la <strong>vente de véhicules</strong> neufs et d'occasion, les <strong>machines agricoles</strong>, la <strong>soudure</strong>, ainsi que diverses autres prestations adaptées aux besoins de ses clients.
+                    </p>
+                    <p>
+                        Nous mettons notre expérience et notre rigueur au service de vos projets, qu'il s'agisse de construire un bâtiment, d'acquérir un véhicule ou de réaliser des ouvrages métalliques sur-mesure. Votre satisfaction est notre priorité.
+                    </p>
+                    <div class="apropos__chiffres">
+                        <div><strong>50+</strong><span>Projets réalisés</span></div>
+                        <div><strong>100+</strong><span>Clients satisfaits</span></div>
+                        <div><strong>10 ans</strong><span>D'expérience</span></div>
+                        <div><strong>4+</strong><span>Domaines d'activité</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  // ---- RECENT SALES ----
-  Widget _buildRecentSales(List<Vente> ventes, bool isMobile) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: AppColors.success.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Icon(
-                    Icons.history,
-                    color: AppColors.success,
-                    size: 20,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                const Text(
-                  'Dernières ventes',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            if (ventes.isEmpty)
-              const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text('Aucune vente récente'),
-                ),
-              )
-            else
-              ...ventes.map((vente) {
-                final produitsNoms = _formatProduitsList(vente.articles);
-                final difference = vente.montantRecu - vente.total;
-                final bool estRemise = difference < 0;
-                final String montantInfo = estRemise
-                    ? 'Remise: ${_currencyFormat.format(-difference)}'
-                    : 'Monnaie: ${_currencyFormat.format(difference)}';
+    <!-- NOS DOMAINES (on garde les deux pôles bien identifiés ici) -->
+    <section class="section section--gris" id="poles">
+        <div class="container">
+            <div class="section__titre">
+                <h2>Nos <span>deux pôles</span> d'expertise</h2>
+                <p>Deux filiales, une même exigence de qualité.</p>
+            </div>
+            <div class="poles">
+                <div class="pole reveal">
+                    <span class="pole__icon">🏗️</span>
+                    <h3>DMS Construction</h3>
+                    <p>Construction, réfection, pose de pavés, conception de plans, devis, soudure et autres prestations.<br><strong>Votre projet, notre engagement.</strong></p>
+                    <a href="#gallery" class="btn btn--primaire">Voir nos services</a>
+                </div>
+                <div class="pole pole--auto reveal">
+                    <span class="pole__icon">🚗</span>
+                    <h3>DMS Automobile</h3>
+                    <p>Vente et distribution de véhicules neufs et d'occasion, machines agricoles et autres équipements.<br><strong>La satisfaction du client au cœur de nos priorités.</strong></p>
+                    <a href="#catalogue" class="btn btn--accent">Découvrir nos offres</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  decoration: BoxDecoration(
-                    color: AppColors.surface,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: estRemise
-                          ? AppColors.warning.withOpacity(0.3)
-                          : Colors.transparent,
-                      width: 1,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(6),
-                              decoration: BoxDecoration(
-                                color: AppColors.background,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                _heureFormat.format(vente.date),
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.textSecondary,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    produitsNoms,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.textPrimary,
-                                      fontSize: 13,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        vente.vendeurNom,
-                                        style: TextStyle(
-                                          fontSize: 10,
-                                          color: AppColors.textSecondary,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Container(
-                                        width: 4,
-                                        height: 4,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.textSecondary,
-                                          shape: BoxShape.circle,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        '${vente.articles.length} article${vente.articles.length > 1 ? 's' : ''}',
-                                        style: TextStyle(
-                                          fontSize: 10,
-                                          color: AppColors.textSecondary,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  if (vente.paymentMethod != null) ...[
-                                    const SizedBox(height: 2),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.payment,
-                                          size: 8,
-                                          color: AppColors.textSecondary,
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          vente.paymentMethod!,
-                                          style: TextStyle(
-                                            fontSize: 8,
-                                            color: AppColors.textSecondary,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ],
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  _currencyFormat.format(vente.montantRecu),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.success,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                Text(
-                                  montantInfo,
-                                  style: TextStyle(
-                                    fontSize: 8,
-                                    color: estRemise
-                                        ? AppColors.warning
-                                        : AppColors.info,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        if (vente.reference != null)
-                          Padding(
-                            padding: const EdgeInsets.only(top: 4, left: 40),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.receipt,
-                                  size: 8,
-                                  color: AppColors.textSecondary,
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  'Réf: ${vente.reference}',
-                                  style: TextStyle(
-                                    fontSize: 8,
-                                    color: AppColors.textSecondary,
-                                    fontStyle: FontStyle.italic,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                );
-              }).toList(),
-            const SizedBox(height: 8),
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/ventes/historique');
-              },
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Voir tout l\'historique'),
-                  Icon(Icons.arrow_forward, size: 16),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+    <!-- POURQUOI DMS -->
+    <section class="pourquoi">
+        <div class="container">
+            <div class="section__titre section__titre--blanc">
+                <h2>Pourquoi <span style="color:var(--jaune);">choisir DMS</span> ?</h2>
+                <p>Des valeurs qui font la différence.</p>
+            </div>
+            <div class="pourquoi__grid">
+                <div class="pourquoi__item reveal"><i class="fas fa-user-tie"></i><h4>Expertise</h4><p>Une expérience solide dans la construction et l'automobile.</p></div>
+                <div class="pourquoi__item reveal"><i class="fas fa-check-circle"></i><h4>Qualité</h4><p>Des prestations réalisées avec sérieux et professionnalisme.</p></div>
+                <div class="pourquoi__item reveal"><i class="fas fa-arrows-alt-h"></i><h4>Diversité</h4><p>Construction, automobile, équipements agricoles, soudure et plus.</p></div>
+                <div class="pourquoi__item reveal"><i class="fas fa-smile"></i><h4>Satisfaction client</h4><p>Votre satisfaction est notre priorité absolue.</p></div>
+                <div class="pourquoi__item reveal"><i class="fas fa-hand-holding-heart"></i><h4>Accompagnement</h4><p>Nous vous suivons à chaque étape de votre projet.</p></div>
+            </div>
+        </div>
+    </section>
 
-  // ---- QUICK ACTIONS ----
-  Widget _buildQuickActions(bool isMobile) {
-    return Row(
-      children: [
-        Expanded(
-          child: ElevatedButton.icon(
-            onPressed: () {
-              Navigator.pushNamed(context, '/ventes/nouvelle');
-            },
-            icon: const Icon(Icons.add_shopping_cart),
-            label: const Text('Nouvelle vente'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.success,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: ElevatedButton.icon(
-            onPressed: () {
-              Navigator.pushNamed(context, '/produits/ajouter');
-            },
-            icon: const Icon(Icons.inventory),
-            label: const Text('Entrée stock'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+    <!-- GALERIE -->
+    <section class="section section--blanc" id="gallery">
+        <div class="container">
+            <div class="section__titre">
+                <h2>Nos <span>réalisations</span></h2>
+                <p>Découvrez quelques-uns de nos projets en construction, soudure et aménagement.</p>
+            </div>
+            <div class="gallery__filters">
+                <button class="active" data-filter="all">Tous</button>
+                <button data-filter="btp">BTP</button>
+                <button data-filter="soudure">Charpentes / Soudure</button>
+                <button data-filter="batiment">Bâtiments</button>
+            </div>
+            <div class="gallery__grid" id="galleryGrid"></div>
+        </div>
+    </section>
 
-  Map<String, double> _getRepartitionCategories(List<Product> produits) {
-    Map<String, int> countParCategorie = {};
-    int total = produits.length;
+    <!-- CATALOGUE -->
+    <section class="section section--gris" id="catalogue">
+        <div class="container">
+            <div class="section__titre">
+                <h2>Véhicules &amp; <span>machines disponibles</span></h2>
+                <p>Découvrez notre sélection de véhicules neufs, d'occasion et d'équipements agricoles.</p>
+            </div>
+            <div class="catalogue__grid" id="catalogueGrid"></div>
+        </div>
+    </section>
 
-    for (var produit in produits) {
-      if (produit.categorie != null && produit.categorie!.isNotEmpty) {
-        countParCategorie[produit.categorie!] =
-            (countParCategorie[produit.categorie!] ?? 0) + 1;
-      }
-    }
+    <!-- CONTACT -->
+    <section class="section section--blanc" id="contact">
+        <div class="container">
+            <div class="section__titre">
+                <h2>Parlons de <span>votre projet</span></h2>
+                <p>Nous sommes à votre écoute pour tout renseignement ou demande.</p>
+            </div>
+            <div class="contact__grid">
+                <div class="contact__infos">
+                    <h3>Coordonnées</h3>
+                    <ul>
+                        <li><i class="fas fa-phone-alt"></i> (+226) 76 69 28 69</li>
+                        <li><i class="fas fa-phone-alt"></i> (+226) 70 18 20 76</li>
+                        <li><i class="fas fa-phone-alt"></i> (+226) 78 75 78 54</li>
+                        <li><i class="fab fa-whatsapp" style="color:#25D366;"></i> (+226) 74 08 75 12</li>
+                        <li><i class="fas fa-envelope"></i> dmsa6611@gmail.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> En bas de l'échangeur de Gounghin, non loin de SARAMAYA, Ouagadougou</li>
+                    </ul>
+                    <a href="https://wa.me/22674087512" target="_blank" class="btn btn--whatsapp"><i class="fab fa-whatsapp"></i> Écrire sur WhatsApp</a>
+                </div>
+                <div>
+                    <form class="contact__form" id="contactForm">
+                        <input type="text" placeholder="Votre nom complet" required />
+                        <input type="tel" placeholder="Téléphone" required />
+                        <input type="email" placeholder="Email (optionnel)" />
+                        <select>
+                            <option value="">Objet de votre demande</option>
+                            <option value="construction">Construction / BTP</option>
+                            <option value="automobile">Automobile / Véhicule</option>
+                            <option value="agricole">Machine agricole</option>
+                            <option value="soudure">Soudure / Métallerie</option>
+                            <option value="devis">Demande de devis</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                        <textarea placeholder="Décrivez votre projet ou votre besoin..." required></textarea>
+                        <button type="submit" class="btn btn--primaire" style="width:100%; justify-content:center;"><i class="fas fa-paper-plane"></i> Envoyer ma demande</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    if (total == 0) return {};
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__grid">
+                <div>
+                    <h4><i class="fas fa-building" style="color:var(--orange);"></i> DMS</h4>
+                    <p style="font-size:0.95rem; margin-bottom:8px;">Des solutions pour construire, équiper et avancer.</p>
+                    <p style="font-size:0.85rem; opacity:0.7;">IFU : 001801191V<br>Agrément : N°6834<br>RCCM : BF OUA – 01 – 2022 – B13 – 5577</p>
+                </div>
+                <div>
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="#hero">Accueil</a></li>
+                        <li><a href="#apropos">À propos</a></li>
+                        <li><a href="#poles">Nos domaines</a></li>
+                        <li><a href="#gallery">Réalisations</a></li>
+                        <li><a href="#catalogue">Véhicules</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>DMS Construction</h4>
+                    <ul>
+                        <li>Construction</li>
+                        <li>Réfection</li>
+                        <li>Pavage</li>
+                        <li>Plans &amp; devis</li>
+                        <li>Soudure</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>DMS Automobile</h4>
+                    <ul>
+                        <li>Véhicules neufs</li>
+                        <li>Véhicules d'occasion</li>
+                        <li>Machines agricoles</li>
+                        <li>Équipements</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-phone-alt"></i> (+226) 76 69 28 69</li>
+                        <li><i class="fab fa-whatsapp"></i> (+226) 74 08 75 12</li>
+                        <li><i class="fas fa-envelope"></i> dmsa6611@gmail.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Ouagadougou, Gounghin</li>
+                    </ul>
+                    <div class="footer__socials">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://wa.me/22674087512" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__legal">
+                <span>&copy; 2026 DMS — Tous droits réservés.</span>
+                <span><i class="fas fa-code"></i> Conçu avec <i class="fas fa-heart" style="color:var(--orange);"></i> pour le Burkina Faso</span>
+            </div>
+        </div>
+    </footer>
 
-    return countParCategorie.map(
-      (key, value) => MapEntry(key, (value / total) * 100),
-    );
-  }
-}
+    <script>
+        (function() {
+            'use strict';
+
+            // --- HAMBURGER ---
+            const hamburger = document.getElementById('hamburger');
+            const nav = document.getElementById('nav');
+            hamburger.addEventListener('click', function() {
+                nav.classList.toggle('open');
+            });
+            nav.querySelectorAll('a').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    nav.classList.remove('open');
+                });
+            });
+
+            // --- CAROUSEL (3 secondes) ---
+            const slides = document.querySelectorAll('.hero__carousel-slide');
+            const dots = document.querySelectorAll('.hero__carousel-dots button');
+            const heroContent = document.getElementById('heroContent');
+            let currentIndex = 0;
+            let interval;
+
+            const slideData = [{
+                badge: 'DMS — Groupe',
+                title: 'Des solutions pour <span>construire, équiper</span> et avancer.',
+                desc: 'Entreprise active dans plusieurs domaines : BTP, vente de véhicules, machines agricoles, soudure et diverses autres prestations.',
+                btn1: 'Découvrir DMS',
+                btn1Link: '#apropos',
+                btn2: 'Nous contacter',
+                btn2Link: '#contact'
+            }, {
+                badge: 'DMS CONSTRUCTION',
+                title: 'Construire avec <span>expertise</span> et savoir‑faire.',
+                desc: 'Spécialisée dans les travaux de construction et de réfection de bâtiments, la pose de pavés, la conception de plans, l\'établissement de devis, la soudure et bien d\'autres prestations.',
+                btn1: 'Découvrir DMS Construction',
+                btn1Link: '#gallery',
+                btn2: 'Demander un devis',
+                btn2Link: '#contact'
+            }, {
+                badge: 'DMS AUTOMOBILE',
+                title: 'Des solutions automobiles <span>adaptées</span> à vos besoins.',
+                desc: 'Spécialisée dans la vente et la distribution de véhicules neufs et d\'occasion, ainsi que dans les machines et équipements agricoles et divers autres articles.',
+                btn1: 'Découvrir DMS Automobile',
+                btn1Link: '#catalogue',
+                btn2: 'Nous contacter',
+                btn2Link: '#contact'
+            }];
+
+            function updateContent(index) {
+                const data = slideData[index];
+                heroContent.innerHTML = `
+                            <span class="hero__badge"><i class="fas fa-building"></i> ${data.badge}</span>
+                            <h1>${data.title}</h1>
+                            <p>${data.desc}</p>
+                            <div class="hero__actions">
+                                <a href="${data.btn1Link}" class="btn btn--blanc"><i class="fas fa-arrow-right"></i> ${data.btn1}</a>
+                                <a href="${data.btn2Link}" class="btn btn--secondaire"><i class="fas fa-phone"></i> ${data.btn2}</a>
+                            </div>
+                        `;
+            }
+
+            function goToSlide(index) {
+                slides.forEach(function(slide, i) {
+                    slide.classList.toggle('active', i === index);
+                });
+                dots.forEach(function(dot, i) {
+                    dot.classList.toggle('active', i === index);
+                });
+                updateContent(index);
+                currentIndex = index;
+            }
+
+            function nextSlide() {
+                const next = (currentIndex + 1) % slides.length;
+                goToSlide(next);
+            }
+
+            function startCarousel() {
+                if (interval) clearInterval(interval);
+                // DÉLAI BIEN RÉGLÉ À 3000 ms (3 secondes)
+                interval = setInterval(nextSlide, 3000);
+            }
+
+            dots.forEach(function(dot) {
+                dot.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index, 10);
+                    goToSlide(index);
+                    startCarousel();
+                });
+            });
+
+            const hero = document.querySelector('.hero');
+            hero.addEventListener('mouseenter', function() {
+                if (interval) clearInterval(interval);
+            });
+            hero.addEventListener('mouseleave', startCarousel);
+
+            goToSlide(0);
+            startCarousel();
+
+            // --- GALERIE ---
+            const galleryData = [
+                { id: 1, titre: 'Villa moderne R+1', lieu: 'Ouagadougou', duree: '6 mois', category: 'btp', icon: '🏠' },
+                { id: 2, titre: 'Charpente métallique - Hangar', lieu: 'Gounghin', duree: '3 mois', category: 'soudure', icon: '🔩' },
+                { id: 3, titre: 'Immeuble administratif R+2', lieu: 'Zone des ambassades', duree: '10 mois', category: 'batiment', icon: '🏢' },
+                { id: 4, titre: 'Escalier & garde-corps sur-mesure', lieu: 'Résidence privée', duree: '2 mois', category: 'soudure', icon: '🪜' },
+                { id: 5, titre: 'Bâtiment scolaire', lieu: 'Koudougou', duree: '8 mois', category: 'batiment', icon: '📚' },
+                { id: 6, titre: 'Voirie & assainissement', lieu: 'Bobo-Dioulasso', duree: '5 mois', category: 'btp', icon: '🛣️' }
+            ];
+
+            const galleryGrid = document.getElementById('galleryGrid');
+
+            function renderGallery(filter) {
+                const filtered = filter === 'all' ? galleryData : galleryData.filter(function(item) {
+                    return item.category === filter;
+                });
+                galleryGrid.innerHTML = filtered.map(function(item) {
+                    return `
+                                <div class="gallery__card">
+                                    <div class="gallery__card-img">${item.icon}</div>
+                                    <div class="gallery__card-body">
+                                        <h4>${item.titre}</h4>
+                                        <p><i class="fas fa-map-pin"></i> ${item.lieu} · ${item.duree}</p>
+                                        <span class="tag">${item.category.toUpperCase()}</span>
+                                    </div>
+                                </div>
+                            `;
+                }).join('');
+            }
+
+            const filterBtns = document.querySelectorAll('.gallery__filters button');
+            filterBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    filterBtns.forEach(function(b) { b.classList.remove('active'); });
+                    this.classList.add('active');
+                    renderGallery(this.dataset.filter);
+                });
+            });
+            renderGallery('all');
+
+            // --- CATALOGUE ---
+            const catalogueData = [
+                { id: 1, nom: 'Motoculteur BCS 740', annee: '2024', carburant: 'Diesel', puissance: '12 CV', etat: 'Neuf', statut: 'disponible', icon: '🚜' },
+                { id: 2, nom: 'Camionnette Renault Master', annee: '2023', carburant: 'Diesel', puissance: '130 CV', etat: 'Très bon état', statut: 'disponible', icon: '🚐' },
+                { id: 3, nom: 'Tracteur Massey Ferguson 375', annee: '2022', carburant: 'Diesel', puissance: '75 CV', etat: 'Révisé', statut: 'commande', icon: '🚜' },
+                { id: 4, nom: '4x4 Toyota Hilux', annee: '2023', carburant: 'Essence', puissance: '150 CV', etat: 'Neuf', statut: 'disponible', icon: '🚙' }
+            ];
+
+            const catalogueGrid = document.getElementById('catalogueGrid');
+
+            function renderCatalogue() {
+                catalogueGrid.innerHTML = catalogueData.map(function(item) {
+                    const statutLabel = item.statut === 'disponible' ? 'Disponible' : 'Sur Commande';
+                    const statutClass = item.statut === 'disponible' ? 'statut--dispo' : 'statut--commande';
+                    return `
+                                <div class="catalogue__card">
+                                    <div class="catalogue__card-img">${item.icon}</div>
+                                    <div class="catalogue__card-body">
+                                        <h4>${item.nom}</h4>
+                                        <div class="specs">
+                                            <span>${item.annee}</span>
+                                            <span>${item.carburant}</span>
+                                            <span>${item.puissance}</span>
+                                            <span>${item.etat}</span>
+                                        </div>
+                                        <span class="statut ${statutClass}">${statutLabel}</span>
+                                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20${encodeURIComponent(item.nom)}" target="_blank" class="btn btn--whatsapp">
+                                            <i class="fab fa-whatsapp"></i> Réserver / Demander le prix
+                                        </a>
+                                    </div>
+                                </div>
+                            `;
+                }).join('');
+            }
+            renderCatalogue();
+
+            // --- FORMULAIRE ---
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('✅ Votre message a été envoyé ! Nous vous recontacterons dans les 24h.');
+                this.reset();
+            });
+
+            // --- REVEAL ON SCROLL ---
+            const reveals = document.querySelectorAll('.reveal');
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+                reveals.forEach(function(el) { observer.observe(el); });
+                setTimeout(function() {
+                    reveals.forEach(function(el) {
+                        if (el.getBoundingClientRect().top < window.innerHeight) {
+                            el.classList.add('visible');
+                        }
+                    });
+                }, 200);
+            } else {
+                reveals.forEach(function(el) { el.classList.add('visible'); });
+            }
+
+            // --- ACTIVE NAV ---
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav a');
+            function updateActiveNav() {
+                let current = '';
+                sections.forEach(function(section) {
+                    const top = section.offsetTop - 120;
+                    if (window.scrollY >= top) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(function(link) {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            window.addEventListener('scroll', updateActiveNav);
+            window.addEventListener('load', updateActiveNav);
+
+        })();
+    </script>
+
+</body>
+</html>
