@@ -49,12 +49,6 @@
             box-shadow: 0 4px 16px rgba(0,0,0,0.08);
         }
         .btn--blanc:hover { background: var(--gris-clair); transform: translateY(-2px); }
-        .btn--secondaire {
-            background: transparent;
-            color: var(--blanc);
-            border: 2px solid rgba(255,255,255,0.4);
-        }
-        .btn--secondaire:hover { background: rgba(255,255,255,0.1); }
         .btn--primaire { background: var(--bleu); color: var(--blanc); }
         .btn--primaire:hover { background: var(--bleu-fonce); }
         .btn--whatsapp { background: #25D366; color: var(--blanc); }
@@ -144,12 +138,13 @@
             transition: 0.3s;
         }
 
-        /* ===== HERO CONSTRUCTION ===== */
+        /* ===== HERO CONSTRUCTION (juste l'image, sans texte) ===== */
         .hero-construction {
-            padding-top: 80px;
-            min-height: 65vh;
+            padding-top: 70px;
+            height: 100vh;
             display: flex;
             align-items: center;
+            justify-content: center;
             position: relative;
             overflow: hidden;
             background-image: url('DMS/acceuil_construction.jpg');
@@ -160,44 +155,28 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: rgba(11,26,46,0.6);
-            background: linear-gradient(135deg, rgba(11,26,46,0.7) 0%, rgba(11,26,46,0.3) 100%);
+            background: rgba(0,0,0,0.15); /* overlay très léger */
         }
-        .hero-construction .hero__content {
-            position: relative;
+
+        /* Boutons flottants en bas de l'image */
+        .hero-construction .hero__overlay-buttons {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 2;
-            max-width: 780px;
-            padding: 40px 0;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
-        .hero__badge {
-            display: inline-block;
-            background: var(--orange);
-            color: var(--blanc);
-            padding: 6px 20px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: 24px;
+        .hero-construction .hero__overlay-buttons .btn {
+            padding: 14px 36px;
+            font-size: 1rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
         }
-        .hero-construction h1 {
-            font-size: 3.4rem;
-            font-weight: 800;
-            line-height: 1.15;
-            color: var(--blanc);
-            margin-bottom: 16px;
-            text-shadow: 0 4px 30px rgba(0,0,0,0.2);
-        }
-        .hero-construction h1 span { color: var(--jaune); }
-        .hero-construction p {
-            font-size: 1.2rem;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 32px;
-            max-width: 580px;
-            text-shadow: 0 2px 20px rgba(0,0,0,0.15);
-        }
-        .hero__actions { display: flex; flex-wrap: wrap; gap: 16px; }
+        .btn--construction { background: var(--bleu); color: var(--blanc); }
+        .btn--construction:hover { background: var(--bleu-fonce); }
 
         /* ===== SECTIONS ===== */
         .section { padding: 80px 0; }
@@ -351,10 +330,6 @@
         .footer__socials a:hover { background: var(--bleu); transform: translateY(-2px); }
 
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 992px) {
-            .hero-construction h1 { font-size: 2.8rem; }
-            .hero-construction { min-height: 55vh; }
-        }
         @media (max-width: 768px) {
             .header__inner { flex-wrap: wrap; }
             .nav {
@@ -372,16 +347,16 @@
             .nav a { width: 100%; padding: 12px 20px; border-radius: 0; }
             .hamburger { display: flex; }
             .header__actions .btn--primaire { display: none; }
-            .hero-construction { padding-top: 80px; min-height: 60vh; }
-            .hero-construction h1 { font-size: 2.2rem; }
-            .hero-construction p { font-size: 1rem; }
+            .hero-construction { padding-top: 70px; height: 100vh; }
+            .hero-construction .hero__overlay-buttons { bottom: 100px; gap: 12px; }
+            .hero-construction .hero__overlay-buttons .btn { padding: 10px 20px; font-size: 0.85rem; }
             .section { padding: 60px 0; }
             .section__titre h2 { font-size: 2rem; }
             .services-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 480px) {
-            .hero-construction h1 { font-size: 1.8rem; }
-            .hero__actions .btn { width: 100%; justify-content: center; }
+            .hero-construction .hero__overlay-buttons { flex-direction: column; align-items: center; bottom: 120px; }
+            .hero-construction .hero__overlay-buttons .btn { width: 200px; justify-content: center; }
             .mini-gallery { grid-template-columns: 1fr; }
         }
 
@@ -408,29 +383,26 @@
             </a>
             <nav class="nav" id="nav">
                 <a href="index.html">Accueil</a>
-                <a href="index.html#apropos">À propos</a>
                 <a href="construction.html" class="active">Construction</a>
                 <a href="automobile.html">Automobile</a>
-                <a href="index.html#contact">Contact</a>
+                <a href="#contact">Contact</a>
             </nav>
             <div class="header__actions">
-                <a href="index.html#contact" class="btn btn--primaire"><i class="fas fa-file-invoice"></i> Devis</a>
+                <a href="#contact" class="btn btn--primaire"><i class="fas fa-file-invoice"></i> Devis</a>
                 <a href="https://wa.me/22674087512" target="_blank" class="btn btn--whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
                 <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
             </div>
         </div>
     </header>
 
-    <!-- HERO CONSTRUCTION -->
+    <!-- ============================================================ -->
+    <!-- HERO CONSTRUCTION – JUSTE L'IMAGE (sans texte)               -->
+    <!-- ============================================================ -->
     <section class="hero-construction" id="hero">
-        <div class="container hero__content">
-            <span class="hero__badge"><i class="fas fa-hard-hat"></i> DMS CONSTRUCTION</span>
-            <h1>Construire avec <span>expertise</span> et savoir‑faire.</h1>
-            <p>Spécialisée dans les travaux de construction et de réfection de bâtiments, la pose de pavés, la conception de plans, l'établissement de devis, la soudure et bien d'autres prestations.</p>
-            <div class="hero__actions">
-                <a href="#realisations" class="btn btn--blanc"><i class="fas fa-images"></i> Voir nos réalisations</a>
-                <a href="index.html#contact" class="btn btn--secondaire"><i class="fas fa-phone"></i> Demander un devis</a>
-            </div>
+        <!-- Boutons flottants en bas de l'image -->
+        <div class="hero__overlay-buttons">
+            <a href="#prestations" class="btn btn--blanc"><i class="fas fa-cogs"></i> Nos prestations</a>
+            <a href="#contact" class="btn btn--construction"><i class="fas fa-file-invoice"></i> Demander un devis</a>
         </div>
     </section>
 
@@ -556,14 +528,21 @@
         </div>
     </section>
 
-    <!-- APPEL À L'ACTION -->
-    <section class="section section--blanc" style="text-align:center; padding:60px 0;">
+    <!-- APPEL À L'ACTION / CONTACT -->
+    <section class="section section--blanc" id="contact" style="text-align:center; padding:60px 0;">
         <div class="container">
             <h2 style="font-size:2.2rem; font-weight:800; margin-bottom:16px;">Vous avez un <span style="color:var(--bleu);">projet</span> ?</h2>
             <p style="color:var(--gris-moyen); font-size:1.2rem; max-width:600px; margin:0 auto 32px;">Contactez-nous dès maintenant pour un devis gratuit et personnalisé.</p>
-            <a href="index.html#contact" class="btn btn--primaire" style="padding:14px 40px; font-size:1.1rem;">
-                <i class="fas fa-paper-plane"></i> Demander un devis
+            <a href="https://wa.me/22674087512" target="_blank" class="btn btn--whatsapp" style="padding:14px 40px; font-size:1.1rem;">
+                <i class="fab fa-whatsapp"></i> WhatsApp
             </a>
+            <a href="mailto:dmsa6611@gmail.com" class="btn btn--primaire" style="padding:14px 40px; font-size:1.1rem; margin-left:12px;">
+                <i class="fas fa-envelope"></i> Email
+            </a>
+            <div style="margin-top:24px; font-size:1rem; color:var(--gris-moyen);">
+                <p><i class="fas fa-phone-alt"></i> (+226) 76 69 28 69 / 70 18 20 76 / 78 75 78 54</p>
+                <p><i class="fas fa-map-marker-alt"></i> En bas de l'échangeur de Gounghin, non loin de SARAMAYA, Ouagadougou</p>
+            </div>
         </div>
     </section>
 
@@ -580,10 +559,9 @@
                     <h4>Navigation</h4>
                     <ul>
                         <li><a href="index.html">Accueil</a></li>
-                        <li><a href="index.html#apropos">À propos</a></li>
                         <li><a href="construction.html">DMS Construction</a></li>
                         <li><a href="automobile.html">DMS Automobile</a></li>
-                        <li><a href="index.html#contact">Contact</a></li>
+                        <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
                 <div>
