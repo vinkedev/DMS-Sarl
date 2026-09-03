@@ -562,7 +562,7 @@
     <header class="header" id="header">
         <div class="container header__inner">
             <a href="#" class="header__logo">
-                <img src="logo.jpg" alt="Logo DMS" onerror="this.src='https://via.placeholder.com/44?text=DMS'">
+                <img src="DMS/logo.jpg" alt="Logo DMS">
                 <div class="header__logo-text">
                     <strong>DMS</strong>
                     <small>Construction &amp; Automobile</small>
@@ -588,11 +588,11 @@
     <section class="hero" id="hero">
         <div class="hero__carousel">
             <!-- Slide 1 : DMS Général -->
-            <div class="hero__carousel-slide active" style="background-image: url('https://picsum.photos/1200/800?random=1');"></div>
+            <div class="hero__carousel-slide active" style="background-image: url('DMS/acceuil.jpg');"></div>
             <!-- Slide 2 : DMS Construction -->
-            <div class="hero__carousel-slide" style="background-image: url('https://picsum.photos/1200/800?random=2');"></div>
+            <div class="hero__carousel-slide" style="background-image: url('DMS/acceuil_construction.jpg');"></div>
             <!-- Slide 3 : DMS Automobile -->
-            <div class="hero__carousel-slide" style="background-image: url('https://picsum.photos/1200/800?random=3');"></div>
+            <div class="hero__carousel-slide" style="background-image: url('DMS/acceuil_automobile.jpg');"></div>
         </div>
 
         <div class="container hero__content" id="heroContent">
@@ -631,7 +631,7 @@
             </div>
             <div class="apropos">
                 <div class="apropos__image">
-                    <img src="apropos.jpeg" alt="DMS" onerror="this.src='https://picsum.photos/600/400?random=4'">
+                    <img src="DMS/apropos.jpeg" alt="DMS">
                 </div>
                 <div class="apropos__texte">
                     <h3>Deux expertises. Une même exigence.</h3>
@@ -836,14 +836,13 @@
                 });
             });
 
-            // --- CAROUSEL ---
+            // --- CAROUSEL (3 secondes) ---
             const slides = document.querySelectorAll('.hero__carousel-slide');
             const dots = document.querySelectorAll('.hero__carousel-dots button');
             const heroContent = document.getElementById('heroContent');
             let currentIndex = 0;
             let interval;
 
-            // Contenu des slides
             const slideData = [{
                 badge: 'DMS — Groupe',
                 title: 'Des solutions pour <span>construire, équiper</span> et avancer.',
@@ -884,15 +883,12 @@
             }
 
             function goToSlide(index) {
-                // Mettre à jour les slides
                 slides.forEach(function(slide, i) {
                     slide.classList.toggle('active', i === index);
                 });
-                // Mettre à jour les dots
                 dots.forEach(function(dot, i) {
                     dot.classList.toggle('active', i === index);
                 });
-                // Mettre à jour le texte
                 updateContent(index);
                 currentIndex = index;
             }
@@ -904,42 +900,34 @@
 
             function startCarousel() {
                 if (interval) clearInterval(interval);
-                interval = setInterval(nextSlide, 3000); // 3 secondes
+                interval = setInterval(nextSlide, 3000);
             }
 
-            // Gestion des clics sur les dots
             dots.forEach(function(dot) {
                 dot.addEventListener('click', function() {
                     const index = parseInt(this.dataset.index, 10);
                     goToSlide(index);
-                    startCarousel(); // Réinitialise le timer
+                    startCarousel();
                 });
             });
 
-            // Pause au survol (optionnel)
             const hero = document.querySelector('.hero');
             hero.addEventListener('mouseenter', function() {
                 if (interval) clearInterval(interval);
             });
             hero.addEventListener('mouseleave', startCarousel);
 
-            // Démarrer
             goToSlide(0);
             startCarousel();
 
             // --- GALERIE ---
             const galleryData = [
                 { id: 1, titre: 'Villa moderne R+1', lieu: 'Ouagadougou', duree: '6 mois', category: 'btp', icon: '🏠' },
-                { id: 2, titre: 'Charpente métallique - Hangar', lieu: 'Gounghin', duree: '3 mois', category: 'soudure',
-                    icon: '🔩' },
-                { id: 3, titre: 'Immeuble administratif R+2', lieu: 'Zone des ambassades', duree: '10 mois',
-                    category: 'batiment', icon: '🏢' },
-                { id: 4, titre: 'Escalier & garde-corps sur-mesure', lieu: 'Résidence privée', duree: '2 mois',
-                    category: 'soudure', icon: '🪜' },
-                { id: 5, titre: 'Bâtiment scolaire', lieu: 'Koudougou', duree: '8 mois', category: 'batiment',
-                    icon: '📚' },
-                { id: 6, titre: 'Voirie & assainissement', lieu: 'Bobo-Dioulasso', duree: '5 mois', category: 'btp',
-                    icon: '🛣️' }
+                { id: 2, titre: 'Charpente métallique - Hangar', lieu: 'Gounghin', duree: '3 mois', category: 'soudure', icon: '🔩' },
+                { id: 3, titre: 'Immeuble administratif R+2', lieu: 'Zone des ambassades', duree: '10 mois', category: 'batiment', icon: '🏢' },
+                { id: 4, titre: 'Escalier & garde-corps sur-mesure', lieu: 'Résidence privée', duree: '2 mois', category: 'soudure', icon: '🪜' },
+                { id: 5, titre: 'Bâtiment scolaire', lieu: 'Koudougou', duree: '8 mois', category: 'batiment', icon: '📚' },
+                { id: 6, titre: 'Voirie & assainissement', lieu: 'Bobo-Dioulasso', duree: '5 mois', category: 'btp', icon: '🛣️' }
             ];
 
             const galleryGrid = document.getElementById('galleryGrid');
@@ -974,14 +962,10 @@
 
             // --- CATALOGUE ---
             const catalogueData = [
-                { id: 1, nom: 'Motoculteur BCS 740', annee: '2024', carburant: 'Diesel', puissance: '12 CV',
-                    etat: 'Neuf', statut: 'disponible', icon: '🚜' },
-                { id: 2, nom: 'Camionnette Renault Master', annee: '2023', carburant: 'Diesel', puissance: '130 CV',
-                    etat: 'Très bon état', statut: 'disponible', icon: '🚐' },
-                { id: 3, nom: 'Tracteur Massey Ferguson 375', annee: '2022', carburant: 'Diesel', puissance: '75 CV',
-                    etat: 'Révisé', statut: 'commande', icon: '🚜' },
-                { id: 4, nom: '4x4 Toyota Hilux', annee: '2023', carburant: 'Essence', puissance: '150 CV',
-                    etat: 'Neuf', statut: 'disponible', icon: '🚙' }
+                { id: 1, nom: 'Motoculteur BCS 740', annee: '2024', carburant: 'Diesel', puissance: '12 CV', etat: 'Neuf', statut: 'disponible', icon: '🚜' },
+                { id: 2, nom: 'Camionnette Renault Master', annee: '2023', carburant: 'Diesel', puissance: '130 CV', etat: 'Très bon état', statut: 'disponible', icon: '🚐' },
+                { id: 3, nom: 'Tracteur Massey Ferguson 375', annee: '2022', carburant: 'Diesel', puissance: '75 CV', etat: 'Révisé', statut: 'commande', icon: '🚜' },
+                { id: 4, nom: '4x4 Toyota Hilux', annee: '2023', carburant: 'Essence', puissance: '150 CV', etat: 'Neuf', statut: 'disponible', icon: '🚙' }
             ];
 
             const catalogueGrid = document.getElementById('catalogueGrid');
@@ -1030,7 +1014,6 @@
                     });
                 }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
                 reveals.forEach(function(el) { observer.observe(el); });
-                // Forcer l'affichage si déjà visible
                 setTimeout(function() {
                     reveals.forEach(function(el) {
                         if (el.getBoundingClientRect().top < window.innerHeight) {
