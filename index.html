@@ -622,33 +622,39 @@
         </div>
     </section>
 
-    <!-- À PROPOS -->
+    <!-- ===== SECTION À PROPOS MODIFIÉE ===== -->
     <section class="section section--blanc" id="apropos">
         <div class="container">
             <div class="section__titre">
                 <h2>À propos de <span>DMS</span></h2>
-                <p>Une entreprise, plusieurs domaines d'expertise.</p>
+                <p>Une entreprise polyvalente, des expertises variées.</p>
             </div>
             <div class="apropos">
                 <div class="apropos__image">
                     <img src="DMS/apropos.jpeg" alt="DMS">
                 </div>
                 <div class="apropos__texte">
-                    <h3>Deux expertises. Une même exigence.</h3>
-                    <p>DMS accompagne ses clients à travers deux domaines d'activité : la <strong>construction</strong> et l'<strong>automobile</strong>. Nous mettons notre savoir-faire et notre rigueur au service de vos projets, du BTP à la vente de véhicules et d'équipements agricoles.</p>
-                    <p>Votre satisfaction est notre priorité. Que vous ayez besoin de construire, rénover, ou acquérir un véhicule ou une machine agricole, DMS est votre partenaire de confiance.</p>
+                    <!-- Nouveau titre plus général -->
+                    <h3>Des savoir-faire multiples pour vos projets.</h3>
+                    <!-- Texte recentré sur la polyvalence -->
+                    <p>
+                        <strong>DMS</strong> est une entreprise dynamique active dans de nombreux secteurs : la <strong>construction (BTP)</strong>, la <strong>vente de véhicules</strong> neufs et d'occasion, les <strong>machines agricoles</strong>, la <strong>soudure</strong>, ainsi que diverses autres prestations adaptées aux besoins de ses clients.
+                    </p>
+                    <p>
+                        Nous mettons notre expérience et notre rigueur au service de vos projets, qu'il s'agisse de construire un bâtiment, d'acquérir un véhicule ou de réaliser des ouvrages métalliques sur-mesure. Votre satisfaction est notre priorité.
+                    </p>
                     <div class="apropos__chiffres">
                         <div><strong>50+</strong><span>Projets réalisés</span></div>
                         <div><strong>100+</strong><span>Clients satisfaits</span></div>
                         <div><strong>10 ans</strong><span>D'expérience</span></div>
-                        <div><strong>2</strong><span>Domaines d'activité</span></div>
+                        <div><strong>4+</strong><span>Domaines d'activité</span></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- NOS DOMAINES -->
+    <!-- NOS DOMAINES (on garde les deux pôles bien identifiés ici) -->
     <section class="section section--gris" id="poles">
         <div class="container">
             <div class="section__titre">
@@ -900,6 +906,7 @@
 
             function startCarousel() {
                 if (interval) clearInterval(interval);
+                // DÉLAI BIEN RÉGLÉ À 3000 ms (3 secondes)
                 interval = setInterval(nextSlide, 3000);
             }
 
