@@ -19,6 +19,7 @@
             --orange: #F2994A;
             --jaune: #F2C94C;
             --shadow: 0 10px 40px rgba(0,0,0,0.08);
+            --shadow-premium: 0 8px 30px rgba(0,115,230,0.15);
             --radius: 16px;
             --font: 'Inter', sans-serif;
         }
@@ -79,10 +80,22 @@
             font-weight: 700;
             color: var(--bleu);
         }
+        /* ===== LOGO AVEC BORDER PREMIUM ===== */
         .header__logo img {
-            height: 44px;
+            height: 50px;
             width: auto;
             object-fit: contain;
+            border-radius: 12px;
+            border: 2px solid rgba(0,115,230,0.3);
+            padding: 4px;
+            background: white;
+            box-shadow: var(--shadow-premium);
+            transition: 0.3s;
+        }
+        .header__logo img:hover {
+            border-color: var(--orange);
+            box-shadow: 0 8px 35px rgba(242,153,74,0.25);
+            transform: scale(1.02);
         }
         .header__logo-text strong { font-size: 1.15rem; font-weight: 800; }
         .header__logo-text small { font-size: 0.65rem; font-weight: 500; color: var(--gris-moyen); text-transform: uppercase; display: block; }
@@ -133,7 +146,6 @@
         /* ===== HERO CAROUSEL ===== */
         .hero {
             padding-top: 80px;
-            /* HAUTEUR RÉDUITE : 100vh → 80vh */
             min-height: 80vh;
             display: flex;
             align-items: center;
@@ -306,7 +318,7 @@
         .btn--accent { background: var(--orange); color: var(--blanc); }
         .btn--accent:hover { background: #e0843a; }
 
-        /* ===== POURQUOI (3 items seulement) ===== */
+        /* ===== POURQUOI (3 items) ===== */
         .pourquoi {
             background: var(--bleu);
             color: var(--blanc);
@@ -564,7 +576,7 @@
     <!-- HEADER -->
     <header class="header" id="header">
         <div class="container header__inner">
-            <a href="#" class="header__logo">
+            <a href="index.html" class="header__logo">
                 <img src="DMS/logo.jpg" alt="Logo DMS">
                 <div class="header__logo-text">
                     <strong>DMS</strong>
@@ -572,15 +584,14 @@
                 </div>
             </a>
             <nav class="nav" id="nav">
-                <a href="#hero" class="active">Accueil</a>
-                <a href="#apropos">À propos</a>
-                <a href="#poles">Nos domaines</a>
-                <a href="#gallery">Réalisations</a>
-                <a href="#catalogue">Véhicules</a>
-                <a href="#contact">Contact</a>
+                <a href="index.html" class="active">Accueil</a>
+                <a href="index.html#apropos">À propos</a>
+                <a href="construction.html">Construction</a>
+                <a href="automobile.html">Automobile</a>
+                <a href="index.html#contact">Contact</a>
             </nav>
             <div class="header__actions">
-                <a href="#contact" class="btn btn--primaire"><i class="fas fa-file-invoice"></i> Devis</a>
+                <a href="index.html#contact" class="btn btn--primaire"><i class="fas fa-file-invoice"></i> Devis</a>
                 <a href="https://wa.me/22674087512" target="_blank" class="btn btn--whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
                 <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
             </div>
@@ -590,11 +601,8 @@
     <!-- HERO CAROUSEL -->
     <section class="hero" id="hero">
         <div class="hero__carousel">
-            <!-- Slide 1 : DMS Général -->
             <div class="hero__carousel-slide active" style="background-image: url('DMS/acceuil.jpg');"></div>
-            <!-- Slide 2 : DMS Construction -->
             <div class="hero__carousel-slide" style="background-image: url('DMS/acceuil_construction.jpg');"></div>
-            <!-- Slide 3 : DMS Automobile -->
             <div class="hero__carousel-slide" style="background-image: url('DMS/acceuil_automobile.jpg');"></div>
         </div>
 
@@ -603,8 +611,8 @@
             <h1>Des solutions pour <span>construire, équiper</span> et avancer.</h1>
             <p>Entreprise active dans plusieurs domaines : BTP, vente de véhicules, machines agricoles, soudure et diverses autres prestations.</p>
             <div class="hero__actions">
-                <a href="#apropos" class="btn btn--blanc"><i class="fas fa-info-circle"></i> Découvrir DMS</a>
-                <a href="#contact" class="btn btn--secondaire"><i class="fas fa-phone"></i> Nous contacter</a>
+                <a href="index.html#apropos" class="btn btn--blanc"><i class="fas fa-info-circle"></i> Découvrir DMS</a>
+                <a href="index.html#contact" class="btn btn--secondaire"><i class="fas fa-phone"></i> Nous contacter</a>
             </div>
         </div>
 
@@ -638,12 +646,8 @@
                 </div>
                 <div class="apropos__texte">
                     <h3>Des savoir-faire multiples pour vos projets.</h3>
-                    <p>
-                        <strong>DMS</strong> est une entreprise dynamique active dans de nombreux secteurs : la <strong>construction (BTP)</strong>, la <strong>vente de véhicules</strong> neufs et d'occasion, les <strong>machines agricoles</strong>, la <strong>soudure</strong>, ainsi que diverses autres prestations adaptées aux besoins de ses clients.
-                    </p>
-                    <p>
-                        Nous mettons notre expérience et notre rigueur au service de vos projets, qu'il s'agisse de construire un bâtiment, d'acquérir un véhicule ou de réaliser des ouvrages métalliques sur-mesure. Votre satisfaction est notre priorité.
-                    </p>
+                    <p><strong>DMS</strong> est une entreprise dynamique active dans de nombreux secteurs : la <strong>construction (BTP)</strong>, la <strong>vente de véhicules</strong> neufs et d'occasion, les <strong>machines agricoles</strong>, la <strong>soudure</strong>, ainsi que diverses autres prestations adaptées aux besoins de ses clients.</p>
+                    <p>Nous mettons notre expérience et notre rigueur au service de vos projets, qu'il s'agisse de construire un bâtiment, d'acquérir un véhicule ou de réaliser des ouvrages métalliques sur-mesure. Votre satisfaction est notre priorité.</p>
                     <div class="apropos__chiffres">
                         <div><strong>50+</strong><span>Projets réalisés</span></div>
                         <div><strong>100+</strong><span>Clients satisfaits</span></div>
@@ -667,19 +671,19 @@
                     <span class="pole__icon">🏗️</span>
                     <h3>DMS Construction</h3>
                     <p>Construction, réfection, pose de pavés, conception de plans, devis, soudure et autres prestations.<br><strong>Votre projet, notre engagement.</strong></p>
-                    <a href="#gallery" class="btn btn--primaire">Voir nos services</a>
+                    <a href="construction.html" class="btn btn--primaire">Découvrir</a>
                 </div>
                 <div class="pole pole--auto reveal">
                     <span class="pole__icon">🚗</span>
                     <h3>DMS Automobile</h3>
                     <p>Vente et distribution de véhicules neufs et d'occasion, machines agricoles et autres équipements.<br><strong>La satisfaction du client au cœur de nos priorités.</strong></p>
-                    <a href="#catalogue" class="btn btn--accent">Découvrir nos offres</a>
+                    <a href="automobile.html" class="btn btn--accent">Découvrir</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== POURQUOI DMS (3 ITEMS UNIQUEMENT) ===== -->
+    <!-- POURQUOI DMS (3 items) -->
     <section class="pourquoi">
         <div class="container">
             <div class="section__titre section__titre--blanc">
@@ -788,12 +792,11 @@
                 <div>
                     <h4>Navigation</h4>
                     <ul>
-                        <li><a href="#hero">Accueil</a></li>
-                        <li><a href="#apropos">À propos</a></li>
-                        <li><a href="#poles">Nos domaines</a></li>
-                        <li><a href="#gallery">Réalisations</a></li>
-                        <li><a href="#catalogue">Véhicules</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="index.html#apropos">À propos</a></li>
+                        <li><a href="construction.html">DMS Construction</a></li>
+                        <li><a href="automobile.html">DMS Automobile</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
                     </ul>
                 </div>
                 <div>
@@ -865,25 +868,25 @@
                 title: 'Des solutions pour <span>construire, équiper</span> et avancer.',
                 desc: 'Entreprise active dans plusieurs domaines : BTP, vente de véhicules, machines agricoles, soudure et diverses autres prestations.',
                 btn1: 'Découvrir DMS',
-                btn1Link: '#apropos',
+                btn1Link: 'index.html#apropos',
                 btn2: 'Nous contacter',
-                btn2Link: '#contact'
+                btn2Link: 'index.html#contact'
             }, {
                 badge: 'DMS CONSTRUCTION',
                 title: 'Construire avec <span>expertise</span> et savoir‑faire.',
                 desc: 'Spécialisée dans les travaux de construction et de réfection de bâtiments, la pose de pavés, la conception de plans, l\'établissement de devis, la soudure et bien d\'autres prestations.',
                 btn1: 'Découvrir DMS Construction',
-                btn1Link: '#gallery',
+                btn1Link: 'construction.html',
                 btn2: 'Demander un devis',
-                btn2Link: '#contact'
+                btn2Link: 'index.html#contact'
             }, {
                 badge: 'DMS AUTOMOBILE',
                 title: 'Des solutions automobiles <span>adaptées</span> à vos besoins.',
                 desc: 'Spécialisée dans la vente et la distribution de véhicules neufs et d\'occasion, ainsi que dans les machines et équipements agricoles et divers autres articles.',
                 btn1: 'Découvrir DMS Automobile',
-                btn1Link: '#catalogue',
+                btn1Link: 'automobile.html',
                 btn2: 'Nous contacter',
-                btn2Link: '#contact'
+                btn2Link: 'index.html#contact'
             }];
 
             function updateContent(index) {
@@ -917,21 +920,16 @@
 
             function startCarousel() {
                 if (interval) clearInterval(interval);
-                // Défilement toutes les 3 secondes (3000 ms)
                 interval = setInterval(nextSlide, 3000);
             }
 
-            // Clic sur les dots : on change la slide et on relance le timer
             dots.forEach(function(dot) {
                 dot.addEventListener('click', function() {
                     const index = parseInt(this.dataset.index, 10);
                     goToSlide(index);
-                    startCarousel(); // réinitialise le compte à rebours
+                    startCarousel();
                 });
             });
-
-            // SUPPRESSION de la pause au survol (mouseenter/mouseleave)
-            // Le carrousel tourne désormais en continu, même si la souris passe dessus.
 
             goToSlide(0);
             startCarousel();
