@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DMS — Construction &amp; Automobile</title>
+    <title>DMS Construction — BTP • Métallerie • Devis</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
@@ -49,12 +49,10 @@
             box-shadow: 0 4px 16px rgba(0,0,0,0.08);
         }
         .btn--blanc:hover { background: var(--gris-clair); transform: translateY(-2px); }
-        .btn--secondaire {
-            background: transparent;
-            color: var(--blanc);
-            border: 2px solid rgba(255,255,255,0.4);
-        }
-        .btn--secondaire:hover { background: rgba(255,255,255,0.1); }
+        .btn--primaire { background: var(--bleu); color: var(--blanc); }
+        .btn--primaire:hover { background: var(--bleu-fonce); }
+        .btn--whatsapp { background: #25D366; color: var(--blanc); }
+        .btn--whatsapp:hover { background: #1da851; }
 
         /* ===== HEADER ===== */
         .header {
@@ -80,7 +78,6 @@
             font-weight: 700;
             color: var(--bleu);
         }
-        /* ===== LOGO AVEC BORDER PREMIUM ===== */
         .header__logo img {
             height: 50px;
             width: auto;
@@ -123,8 +120,6 @@
             gap: 10px;
         }
         .header__actions .btn { padding: 8px 20px; font-size: 0.85rem; }
-        .btn--whatsapp { background: #25D366; color: var(--blanc); }
-        .btn--whatsapp:hover { background: #1da851; }
         .hamburger {
             display: none;
             flex-direction: column;
@@ -143,112 +138,45 @@
             transition: 0.3s;
         }
 
-        /* ===== HERO CAROUSEL ===== */
-        .hero {
-            padding-top: 80px;
-            min-height: 80vh;
+        /* ===== HERO CONSTRUCTION – HAUTEUR RÉDUITE ===== */
+        .hero-construction {
+            padding-top: 70px;
+            min-height: 55vh; /* ← HAUTEUR RÉDUITE (au lieu de 100vh) */
             display: flex;
             align-items: center;
+            justify-content: center;
             position: relative;
             overflow: hidden;
-        }
-        .hero__carousel {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-        }
-        .hero__carousel-slide {
-            position: absolute;
-            inset: 0;
+            background-image: url('DMS/acceuil_construction.jpg');
             background-size: cover;
             background-position: center;
-            opacity: 0;
-            transition: opacity 1s ease;
         }
-        .hero__carousel-slide.active { opacity: 1; }
-        .hero__carousel-slide::after {
+        .hero-construction::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: rgba(11,26,46,0.6);
-            background: linear-gradient(135deg, rgba(11,26,46,0.7) 0%, rgba(11,26,46,0.3) 100%);
+            background: rgba(0,0,0,0.15);
         }
 
-        .hero__content {
-            position: relative;
-            z-index: 2;
-            max-width: 780px;
-            padding: 40px 0;
-        }
-        .hero__badge {
-            display: inline-block;
-            background: var(--orange);
-            color: var(--blanc);
-            padding: 6px 20px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: 24px;
-        }
-        .hero h1 {
-            font-size: 3.4rem;
-            font-weight: 800;
-            line-height: 1.15;
-            color: var(--blanc);
-            margin-bottom: 16px;
-            text-shadow: 0 4px 30px rgba(0,0,0,0.2);
-        }
-        .hero h1 span { color: var(--jaune); }
-        .hero p {
-            font-size: 1.2rem;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 32px;
-            max-width: 580px;
-            text-shadow: 0 2px 20px rgba(0,0,0,0.15);
-        }
-        .hero__actions { display: flex; flex-wrap: wrap; gap: 16px; }
-
-        .hero__carousel-dots {
+        /* Boutons flottants en bas de l'image */
+        .hero-construction .hero__overlay-buttons {
             position: absolute;
-            bottom: 32px;
+            bottom: 40px; /* ← remonté car l'image est moins haute */
             left: 50%;
             transform: translateX(-50%);
-            z-index: 3;
+            z-index: 2;
             display: flex;
-            gap: 12px;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
-        .hero__carousel-dots button {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.5);
-            background: transparent;
-            cursor: pointer;
-            transition: 0.3s;
-            padding: 0;
+        .hero-construction .hero__overlay-buttons .btn {
+            padding: 12px 30px;
+            font-size: 0.95rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
         }
-        .hero__carousel-dots button.active {
-            background: var(--blanc);
-            border-color: var(--blanc);
-            transform: scale(1.25);
-        }
-
-        /* ===== STATS ===== */
-        .stats {
-            background: var(--bleu);
-            color: var(--blanc);
-            padding: 48px 0;
-        }
-        .stats__grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
-            gap: 24px;
-            text-align: center;
-        }
-        .stats__item h3 { font-size: 2.4rem; font-weight: 800; }
-        .stats__item p { opacity: 0.85; margin-top: 4px; font-weight: 500; }
+        .btn--construction { background: var(--bleu); color: var(--blanc); }
+        .btn--construction:hover { background: var(--bleu-fonce); }
 
         /* ===== SECTIONS ===== */
         .section { padding: 80px 0; }
@@ -268,212 +196,94 @@
         .section__titre h2 span { color: var(--bleu); }
         .section__titre p { color: var(--gris-moyen); font-size: 1.1rem; }
 
-        /* ===== À PROPOS ===== */
-        .apropos {
+        /* ===== SERVICES ===== */
+        .services-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
         }
-        .apropos__image img {
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-        }
-        .apropos__texte h3 { font-size: 1.8rem; font-weight: 700; margin-bottom: 16px; }
-        .apropos__texte p { color: var(--gris-moyen); font-size: 1.05rem; line-height: 1.7; margin-bottom: 16px; }
-        .apropos__chiffres {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px,1fr));
-            gap: 20px;
-            margin-top: 24px;
-        }
-        .apropos__chiffres strong { display: block; font-size: 2rem; font-weight: 800; color: var(--bleu); }
-        .apropos__chiffres span { font-size: 0.9rem; color: var(--gris-moyen); font-weight: 500; }
-
-        /* ===== PÔLES ===== */
-        .poles {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-        .pole {
+        .service-card {
             background: var(--blanc);
+            padding: 30px 24px;
             border-radius: var(--radius);
-            padding: 40px 32px;
             box-shadow: var(--shadow);
-            transition: 0.3s;
-            border-top: 6px solid var(--bleu);
             text-align: center;
+            border-left: 4px solid var(--bleu);
+            transition: 0.3s;
         }
-        .pole:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.12); }
-        .pole--auto { border-top-color: var(--orange); }
-        .pole__icon { font-size: 3.2rem; margin-bottom: 16px; display: block; }
-        .pole h3 { font-size: 1.6rem; font-weight: 700; margin-bottom: 10px; }
-        .pole p { color: var(--gris-moyen); margin-bottom: 20px; }
-        .btn--primaire { background: var(--bleu); color: var(--blanc); }
-        .btn--primaire:hover { background: var(--bleu-fonce); }
-        .btn--accent { background: var(--orange); color: var(--blanc); }
-        .btn--accent:hover { background: #e0843a; }
-
-        /* ===== POURQUOI (3 items) ===== */
-        .pourquoi {
-            background: var(--bleu);
-            color: var(--blanc);
-            padding: 80px 0;
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-premium);
         }
-        .pourquoi__grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            margin-top: 20px;
+        .service-card i {
+            font-size: 2.8rem;
+            color: var(--bleu);
+            margin-bottom: 12px;
+            display: block;
         }
-        .pourquoi__item { text-align: center; padding: 16px; }
-        .pourquoi__item i { font-size: 2.8rem; color: var(--jaune); margin-bottom: 16px; display: block; }
-        .pourquoi__item h4 { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
-        .pourquoi__item p { opacity: 0.85; }
+        .service-card h4 { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
+        .service-card p { color: var(--gris-moyen); font-size: 0.95rem; }
 
         /* ===== GALERIE ===== */
-        .gallery__filters {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 36px;
+        .mini-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
         }
-        .gallery__filters button {
-            padding: 8px 24px;
-            border-radius: 40px;
-            border: 2px solid #E2E8F0;
-            background: transparent;
-            color: var(--gris-moyen);
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
+        .mini-gallery .gallery-item {
+            background: #e9edf5;
+            border-radius: var(--radius);
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--bleu);
+            box-shadow: var(--shadow);
             transition: 0.3s;
         }
-        .gallery__filters button.active,
-        .gallery__filters button:hover {
-            background: var(--bleu);
-            color: var(--blanc);
-            border-color: var(--bleu);
-        }
-        .gallery__grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
-            gap: 28px;
-        }
-        .gallery__card {
-            background: var(--blanc);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            border: 1px solid #E2E8F0;
-        }
-        .gallery__card-img {
-            height: 200px;
-            background: #e9edf5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.4rem;
-        }
-        .gallery__card-body { padding: 20px 22px 22px; }
-        .gallery__card-body h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
-        .gallery__card-body p { color: var(--gris-moyen); font-size: 0.9rem; }
-        .gallery__card-body .tag {
-            display: inline-block;
-            background: var(--gris-clair);
-            padding: 3px 14px;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: var(--bleu);
-            margin-top: 10px;
-            text-transform: uppercase;
+        .mini-gallery .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: var(--shadow-premium);
         }
 
-        /* ===== CATALOGUE ===== */
-        .catalogue__grid {
+        /* ===== AVANTAGES ===== */
+        .avantages-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .avantage-item {
+            text-align: center;
+            padding: 20px;
+        }
+        .avantage-item i {
+            font-size: 2.8rem;
+            color: var(--bleu);
+            margin-bottom: 12px;
+            display: block;
+        }
+        .avantage-item h4 { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
+        .avantage-item p { color: var(--gris-moyen); font-size: 0.95rem; }
+
+        /* ===== TEMOIGNAGES ===== */
+        .temoignages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
         }
-        .catalogue__card {
+        .temoignage {
             background: var(--blanc);
+            padding: 24px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            overflow: hidden;
-            border: 1px solid #E2E8F0;
+            border-top: 4px solid var(--orange);
         }
-        .catalogue__card-img {
-            height: 170px;
-            background: #edf0f5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.8rem;
-        }
-        .catalogue__card-body { padding: 18px 20px 22px; }
-        .catalogue__card-body h4 { font-size: 1.05rem; font-weight: 700; }
-        .catalogue__card-body .specs {
-            font-size: 0.85rem;
-            color: var(--gris-moyen);
-            margin: 8px 0 12px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px 12px;
-        }
-        .catalogue__card-body .specs span {
-            background: var(--gris-clair);
-            padding: 2px 12px;
-            border-radius: 40px;
-        }
-        .statut {
-            display: inline-block;
-            padding: 3px 16px;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-        }
-        .statut--dispo { background: #DCFCE7; color: #166534; }
-        .statut--commande { background: #FEF3C7; color: #92400E; }
-        .catalogue__card-body .btn { width: 100%; justify-content: center; }
-
-        /* ===== CONTACT ===== */
-        .contact__grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-        }
-        .contact__infos h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; }
-        .contact__infos ul { list-style: none; margin-bottom: 20px; }
-        .contact__infos ul li { padding: 8px 0; display: flex; align-items: center; gap: 12px; color: var(--gris-moyen); }
-        .contact__infos ul li i { width: 24px; color: var(--bleu); font-size: 1.2rem; }
-        .contact__form input,
-        .contact__form textarea,
-        .contact__form select {
-            width: 100%;
-            padding: 12px 16px;
-            border-radius: 12px;
-            border: 1px solid #E2E8F0;
-            font-family: inherit;
-            font-size: 1rem;
-            margin-bottom: 14px;
-            background: var(--blanc);
-        }
-        .contact__form input:focus,
-        .contact__form textarea:focus,
-        .contact__form select:focus {
-            outline: none;
-            border-color: var(--bleu);
-            box-shadow: 0 0 0 3px rgba(0,115,230,0.1);
-        }
-        .contact__form textarea { min-height: 130px; resize: vertical; }
+        .temoignage .stars { color: var(--orange); margin-bottom: 8px; }
+        .temoignage p { font-style: italic; color: var(--gris-moyen); margin-bottom: 12px; }
+        .temoignage .author { font-weight: 600; color: var(--gris-texte); }
 
         /* ===== FOOTER ===== */
         .footer {
@@ -520,12 +330,6 @@
         .footer__socials a:hover { background: var(--bleu); transform: translateY(-2px); }
 
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 992px) {
-            .hero h1 { font-size: 2.8rem; }
-            .apropos { grid-template-columns: 1fr; }
-            .contact__grid { grid-template-columns: 1fr; }
-            .pourquoi__grid { grid-template-columns: 1fr 1fr; }
-        }
         @media (max-width: 768px) {
             .header__inner { flex-wrap: wrap; }
             .nav {
@@ -543,23 +347,17 @@
             .nav a { width: 100%; padding: 12px 20px; border-radius: 0; }
             .hamburger { display: flex; }
             .header__actions .btn--primaire { display: none; }
-            .hero { padding-top: 80px; min-height: 70vh; }
-            .hero h1 { font-size: 2.2rem; }
-            .hero p { font-size: 1rem; }
+            .hero-construction { padding-top: 70px; min-height: 45vh; }
+            .hero-construction .hero__overlay-buttons { bottom: 30px; gap: 12px; }
+            .hero-construction .hero__overlay-buttons .btn { padding: 10px 20px; font-size: 0.85rem; }
             .section { padding: 60px 0; }
             .section__titre h2 { font-size: 2rem; }
-            .stats__grid { grid-template-columns: 1fr 1fr; }
-            .stats__item h3 { font-size: 1.8rem; }
-            .poles { grid-template-columns: 1fr; }
-            .footer__grid { grid-template-columns: 1fr; }
-            .pourquoi__grid { grid-template-columns: 1fr; }
+            .services-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 480px) {
-            .stats__grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 1.8rem; }
-            .hero__actions .btn { width: 100%; justify-content: center; }
-            .gallery__grid, .catalogue__grid { grid-template-columns: 1fr; }
-            .apropos__chiffres { grid-template-columns: 1fr 1fr; }
+            .hero-construction .hero__overlay-buttons { flex-direction: column; align-items: center; bottom: 40px; }
+            .hero-construction .hero__overlay-buttons .btn { width: 180px; justify-content: center; }
+            .mini-gallery { grid-template-columns: 1fr; }
         }
 
         /* ===== REVEAL ===== */
@@ -584,198 +382,165 @@
                 </div>
             </a>
             <nav class="nav" id="nav">
-                <a href="index.html" class="active">Accueil</a>
-                <a href="index.html#apropos">À propos</a>
-                <a href="construction.html">Construction</a>
+                <a href="index.html">Accueil</a>
+                <a href="construction.html" class="active">Construction</a>
                 <a href="automobile.html">Automobile</a>
-                <a href="index.html#contact">Contact</a>
+                <a href="#contact">Contact</a>
             </nav>
             <div class="header__actions">
-                <a href="index.html#contact" class="btn btn--primaire"><i class="fas fa-file-invoice"></i> Devis</a>
+                <a href="#contact" class="btn btn--primaire"><i class="fas fa-file-invoice"></i> Devis</a>
                 <a href="https://wa.me/22674087512" target="_blank" class="btn btn--whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
                 <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
             </div>
         </div>
     </header>
 
-    <!-- HERO CAROUSEL -->
-    <section class="hero" id="hero">
-        <div class="hero__carousel">
-            <div class="hero__carousel-slide active" style="background-image: url('DMS/acceuil.jpg');"></div>
-            <div class="hero__carousel-slide" style="background-image: url('DMS/acceuil_construction.jpg');"></div>
-            <div class="hero__carousel-slide" style="background-image: url('DMS/acceuil_automobile.jpg');"></div>
-        </div>
-
-        <div class="container hero__content" id="heroContent">
-            <span class="hero__badge"><i class="fas fa-building"></i> DMS — Groupe</span>
-            <h1>Des solutions pour <span>construire, équiper</span> et avancer.</h1>
-            <p>Entreprise active dans plusieurs domaines : BTP, vente de véhicules, machines agricoles, soudure et diverses autres prestations.</p>
-            <div class="hero__actions">
-                <a href="index.html#apropos" class="btn btn--blanc"><i class="fas fa-info-circle"></i> Découvrir DMS</a>
-                <a href="index.html#contact" class="btn btn--secondaire"><i class="fas fa-phone"></i> Nous contacter</a>
-            </div>
-        </div>
-
-        <div class="hero__carousel-dots">
-            <button class="active" data-index="0"></button>
-            <button data-index="1"></button>
-            <button data-index="2"></button>
+    <!-- ============================================================ -->
+    <!-- HERO CONSTRUCTION – IMAGE SEULEMENT (hauteur réduite)        -->
+    <!-- ============================================================ -->
+    <section class="hero-construction" id="hero">
+        <div class="hero__overlay-buttons">
+            <a href="#prestations" class="btn btn--blanc"><i class="fas fa-cogs"></i> Nos prestations</a>
+            <a href="#contact" class="btn btn--construction"><i class="fas fa-file-invoice"></i> Demander un devis</a>
         </div>
     </section>
 
-    <!-- STATS -->
-    <section class="stats">
-        <div class="container stats__grid">
-            <div class="stats__item"><h3>+10 ans</h3><p>d'expérience</p></div>
-            <div class="stats__item"><h3>+50</h3><p>Chantiers livrés</p></div>
-            <div class="stats__item"><h3>+100</h3><p>Véhicules &amp; machines vendus</p></div>
-            <div class="stats__item"><h3>🌍</h3><p>Intervention toute région</p></div>
-        </div>
-    </section>
-
-    <!-- À PROPOS -->
-    <section class="section section--blanc" id="apropos">
+    <!-- NOS PRESTATIONS -->
+    <section class="section section--blanc" id="prestations">
         <div class="container">
             <div class="section__titre">
-                <h2>À propos de <span>DMS</span></h2>
-                <p>Une entreprise polyvalente, des expertises variées.</p>
+                <h2>Nos <span>prestations</span> en construction</h2>
+                <p>Des services complets pour concrétiser vos projets.</p>
             </div>
-            <div class="apropos">
-                <div class="apropos__image">
-                    <img src="DMS/apropos.jpeg" alt="DMS">
+            <div class="services-grid">
+                <div class="service-card reveal">
+                    <i class="fas fa-building"></i>
+                    <h4>Construction de bâtiments</h4>
+                    <p>Villas, immeubles R+1/R+2, bâtiments scolaires, génie civil et aménagements intérieurs.</p>
                 </div>
-                <div class="apropos__texte">
-                    <h3>Des savoir-faire multiples pour vos projets.</h3>
-                    <p><strong>DMS</strong> est une entreprise dynamique active dans de nombreux secteurs : la <strong>construction (BTP)</strong>, la <strong>vente de véhicules</strong> neufs et d'occasion, les <strong>machines agricoles</strong>, la <strong>soudure</strong>, ainsi que diverses autres prestations adaptées aux besoins de ses clients.</p>
-                    <p>Nous mettons notre expérience et notre rigueur au service de vos projets, qu'il s'agisse de construire un bâtiment, d'acquérir un véhicule ou de réaliser des ouvrages métalliques sur-mesure. Votre satisfaction est notre priorité.</p>
-                    <div class="apropos__chiffres">
-                        <div><strong>50+</strong><span>Projets réalisés</span></div>
-                        <div><strong>100+</strong><span>Clients satisfaits</span></div>
-                        <div><strong>10 ans</strong><span>D'expérience</span></div>
-                        <div><strong>4+</strong><span>Domaines d'activité</span></div>
-                    </div>
+                <div class="service-card reveal">
+                    <i class="fas fa-hammer"></i>
+                    <h4>Réfection &amp; rénovation</h4>
+                    <p>Rénovation, réhabilitation et mise aux normes de bâtiments existants.</p>
+                </div>
+                <div class="service-card reveal">
+                    <i class="fas fa-cubes"></i>
+                    <h4>Pose de pavés</h4>
+                    <p>Aménagements extérieurs, terrasses, voiries et espaces publics.</p>
+                </div>
+                <div class="service-card reveal">
+                    <i class="fas fa-ruler-combined"></i>
+                    <h4>Conception de plans</h4>
+                    <p>Études architecturales, dimensionnement et plans sur-mesure.</p>
+                </div>
+                <div class="service-card reveal">
+                    <i class="fas fa-file-signature"></i>
+                    <h4>Établissement de devis</h4>
+                    <p>Devis détaillés, transparents et adaptés à votre budget.</p>
+                </div>
+                <div class="service-card reveal">
+                    <i class="fas fa-weld"></i>
+                    <h4>Travaux de soudure</h4>
+                    <p>Charpentes métalliques, portails, escaliers, garde-corps et structures sur-mesure.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- NOS DOMAINES -->
-    <section class="section section--gris" id="poles">
+    <!-- POURQUOI NOUS CHOISIR -->
+    <section class="section section--gris" id="avantages">
         <div class="container">
             <div class="section__titre">
-                <h2>Nos <span>deux pôles</span> d'expertise</h2>
-                <p>Deux filiales, une même exigence de qualité.</p>
+                <h2>Pourquoi choisir <span>DMS Construction</span> ?</h2>
+                <p>Des valeurs qui font la différence sur vos chantiers.</p>
             </div>
-            <div class="poles">
-                <div class="pole reveal">
-                    <span class="pole__icon">🏗️</span>
-                    <h3>DMS Construction</h3>
-                    <p>Construction, réfection, pose de pavés, conception de plans, devis, soudure et autres prestations.<br><strong>Votre projet, notre engagement.</strong></p>
-                    <a href="construction.html" class="btn btn--primaire">Découvrir</a>
+            <div class="avantages-grid">
+                <div class="avantage-item reveal">
+                    <i class="fas fa-check-circle"></i>
+                    <h4>Qualité des matériaux</h4>
+                    <p>Utilisation de matériaux certifiés pour une durabilité maximale.</p>
                 </div>
-                <div class="pole pole--auto reveal">
-                    <span class="pole__icon">🚗</span>
-                    <h3>DMS Automobile</h3>
-                    <p>Vente et distribution de véhicules neufs et d'occasion, machines agricoles et autres équipements.<br><strong>La satisfaction du client au cœur de nos priorités.</strong></p>
-                    <a href="automobile.html" class="btn btn--accent">Découvrir</a>
+                <div class="avantage-item reveal">
+                    <i class="fas fa-clock"></i>
+                    <h4>Respect des délais</h4>
+                    <p>Nous livrons vos projets dans les temps impartis.</p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- POURQUOI DMS (3 items) -->
-    <section class="pourquoi">
-        <div class="container">
-            <div class="section__titre section__titre--blanc">
-                <h2>Pourquoi <span style="color:var(--jaune);">choisir DMS</span> ?</h2>
-                <p>Trois raisons de nous faire confiance.</p>
-            </div>
-            <div class="pourquoi__grid">
-                <div class="pourquoi__item reveal">
+                <div class="avantage-item reveal">
+                    <i class="fas fa-file-invoice"></i>
+                    <h4>Devis transparents</h4>
+                    <p>Des devis clairs, détaillés et sans mauvaises surprises.</p>
+                </div>
+                <div class="avantage-item reveal">
                     <i class="fas fa-user-tie"></i>
-                    <h4>Expertise &amp; Polyvalence</h4>
-                    <p>Une expérience solide dans le BTP, l'automobile, les machines agricoles et la soudure.</p>
-                </div>
-                <div class="pourquoi__item reveal">
-                    <i class="fas fa-arrows-alt-h"></i>
-                    <h4>Diversité des services</h4>
-                    <p>Nous intervenons dans de multiples domaines pour répondre à tous vos besoins en un seul partenaire.</p>
-                </div>
-                <div class="pourquoi__item reveal">
-                    <i class="fas fa-smile"></i>
-                    <h4>Satisfaction client</h4>
-                    <p>Votre entière satisfaction est notre priorité absolue, de la conception à la livraison.</p>
+                    <h4>Savoir-faire reconnu</h4>
+                    <p>Une équipe d'experts qualifiés à chaque étape de votre projet.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- GALERIE -->
-    <section class="section section--blanc" id="gallery">
+    <!-- RÉALISATIONS -->
+    <section class="section section--blanc" id="realisations">
         <div class="container">
             <div class="section__titre">
                 <h2>Nos <span>réalisations</span></h2>
                 <p>Découvrez quelques-uns de nos projets en construction, soudure et aménagement.</p>
             </div>
-            <div class="gallery__filters">
-                <button class="active" data-filter="all">Tous</button>
-                <button data-filter="btp">BTP</button>
-                <button data-filter="soudure">Charpentes / Soudure</button>
-                <button data-filter="batiment">Bâtiments</button>
+            <div class="mini-gallery">
+                <div class="gallery-item">🏠</div>
+                <div class="gallery-item">🏢</div>
+                <div class="gallery-item">🔩</div>
+                <div class="gallery-item">🛣️</div>
+                <div class="gallery-item">📚</div>
+                <div class="gallery-item">🪜</div>
             </div>
-            <div class="gallery__grid" id="galleryGrid"></div>
+            <div style="text-align:center; margin-top:32px;">
+                <a href="index.html#gallery" class="btn btn--primaire"><i class="fas fa-images"></i> Voir toutes nos réalisations</a>
+            </div>
         </div>
     </section>
 
-    <!-- CATALOGUE -->
-    <section class="section section--gris" id="catalogue">
+    <!-- TÉMOIGNAGES -->
+    <section class="section section--gris" id="temoignages">
         <div class="container">
             <div class="section__titre">
-                <h2>Véhicules &amp; <span>machines disponibles</span></h2>
-                <p>Découvrez notre sélection de véhicules neufs, d'occasion et d'équipements agricoles.</p>
+                <h2>Ils nous <span>font confiance</span></h2>
+                <p>Ce que nos clients disent de DMS Construction.</p>
             </div>
-            <div class="catalogue__grid" id="catalogueGrid"></div>
+            <div class="temoignages-grid">
+                <div class="temoignage reveal">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p>"Très satisfait du travail réalisé par DMS Construction. Projet livré dans les délais et avec une qualité irréprochable."</p>
+                    <div class="author">— Jean K., Ouagadougou</div>
+                </div>
+                <div class="temoignage reveal">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p>"Une équipe professionnelle et à l'écoute. Je recommande vivement DMS pour tous vos projets de construction."</p>
+                    <div class="author">— Marie L., Bobo-Dioulasso</div>
+                </div>
+                <div class="temoignage reveal">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p>"La pose de pavés et la charpente métallique ont été réalisées avec un soin exceptionnel. Merci à toute l'équipe !"</p>
+                    <div class="author">— Ali S., Koudougou</div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- CONTACT -->
-    <section class="section section--blanc" id="contact">
+    <section class="section section--blanc" id="contact" style="text-align:center; padding:60px 0;">
         <div class="container">
-            <div class="section__titre">
-                <h2>Parlons de <span>votre projet</span></h2>
-                <p>Nous sommes à votre écoute pour tout renseignement ou demande.</p>
-            </div>
-            <div class="contact__grid">
-                <div class="contact__infos">
-                    <h3>Coordonnées</h3>
-                    <ul>
-                        <li><i class="fas fa-phone-alt"></i> (+226) 76 69 28 69</li>
-                        <li><i class="fas fa-phone-alt"></i> (+226) 70 18 20 76</li>
-                        <li><i class="fas fa-phone-alt"></i> (+226) 78 75 78 54</li>
-                        <li><i class="fab fa-whatsapp" style="color:#25D366;"></i> (+226) 74 08 75 12</li>
-                        <li><i class="fas fa-envelope"></i> dmsa6611@gmail.com</li>
-                        <li><i class="fas fa-map-marker-alt"></i> En bas de l'échangeur de Gounghin, non loin de SARAMAYA, Ouagadougou</li>
-                    </ul>
-                    <a href="https://wa.me/22674087512" target="_blank" class="btn btn--whatsapp"><i class="fab fa-whatsapp"></i> Écrire sur WhatsApp</a>
-                </div>
-                <div>
-                    <form class="contact__form" id="contactForm">
-                        <input type="text" placeholder="Votre nom complet" required />
-                        <input type="tel" placeholder="Téléphone" required />
-                        <input type="email" placeholder="Email (optionnel)" />
-                        <select>
-                            <option value="">Objet de votre demande</option>
-                            <option value="construction">Construction / BTP</option>
-                            <option value="automobile">Automobile / Véhicule</option>
-                            <option value="agricole">Machine agricole</option>
-                            <option value="soudure">Soudure / Métallerie</option>
-                            <option value="devis">Demande de devis</option>
-                            <option value="autre">Autre</option>
-                        </select>
-                        <textarea placeholder="Décrivez votre projet ou votre besoin..." required></textarea>
-                        <button type="submit" class="btn btn--primaire" style="width:100%; justify-content:center;"><i class="fas fa-paper-plane"></i> Envoyer ma demande</button>
-                    </form>
-                </div>
+            <h2 style="font-size:2.2rem; font-weight:800; margin-bottom:16px;">Vous avez un <span style="color:var(--bleu);">projet</span> ?</h2>
+            <p style="color:var(--gris-moyen); font-size:1.2rem; max-width:600px; margin:0 auto 32px;">Contactez-nous dès maintenant pour un devis gratuit et personnalisé.</p>
+            <a href="https://wa.me/22674087512" target="_blank" class="btn btn--whatsapp" style="padding:14px 40px; font-size:1.1rem;">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+            <a href="mailto:dmsa6611@gmail.com" class="btn btn--primaire" style="padding:14px 40px; font-size:1.1rem; margin-left:12px;">
+                <i class="fas fa-envelope"></i> Email
+            </a>
+            <div style="margin-top:24px; font-size:1rem; color:var(--gris-moyen);">
+                <p><i class="fas fa-phone-alt"></i> (+226) 76 69 28 69 / 70 18 20 76 / 78 75 78 54</p>
+                <p><i class="fas fa-map-marker-alt"></i> En bas de l'échangeur de Gounghin, non loin de SARAMAYA, Ouagadougou</p>
             </div>
         </div>
     </section>
@@ -785,37 +550,27 @@
         <div class="container">
             <div class="footer__grid">
                 <div>
-                    <h4><i class="fas fa-building" style="color:var(--orange);"></i> DMS</h4>
-                    <p style="font-size:0.95rem; margin-bottom:8px;">Des solutions pour construire, équiper et avancer.</p>
+                    <h4><i class="fas fa-building" style="color:var(--orange);"></i> DMS Construction</h4>
+                    <p style="font-size:0.95rem; margin-bottom:8px;">Votre partenaire de confiance en construction.</p>
                     <p style="font-size:0.85rem; opacity:0.7;">IFU : 001801191V<br>Agrément : N°6834<br>RCCM : BF OUA – 01 – 2022 – B13 – 5577</p>
                 </div>
                 <div>
                     <h4>Navigation</h4>
                     <ul>
                         <li><a href="index.html">Accueil</a></li>
-                        <li><a href="index.html#apropos">À propos</a></li>
                         <li><a href="construction.html">DMS Construction</a></li>
                         <li><a href="automobile.html">DMS Automobile</a></li>
-                        <li><a href="index.html#contact">Contact</a></li>
+                        <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4>DMS Construction</h4>
+                    <h4>Nos services</h4>
                     <ul>
                         <li>Construction</li>
                         <li>Réfection</li>
                         <li>Pavage</li>
                         <li>Plans &amp; devis</li>
                         <li>Soudure</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4>DMS Automobile</h4>
-                    <ul>
-                        <li>Véhicules neufs</li>
-                        <li>Véhicules d'occasion</li>
-                        <li>Machines agricoles</li>
-                        <li>Équipements</li>
                     </ul>
                 </div>
                 <div>
@@ -856,167 +611,6 @@
                 });
             });
 
-            // --- CAROUSEL (3 secondes, SANS PAUSE) ---
-            const slides = document.querySelectorAll('.hero__carousel-slide');
-            const dots = document.querySelectorAll('.hero__carousel-dots button');
-            const heroContent = document.getElementById('heroContent');
-            let currentIndex = 0;
-            let interval;
-
-            const slideData = [{
-                badge: 'DMS — Groupe',
-                title: 'Des solutions pour <span>construire, équiper</span> et avancer.',
-                desc: 'Entreprise active dans plusieurs domaines : BTP, vente de véhicules, machines agricoles, soudure et diverses autres prestations.',
-                btn1: 'Découvrir DMS',
-                btn1Link: 'index.html#apropos',
-                btn2: 'Nous contacter',
-                btn2Link: 'index.html#contact'
-            }, {
-                badge: 'DMS CONSTRUCTION',
-                title: 'Construire avec <span>expertise</span> et savoir‑faire.',
-                desc: 'Spécialisée dans les travaux de construction et de réfection de bâtiments, la pose de pavés, la conception de plans, l\'établissement de devis, la soudure et bien d\'autres prestations.',
-                btn1: 'Découvrir DMS Construction',
-                btn1Link: 'construction.html',
-                btn2: 'Demander un devis',
-                btn2Link: 'index.html#contact'
-            }, {
-                badge: 'DMS AUTOMOBILE',
-                title: 'Des solutions automobiles <span>adaptées</span> à vos besoins.',
-                desc: 'Spécialisée dans la vente et la distribution de véhicules neufs et d\'occasion, ainsi que dans les machines et équipements agricoles et divers autres articles.',
-                btn1: 'Découvrir DMS Automobile',
-                btn1Link: 'automobile.html',
-                btn2: 'Nous contacter',
-                btn2Link: 'index.html#contact'
-            }];
-
-            function updateContent(index) {
-                const data = slideData[index];
-                heroContent.innerHTML = `
-                            <span class="hero__badge"><i class="fas fa-building"></i> ${data.badge}</span>
-                            <h1>${data.title}</h1>
-                            <p>${data.desc}</p>
-                            <div class="hero__actions">
-                                <a href="${data.btn1Link}" class="btn btn--blanc"><i class="fas fa-arrow-right"></i> ${data.btn1}</a>
-                                <a href="${data.btn2Link}" class="btn btn--secondaire"><i class="fas fa-phone"></i> ${data.btn2}</a>
-                            </div>
-                        `;
-            }
-
-            function goToSlide(index) {
-                slides.forEach(function(slide, i) {
-                    slide.classList.toggle('active', i === index);
-                });
-                dots.forEach(function(dot, i) {
-                    dot.classList.toggle('active', i === index);
-                });
-                updateContent(index);
-                currentIndex = index;
-            }
-
-            function nextSlide() {
-                const next = (currentIndex + 1) % slides.length;
-                goToSlide(next);
-            }
-
-            function startCarousel() {
-                if (interval) clearInterval(interval);
-                interval = setInterval(nextSlide, 3000);
-            }
-
-            dots.forEach(function(dot) {
-                dot.addEventListener('click', function() {
-                    const index = parseInt(this.dataset.index, 10);
-                    goToSlide(index);
-                    startCarousel();
-                });
-            });
-
-            goToSlide(0);
-            startCarousel();
-
-            // --- GALERIE ---
-            const galleryData = [
-                { id: 1, titre: 'Villa moderne R+1', lieu: 'Ouagadougou', duree: '6 mois', category: 'btp', icon: '🏠' },
-                { id: 2, titre: 'Charpente métallique - Hangar', lieu: 'Gounghin', duree: '3 mois', category: 'soudure', icon: '🔩' },
-                { id: 3, titre: 'Immeuble administratif R+2', lieu: 'Zone des ambassades', duree: '10 mois', category: 'batiment', icon: '🏢' },
-                { id: 4, titre: 'Escalier & garde-corps sur-mesure', lieu: 'Résidence privée', duree: '2 mois', category: 'soudure', icon: '🪜' },
-                { id: 5, titre: 'Bâtiment scolaire', lieu: 'Koudougou', duree: '8 mois', category: 'batiment', icon: '📚' },
-                { id: 6, titre: 'Voirie & assainissement', lieu: 'Bobo-Dioulasso', duree: '5 mois', category: 'btp', icon: '🛣️' }
-            ];
-
-            const galleryGrid = document.getElementById('galleryGrid');
-
-            function renderGallery(filter) {
-                const filtered = filter === 'all' ? galleryData : galleryData.filter(function(item) {
-                    return item.category === filter;
-                });
-                galleryGrid.innerHTML = filtered.map(function(item) {
-                    return `
-                                <div class="gallery__card">
-                                    <div class="gallery__card-img">${item.icon}</div>
-                                    <div class="gallery__card-body">
-                                        <h4>${item.titre}</h4>
-                                        <p><i class="fas fa-map-pin"></i> ${item.lieu} · ${item.duree}</p>
-                                        <span class="tag">${item.category.toUpperCase()}</span>
-                                    </div>
-                                </div>
-                            `;
-                }).join('');
-            }
-
-            const filterBtns = document.querySelectorAll('.gallery__filters button');
-            filterBtns.forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    filterBtns.forEach(function(b) { b.classList.remove('active'); });
-                    this.classList.add('active');
-                    renderGallery(this.dataset.filter);
-                });
-            });
-            renderGallery('all');
-
-            // --- CATALOGUE ---
-            const catalogueData = [
-                { id: 1, nom: 'Motoculteur BCS 740', annee: '2024', carburant: 'Diesel', puissance: '12 CV', etat: 'Neuf', statut: 'disponible', icon: '🚜' },
-                { id: 2, nom: 'Camionnette Renault Master', annee: '2023', carburant: 'Diesel', puissance: '130 CV', etat: 'Très bon état', statut: 'disponible', icon: '🚐' },
-                { id: 3, nom: 'Tracteur Massey Ferguson 375', annee: '2022', carburant: 'Diesel', puissance: '75 CV', etat: 'Révisé', statut: 'commande', icon: '🚜' },
-                { id: 4, nom: '4x4 Toyota Hilux', annee: '2023', carburant: 'Essence', puissance: '150 CV', etat: 'Neuf', statut: 'disponible', icon: '🚙' }
-            ];
-
-            const catalogueGrid = document.getElementById('catalogueGrid');
-
-            function renderCatalogue() {
-                catalogueGrid.innerHTML = catalogueData.map(function(item) {
-                    const statutLabel = item.statut === 'disponible' ? 'Disponible' : 'Sur Commande';
-                    const statutClass = item.statut === 'disponible' ? 'statut--dispo' : 'statut--commande';
-                    return `
-                                <div class="catalogue__card">
-                                    <div class="catalogue__card-img">${item.icon}</div>
-                                    <div class="catalogue__card-body">
-                                        <h4>${item.nom}</h4>
-                                        <div class="specs">
-                                            <span>${item.annee}</span>
-                                            <span>${item.carburant}</span>
-                                            <span>${item.puissance}</span>
-                                            <span>${item.etat}</span>
-                                        </div>
-                                        <span class="statut ${statutClass}">${statutLabel}</span>
-                                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20${encodeURIComponent(item.nom)}" target="_blank" class="btn btn--whatsapp">
-                                            <i class="fab fa-whatsapp"></i> Réserver / Demander le prix
-                                        </a>
-                                    </div>
-                                </div>
-                            `;
-                }).join('');
-            }
-            renderCatalogue();
-
-            // --- FORMULAIRE ---
-            document.getElementById('contactForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('✅ Votre message a été envoyé ! Nous vous recontacterons dans les 24h.');
-                this.reset();
-            });
-
             // --- REVEAL ON SCROLL ---
             const reveals = document.querySelectorAll('.reveal');
             if ('IntersectionObserver' in window) {
@@ -1038,27 +632,6 @@
             } else {
                 reveals.forEach(function(el) { el.classList.add('visible'); });
             }
-
-            // --- ACTIVE NAV ---
-            const sections = document.querySelectorAll('section[id]');
-            const navLinks = document.querySelectorAll('.nav a');
-            function updateActiveNav() {
-                let current = '';
-                sections.forEach(function(section) {
-                    const top = section.offsetTop - 120;
-                    if (window.scrollY >= top) {
-                        current = section.getAttribute('id');
-                    }
-                });
-                navLinks.forEach(function(link) {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === '#' + current) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-            window.addEventListener('scroll', updateActiveNav);
-            window.addEventListener('load', updateActiveNav);
 
         })();
     </script>
