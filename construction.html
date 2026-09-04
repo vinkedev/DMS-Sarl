@@ -132,10 +132,10 @@
             transition: 0.3s;
         }
 
-        /* ===== BANNIÈRE CONSTRUCTION – HAUTEUR 65vh ===== */
+        /* ===== BANNIÈRE CONSTRUCTION – HAUTEUR 80vh ===== */
         .hero-construction {
             padding-top: 70px;
-            min-height: 65vh; /* ← HAUTEUR AUGMENTÉE (65vh) */
+            min-height: 80vh; /* ← HAUTEUR AUGMENTÉE À 80vh */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -223,8 +223,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
-            color: var(--bleu);
+            background-size: cover;
+            background-position: center;
             box-shadow: var(--shadow);
             transition: 0.3s;
         }
@@ -332,13 +332,13 @@
             .nav a { width: 100%; padding: 12px 20px; border-radius: 0; }
             .hamburger { display: flex; }
             .header__actions .btn--primaire { display: none; }
-            .hero-construction { padding-top: 70px; min-height: 50vh; }
+            .hero-construction { padding-top: 70px; min-height: 60vh; }
             .section { padding: 60px 0; }
             .section__titre h2 { font-size: 2rem; }
             .services-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 480px) {
-            .hero-construction { min-height: 40vh; }
+            .hero-construction { min-height: 50vh; }
             .mini-gallery { grid-template-columns: 1fr; }
         }
 
@@ -378,11 +378,11 @@
     </header>
 
     <!-- ============================================================ -->
-    <!-- BANNIÈRE CONSTRUCTION – JUSTE L'IMAGE (65vh)                  -->
+    <!-- BANNIÈRE CONSTRUCTION – HAUTEUR 80vh                         -->
     <!-- ============================================================ -->
     <section class="hero-construction" id="hero"></section>
 
-    <!-- NOS PRESTATIONS (AVEC IMAGES) -->
+    <!-- NOS PRESTATIONS -->
     <section class="section section--blanc" id="prestations">
         <div class="container">
             <div class="section__titre">
@@ -390,7 +390,6 @@
                 <p>Des services complets pour concrétiser vos projets.</p>
             </div>
             <div class="services-grid">
-                <!-- 1. Construction -->
                 <div class="service-card reveal">
                     <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1581092335872-5f3e90d2e4ed?w=400&h=200&fit=crop');"></div>
                     <div class="service-body">
@@ -398,7 +397,6 @@
                         <p>Villas, immeubles R+1/R+2, bâtiments scolaires, génie civil et aménagements intérieurs.</p>
                     </div>
                 </div>
-                <!-- 2. Réfection -->
                 <div class="service-card reveal">
                     <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6953?w=400&h=200&fit=crop');"></div>
                     <div class="service-body">
@@ -406,7 +404,6 @@
                         <p>Rénovation, réhabilitation et mise aux normes de bâtiments existants.</p>
                     </div>
                 </div>
-                <!-- 3. Pose de pavés -->
                 <div class="service-card reveal">
                     <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1586095455813-9e6bd79a21ab?w=400&h=200&fit=crop');"></div>
                     <div class="service-body">
@@ -414,7 +411,6 @@
                         <p>Aménagements extérieurs, terrasses, voiries et espaces publics.</p>
                     </div>
                 </div>
-                <!-- 4. Conception de plans -->
                 <div class="service-card reveal">
                     <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=400&h=200&fit=crop');"></div>
                     <div class="service-body">
@@ -422,7 +418,6 @@
                         <p>Études architecturales, dimensionnement et plans sur-mesure.</p>
                     </div>
                 </div>
-                <!-- 5. Établissement de devis -->
                 <div class="service-card reveal">
                     <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=400&h=200&fit=crop');"></div>
                     <div class="service-body">
@@ -430,7 +425,6 @@
                         <p>Devis détaillés, transparents et adaptés à votre budget.</p>
                     </div>
                 </div>
-                <!-- 6. Soudure -->
                 <div class="service-card reveal">
                     <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=400&h=200&fit=crop');"></div>
                     <div class="service-body">
@@ -482,12 +476,12 @@
                 <p>Découvrez quelques-uns de nos projets en construction, soudure et aménagement.</p>
             </div>
             <div class="mini-gallery">
-                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1581092335872-5f3e90d2e4ed?w=300&h=200&fit=crop'); background-size:cover; background-position:center; font-size:0;">🏠</div>
-                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1486718448742-163732cd1544?w=300&h=200&fit=crop'); background-size:cover; background-position:center; font-size:0;">🏢</div>
-                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=300&h=200&fit=crop'); background-size:cover; background-position:center; font-size:0;">🔩</div>
-                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1586095455813-9e6bd79a21ab?w=300&h=200&fit=crop'); background-size:cover; background-position:center; font-size:0;">🛣️</div>
-                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=300&h=200&fit=crop'); background-size:cover; background-position:center; font-size:0;">📚</div>
-                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6953?w=300&h=200&fit=crop'); background-size:cover; background-position:center; font-size:0;">🪜</div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1581092335872-5f3e90d2e4ed?w=300&h=200&fit=crop');"></div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1486718448742-163732cd1544?w=300&h=200&fit=crop');"></div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=300&h=200&fit=crop');"></div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1586095455813-9e6bd79a21ab?w=300&h=200&fit=crop');"></div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=300&h=200&fit=crop');"></div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6953?w=300&h=200&fit=crop');"></div>
             </div>
             <div style="text-align:center; margin-top:32px;">
                 <a href="#" class="btn btn--primaire"><i class="fas fa-images"></i> Voir toutes nos réalisations</a>
