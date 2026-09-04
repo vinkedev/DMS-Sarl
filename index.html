@@ -63,6 +63,7 @@
             border: none;
             cursor: pointer;
             transition: 0.3s;
+            width: 100%;
         }
         .btn--blanc {
             background: var(--blanc);
@@ -183,6 +184,7 @@
         .header__actions .btn {
             padding: 8px 20px;
             font-size: 0.85rem;
+            width: auto;
         }
         .hamburger {
             display: none;
@@ -274,6 +276,9 @@
             display: flex;
             flex-wrap: wrap;
             gap: 16px;
+        }
+        .hero__actions .btn {
+            width: auto;
         }
         .hero__carousel-dots {
             position: absolute;
@@ -468,102 +473,73 @@
             opacity: 0.85;
         }
 
-        /* ===== DOMAINES DÉTAILLÉS (après "Nos deux filiales") ===== */
-        .domaines {
+        /* ===== NOUVELLE SECTION : RANGÉES DE 3 CARTES ===== */
+        .services-section {
             padding: 80px 0;
         }
-        .domaines__grid {
+        .services-row {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: stretch;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 20px;
         }
-        .domaine {
+        .row-title {
+            font-size: 1.9rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .row-title--construction {
+            color: var(--bleu);
+        }
+        .row-title--automobile {
+            color: var(--orange);
+        }
+        .row-title i {
+            font-size: 1.8rem;
+        }
+        .service-card {
             background: var(--blanc);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             overflow: hidden;
             border: 1px solid #E2E8F0;
-            transition: 0.3s;
+            transition: 0.3s ease;
             display: flex;
             flex-direction: column;
         }
-        .domaine:hover {
-            transform: translateY(-4px);
+        .service-card:hover {
+            transform: translateY(-6px);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.10);
         }
-        .domaine__header {
-            padding: 28px 30px 16px;
-            border-bottom: 1px solid #E2E8F0;
-            display: flex;
-            align-items: center;
-            gap: 14px;
+        .service-card__img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #e9edf5;
         }
-        .domaine__header .icon {
-            font-size: 2.8rem;
-            line-height: 1;
-        }
-        .domaine__header h3 {
-            font-size: 1.6rem;
-            font-weight: 800;
-        }
-        .domaine__header h3 span {
-            color: var(--bleu);
-        }
-        .domaine--auto .domaine__header h3 span {
-            color: var(--orange);
-        }
-        .domaine__body {
-            padding: 24px 30px 30px;
+        .service-card__body {
+            padding: 20px 22px 24px;
             flex: 1;
             display: flex;
             flex-direction: column;
         }
-        /* Grille des services / cartes véhicules */
-        .domaine__body .services {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 24px;
-            flex: 1;
-        }
-        .domaine__body .services .service-card {
-            background: var(--gris-clair);
-            border-radius: 12px;
-            padding: 18px 12px;
-            text-align: center;
-            transition: 0.3s;
-            border: 1px solid transparent;
-        }
-        .domaine__body .services .service-card:hover {
-            border-color: var(--bleu);
-            background: #f0f7ff;
-        }
-        .domaine--auto .domaine__body .services .service-card:hover {
-            border-color: var(--orange);
-            background: #fef7f0;
-        }
-        .domaine__body .services .service-card .emoji {
-            font-size: 2.2rem;
-            display: block;
+        .service-card__body h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
             margin-bottom: 6px;
         }
-        .domaine__body .services .service-card h5 {
-            font-weight: 700;
-            font-size: 0.95rem;
-            margin-bottom: 4px;
-            line-height: 1.3;
-        }
-        .domaine__body .services .service-card p {
-            font-size: 0.8rem;
+        .service-card__body p {
             color: var(--gris-moyen);
-            line-height: 1.4;
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+            flex: 1;
         }
-        .domaine__body .btn {
-            align-self: center;
-            width: 100%;
-            justify-content: center;
+        .service-card__body .btn {
             margin-top: auto;
+            justify-content: center;
         }
 
         /* ===== CATALOGUE (véhicules supplémentaires) ===== */
@@ -623,10 +599,6 @@
         .statut--commande {
             background: #FEF3C7;
             color: #92400E;
-        }
-        .catalogue__card-body .btn {
-            width: 100%;
-            justify-content: center;
         }
 
         /* ===== CONTACT ===== */
@@ -752,12 +724,8 @@
             .pourquoi__grid {
                 grid-template-columns: 1fr 1fr;
             }
-            .domaines__grid {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-            .domaine__body .services {
-                grid-template-columns: 1fr 1fr;
+            .services-row {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
         @media (max-width: 768px) {
@@ -820,8 +788,8 @@
             .pourquoi__grid {
                 grid-template-columns: 1fr;
             }
-            .domaine__body .services {
-                grid-template-columns: 1fr 1fr;
+            .services-row {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
         @media (max-width: 480px) {
@@ -841,7 +809,7 @@
             .apropos__chiffres {
                 grid-template-columns: 1fr 1fr;
             }
-            .domaine__body .services {
+            .services-row {
                 grid-template-columns: 1fr;
             }
         }
@@ -946,7 +914,7 @@
         </div>
     </section>
 
-    <!-- NOS DOMAINES (deux pôles) -->
+    <!-- NOS DOMAINES (deux filiales) -->
     <section class="section section--gris" id="poles">
         <div class="container">
             <div class="section__titre">
@@ -970,80 +938,82 @@
         </div>
     </section>
 
-    <!-- ===== DOMAINES DÉTAILLÉS : 3 SERVICES CONSTRUCTION + 3 CARTES VÉHICULES ===== -->
-    <section class="domaines section--blanc" id="domaines">
+    <!-- ===== NOUVELLE SECTION : RANGÉES DE 3 CARTES AVEC IMAGES ===== -->
+    <section class="services-section section--blanc" id="services">
         <div class="container">
             <div class="section__titre">
                 <h2>Nos <span>prestations phares</span></h2>
-                <p>Découvrez les offres clés de DMS Construction et notre sélection de véhicules disponibles.</p>
+                <p>Découvrez nos offres clés en construction et notre sélection de véhicules.</p>
             </div>
 
-            <div class="domaines__grid">
-
-                <!-- DMS CONSTRUCTION : 3 services -->
-                <div class="domaine reveal">
-                    <div class="domaine__header">
-                        <span class="icon">🏗️</span>
-                        <h3>DMS <span>Construction</span></h3>
-                    </div>
-                    <div class="domaine__body">
-                        <div class="services">
-                            <div class="service-card">
-                                <span class="emoji">🏠</span>
-                                <h5>Construction Clé en Main</h5>
-                                <p>Villas modernes R+1, budgets garantis, gestion pour la diaspora. Prise en charge intégrale.</p>
-                            </div>
-                            <div class="service-card">
-                                <span class="emoji">📐</span>
-                                <h5>Conception &amp; Études</h5>
-                                <p>Plans architecturaux, devis transparents, dimensionnement, suivi technique rigoureux.</p>
-                            </div>
-                            <div class="service-card">
-                                <span class="emoji">🔨</span>
-                                <h5>Rénovation &amp; Aménagements</h5>
-                                <p>Réfection, pose de pavés, soudure, métallerie sur mesure (portails, charpentes).</p>
-                            </div>
-                        </div>
-                        <a href="construction.html" class="btn btn--primaire">
-                            En savoir plus <i class="fas fa-arrow-right"></i>
-                        </a>
+            <!-- RANGÉE DMS CONSTRUCTION -->
+            <h3 class="row-title row-title--construction reveal">
+                <i class="fas fa-hard-hat"></i> DMS Construction
+            </h3>
+            <div class="services-row">
+                <!-- Carte 1 -->
+                <div class="service-card reveal">
+                    <img class="service-card__img" src="images/construction_cle_en_main.jpg" alt="Construction clé en main">
+                    <div class="service-card__body">
+                        <h4>Construction Clé en Main</h4>
+                        <p>Villas modernes R+1, budgets garantis, gestion pour la diaspora. Prise en charge intégrale.</p>
+                        <a href="construction.html" class="btn btn--primaire">En savoir plus</a>
                     </div>
                 </div>
-
-                <!-- DMS AUTOMOBILE : 3 cartes véhicules -->
-                <div class="domaine domaine--auto reveal">
-                    <div class="domaine__header">
-                        <span class="icon">🚗</span>
-                        <h3>DMS <span>Automobile</span></h3>
-                    </div>
-                    <div class="domaine__body">
-                        <div class="services">
-                            <div class="service-card">
-                                <span class="emoji">🚙</span>
-                                <h5>Toyota Hilux 4x4</h5>
-                                <p>Neuf · 150 ch · Double cabine</p>
-                                <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20Toyota%20Hilux" target="_blank" class="btn btn--whatsapp" style="margin-top:8px; font-size:0.75rem; padding:6px 12px;">Demander le prix</a>
-                            </div>
-                            <div class="service-card">
-                                <span class="emoji">🚐</span>
-                                <h5>Renault Master</h5>
-                                <p>Occasion · 130 ch · Très bon état</p>
-                                <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20Renault%20Master" target="_blank" class="btn btn--whatsapp" style="margin-top:8px; font-size:0.75rem; padding:6px 12px;">Demander le prix</a>
-                            </div>
-                            <div class="service-card">
-                                <span class="emoji">🚜</span>
-                                <h5>Massey Ferguson 375</h5>
-                                <p>Tracteur · 75 ch · Révisé</p>
-                                <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20tracteur%20Massey%20Ferguson" target="_blank" class="btn btn--whatsapp" style="margin-top:8px; font-size:0.75rem; padding:6px 12px;">Demander le prix</a>
-                            </div>
-                        </div>
-                        <a href="automobile.html" class="btn btn--accent">
-                            Voir tout le catalogue <i class="fas fa-arrow-right"></i>
-                        </a>
+                <!-- Carte 2 -->
+                <div class="service-card reveal">
+                    <img class="service-card__img" src="images/conception_etudes.jpg" alt="Conception et études">
+                    <div class="service-card__body">
+                        <h4>Conception &amp; Études</h4>
+                        <p>Plans architecturaux, devis transparents, dimensionnement, suivi technique rigoureux.</p>
+                        <a href="construction.html" class="btn btn--primaire">En savoir plus</a>
                     </div>
                 </div>
-
+                <!-- Carte 3 -->
+                <div class="service-card reveal">
+                    <img class="service-card__img" src="images/renovation_amenagements.jpg" alt="Rénovation et aménagements">
+                    <div class="service-card__body">
+                        <h4>Rénovation &amp; Aménagements</h4>
+                        <p>Réfection, pose de pavés, soudure, métallerie sur mesure (portails, charpentes).</p>
+                        <a href="construction.html" class="btn btn--primaire">En savoir plus</a>
+                    </div>
+                </div>
             </div>
+
+            <!-- RANGÉE DMS AUTOMOBILE -->
+            <h3 class="row-title row-title--automobile reveal" style="margin-top: 60px;">
+                <i class="fas fa-car"></i> DMS Automobile
+            </h3>
+            <div class="services-row">
+                <!-- Carte 1 -->
+                <div class="service-card reveal">
+                    <img class="service-card__img" src="images/toyota_hilux.jpg" alt="Toyota Hilux 4x4">
+                    <div class="service-card__body">
+                        <h4>Toyota Hilux 4x4</h4>
+                        <p>Neuf · 150 ch · Double cabine</p>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20Toyota%20Hilux" target="_blank" class="btn btn--whatsapp">Demander le prix</a>
+                    </div>
+                </div>
+                <!-- Carte 2 -->
+                <div class="service-card reveal">
+                    <img class="service-card__img" src="images/renault_master.jpg" alt="Renault Master">
+                    <div class="service-card__body">
+                        <h4>Renault Master</h4>
+                        <p>Occasion · 130 ch · Très bon état</p>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20Renault%20Master" target="_blank" class="btn btn--whatsapp">Demander le prix</a>
+                    </div>
+                </div>
+                <!-- Carte 3 -->
+                <div class="service-card reveal">
+                    <img class="service-card__img" src="images/massey_ferguson.jpg" alt="Massey Ferguson 375">
+                    <div class="service-card__body">
+                        <h4>Massey Ferguson 375</h4>
+                        <p>Tracteur · 75 ch · Révisé</p>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20tracteur%20Massey%20Ferguson" target="_blank" class="btn btn--whatsapp">Demander le prix</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -1203,7 +1173,7 @@
                 });
             });
 
-            // --- CAROUSEL (3 secondes) ---
+            // --- CAROUSEL ---
             const slides = document.querySelectorAll('.hero__carousel-slide');
             const dots = document.querySelectorAll('.hero__carousel-dots button');
             const heroContent = document.getElementById('heroContent');
