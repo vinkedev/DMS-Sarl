@@ -400,7 +400,7 @@
             font-weight: 500;
         }
 
-        /* ===== PÔLES ===== */
+        /* ===== PÔLES (section "Nos deux filiales") ===== */
         .poles {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -468,7 +468,7 @@
             opacity: 0.85;
         }
 
-        /* ===== DOMAINES DÉTAILLÉS (remplace l'ancienne galerie) ===== */
+        /* ===== DOMAINES DÉTAILLÉS (après "Nos deux filiales") ===== */
         .domaines {
             padding: 80px 0;
         }
@@ -519,6 +519,7 @@
             display: flex;
             flex-direction: column;
         }
+        /* Grille des services / cartes véhicules */
         .domaine__body .services {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -550,7 +551,8 @@
         .domaine__body .services .service-card h5 {
             font-weight: 700;
             font-size: 0.95rem;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
+            line-height: 1.3;
         }
         .domaine__body .services .service-card p {
             font-size: 0.8rem;
@@ -564,7 +566,7 @@
             margin-top: auto;
         }
 
-        /* ===== CATALOGUE ===== */
+        /* ===== CATALOGUE (véhicules supplémentaires) ===== */
         .catalogue__grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -944,12 +946,12 @@
         </div>
     </section>
 
-    <!-- NOS DOMAINES -->
+    <!-- NOS DOMAINES (deux pôles) -->
     <section class="section section--gris" id="poles">
         <div class="container">
             <div class="section__titre">
-                <h2>Nos <span>deux pôles</span> d'expertise</h2>
-                <p>Deux filiales, une même exigence de qualité.</p>
+                <h2>Nos <span>deux filiales</span></h2>
+                <p>Deux expertises complémentaires pour répondre à tous vos besoins.</p>
             </div>
             <div class="poles">
                 <div class="pole reveal">
@@ -964,6 +966,83 @@
                     <p>Vente et distribution de véhicules neufs et d'occasion, machines agricoles et autres équipements.<br><strong>La satisfaction du client au cœur de nos priorités.</strong></p>
                     <a href="automobile.html" class="btn btn--accent">Découvrir</a>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== DOMAINES DÉTAILLÉS : 3 SERVICES CONSTRUCTION + 3 CARTES VÉHICULES ===== -->
+    <section class="domaines section--blanc" id="domaines">
+        <div class="container">
+            <div class="section__titre">
+                <h2>Nos <span>prestations phares</span></h2>
+                <p>Découvrez les offres clés de DMS Construction et notre sélection de véhicules disponibles.</p>
+            </div>
+
+            <div class="domaines__grid">
+
+                <!-- DMS CONSTRUCTION : 3 services -->
+                <div class="domaine reveal">
+                    <div class="domaine__header">
+                        <span class="icon">🏗️</span>
+                        <h3>DMS <span>Construction</span></h3>
+                    </div>
+                    <div class="domaine__body">
+                        <div class="services">
+                            <div class="service-card">
+                                <span class="emoji">🏠</span>
+                                <h5>Construction Clé en Main</h5>
+                                <p>Villas modernes R+1, budgets garantis, gestion pour la diaspora. Prise en charge intégrale.</p>
+                            </div>
+                            <div class="service-card">
+                                <span class="emoji">📐</span>
+                                <h5>Conception &amp; Études</h5>
+                                <p>Plans architecturaux, devis transparents, dimensionnement, suivi technique rigoureux.</p>
+                            </div>
+                            <div class="service-card">
+                                <span class="emoji">🔨</span>
+                                <h5>Rénovation &amp; Aménagements</h5>
+                                <p>Réfection, pose de pavés, soudure, métallerie sur mesure (portails, charpentes).</p>
+                            </div>
+                        </div>
+                        <a href="construction.html" class="btn btn--primaire">
+                            En savoir plus <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- DMS AUTOMOBILE : 3 cartes véhicules -->
+                <div class="domaine domaine--auto reveal">
+                    <div class="domaine__header">
+                        <span class="icon">🚗</span>
+                        <h3>DMS <span>Automobile</span></h3>
+                    </div>
+                    <div class="domaine__body">
+                        <div class="services">
+                            <div class="service-card">
+                                <span class="emoji">🚙</span>
+                                <h5>Toyota Hilux 4x4</h5>
+                                <p>Neuf · 150 ch · Double cabine</p>
+                                <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20Toyota%20Hilux" target="_blank" class="btn btn--whatsapp" style="margin-top:8px; font-size:0.75rem; padding:6px 12px;">Demander le prix</a>
+                            </div>
+                            <div class="service-card">
+                                <span class="emoji">🚐</span>
+                                <h5>Renault Master</h5>
+                                <p>Occasion · 130 ch · Très bon état</p>
+                                <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20Renault%20Master" target="_blank" class="btn btn--whatsapp" style="margin-top:8px; font-size:0.75rem; padding:6px 12px;">Demander le prix</a>
+                            </div>
+                            <div class="service-card">
+                                <span class="emoji">🚜</span>
+                                <h5>Massey Ferguson 375</h5>
+                                <p>Tracteur · 75 ch · Révisé</p>
+                                <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20tracteur%20Massey%20Ferguson" target="_blank" class="btn btn--whatsapp" style="margin-top:8px; font-size:0.75rem; padding:6px 12px;">Demander le prix</a>
+                            </div>
+                        </div>
+                        <a href="automobile.html" class="btn btn--accent">
+                            Voir tout le catalogue <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -995,81 +1074,7 @@
         </div>
     </section>
 
-    <!-- ===== DOMAINES DÉTAILLÉS : DMS CONSTRUCTION + DMS AUTOMOBILE ===== -->
-    <section class="domaines section--blanc" id="domaines">
-        <div class="container">
-            <div class="section__titre">
-                <h2>Nos <span>deux filiales</span> en détail</h2>
-                <p>Découvrez les prestations de DMS Construction et notre sélection de véhicules chez DMS Automobile.</p>
-            </div>
-
-            <div class="domaines__grid">
-
-                <!-- DMS CONSTRUCTION -->
-                <div class="domaine reveal">
-                    <div class="domaine__header">
-                        <span class="icon">🏗️</span>
-                        <h3>DMS <span>Construction</span></h3>
-                    </div>
-                    <div class="domaine__body">
-                        <div class="services">
-                            <div class="service-card">
-                                <span class="emoji">🏠</span>
-                                <h5>Construction neuve</h5>
-                                <p>Bâtiments, villas, locaux commerciaux et industriels.</p>
-                            </div>
-                            <div class="service-card">
-                                <span class="emoji">🔄</span>
-                                <h5>Rénovation &amp; réfection</h5>
-                                <p>Ravalement, agrandissement, mise aux normes.</p>
-                            </div>
-                            <div class="service-card">
-                                <span class="emoji">🔩</span>
-                                <h5>Soudure &amp; métallerie</h5>
-                                <p>Charpentes, garde-corps, portails, ouvrages sur mesure.</p>
-                            </div>
-                        </div>
-                        <a href="construction.html" class="btn btn--primaire">
-                            En savoir plus <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- DMS AUTOMOBILE -->
-                <div class="domaine domaine--auto reveal">
-                    <div class="domaine__header">
-                        <span class="icon">🚗</span>
-                        <h3>DMS <span>Automobile</span></h3>
-                    </div>
-                    <div class="domaine__body">
-                        <div class="services">
-                            <div class="service-card">
-                                <span class="emoji">🚙</span>
-                                <h5>Toyota Hilux 4x4</h5>
-                                <p>Neuf · 150 ch · Double cabine</p>
-                            </div>
-                            <div class="service-card">
-                                <span class="emoji">🚐</span>
-                                <h5>Renault Master</h5>
-                                <p>Occasion · 130 ch · Très bon état</p>
-                            </div>
-                            <div class="service-card">
-                                <span class="emoji">🚜</span>
-                                <h5>Massey Ferguson 375</h5>
-                                <p>Tracteur agricole · 75 ch · Révisé</p>
-                            </div>
-                        </div>
-                        <a href="automobile.html" class="btn btn--accent">
-                            En savoir plus <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- CATALOGUE (véhicules & machines) -->
+    <!-- CATALOGUE (véhicules supplémentaires) -->
     <section class="section section--gris" id="catalogue">
         <div class="container">
             <div class="section__titre">
@@ -1276,7 +1281,7 @@
             goToSlide(0);
             startCarousel();
 
-            // --- CATALOGUE ---
+            // --- CATALOGUE (véhicules supplémentaires) ---
             const catalogueData = [
                 { id: 1, nom: 'Motoculteur BCS 740', annee: '2024', carburant: 'Diesel', puissance: '12 CV', etat: 'Neuf',
                     statut: 'disponible', icon: '🚜' },
