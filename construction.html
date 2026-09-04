@@ -48,7 +48,7 @@
         .btn--whatsapp { background: #25D366; color: var(--blanc); }
         .btn--whatsapp:hover { background: #1da851; }
 
-        /* ===== HEADER ===== */
+        /* ===== HEADER (SANS BOUTONS DEVIS & WHATSAPP) ===== */
         .header {
             position: fixed;
             top: 0; left: 0; right: 0;
@@ -113,7 +113,8 @@
             align-items: center;
             gap: 10px;
         }
-        .header__actions .btn { padding: 8px 20px; font-size: 0.85rem; }
+        /* SUPPRESSION des boutons Devis et WhatsApp dans le header */
+        .header__actions .btn { display: none; }
         .hamburger {
             display: none;
             flex-direction: column;
@@ -132,10 +133,10 @@
             transition: 0.3s;
         }
 
-        /* ===== BANNIÈRE CONSTRUCTION – HAUTEUR 80vh ===== */
+        /* ===== BANNIÈRE CONSTRUCTION – HAUTEUR 95vh ===== */
         .hero-construction {
             padding-top: 70px;
-            min-height: 80vh; /* ← HAUTEUR AUGMENTÉE À 80vh */
+            min-height: 95vh; /* ← HAUTEUR PRESQUE PLEIN ÉCRAN */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -331,14 +332,13 @@
             .nav.open { display: flex; }
             .nav a { width: 100%; padding: 12px 20px; border-radius: 0; }
             .hamburger { display: flex; }
-            .header__actions .btn--primaire { display: none; }
-            .hero-construction { padding-top: 70px; min-height: 60vh; }
+            .hero-construction { padding-top: 70px; min-height: 70vh; }
             .section { padding: 60px 0; }
             .section__titre h2 { font-size: 2rem; }
             .services-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 480px) {
-            .hero-construction { min-height: 50vh; }
+            .hero-construction { min-height: 60vh; }
             .mini-gallery { grid-template-columns: 1fr; }
         }
 
@@ -353,7 +353,7 @@
 </head>
 <body>
 
-    <!-- HEADER -->
+    <!-- HEADER (SANS BOUTONS DEVIS & WHATSAPP) -->
     <header class="header" id="header">
         <div class="container header__inner">
             <a href="index.html" class="header__logo">
@@ -370,16 +370,13 @@
                 <a href="#contact">Contact</a>
             </nav>
             <div class="header__actions">
-                <a href="#contact" class="btn btn--primaire"><i class="fas fa-file-invoice"></i> Devis</a>
-                <a href="https://wa.me/22674087512" target="_blank" class="btn btn--whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                <!-- Boutons supprimés -->
                 <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
             </div>
         </div>
     </header>
 
-    <!-- ============================================================ -->
-    <!-- BANNIÈRE CONSTRUCTION – HAUTEUR 80vh                         -->
-    <!-- ============================================================ -->
+    <!-- BANNIÈRE CONSTRUCTION – HAUTEUR 95vh -->
     <section class="hero-construction" id="hero"></section>
 
     <!-- NOS PRESTATIONS -->
