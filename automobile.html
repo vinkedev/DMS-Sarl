@@ -1,1 +1,1075 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DMS-C Automobile — Véhicules neufs &amp; occasions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET & VARIABLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bleu: #0073E6;
+            --bleu-fonce: #0B66C2;
+            --blanc: #FFFFFF;
+            --gris-clair: #F8FAFC;
+            --gris-texte: #1E293B;
+            --gris-moyen: #64748B;
+            --orange: #F2994A;
+            --orange-fonce: #e0843a;
+            --jaune: #F2C94C;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            --shadow-premium: 0 8px 30px rgba(242, 153, 74, 0.15);
+            --radius: 16px;
+            --font: 'Inter', sans-serif;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: var(--font);
+            color: var(--gris-texte);
+            background: var(--blanc);
+            line-height: 1.6;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
 
+        /* ===== BOUTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .btn--blanc {
+            background: var(--blanc);
+            color: var(--orange);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+        .btn--blanc:hover {
+            background: var(--gris-clair);
+            transform: translateY(-2px);
+        }
+        .btn--secondaire {
+            background: transparent;
+            color: var(--blanc);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+        }
+        .btn--secondaire:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .btn--primaire {
+            background: var(--bleu);
+            color: var(--blanc);
+        }
+        .btn--primaire:hover {
+            background: var(--bleu-fonce);
+        }
+        .btn--accent {
+            background: var(--orange);
+            color: var(--blanc);
+        }
+        .btn--accent:hover {
+            background: var(--orange-fonce);
+        }
+        .btn--whatsapp {
+            background: #25D366;
+            color: var(--blanc);
+        }
+        .btn--whatsapp:hover {
+            background: #1da851;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            padding: 10px 0;
+        }
+        .header__inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .header__logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            color: var(--orange);
+        }
+        .header__logo img {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+            border-radius: 12px;
+            border: 2px solid rgba(242, 153, 74, 0.3);
+            padding: 4px;
+            background: white;
+            box-shadow: var(--shadow-premium);
+            transition: 0.3s;
+        }
+        .header__logo img:hover {
+            border-color: var(--bleu);
+            box-shadow: 0 8px 35px rgba(0, 115, 230, 0.25);
+            transform: scale(1.02);
+        }
+        .header__logo-text strong {
+            font-size: 1.15rem;
+            font-weight: 800;
+        }
+        .header__logo-text small {
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: var(--gris-moyen);
+            text-transform: uppercase;
+            display: block;
+        }
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .nav a {
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            color: var(--gris-texte);
+        }
+        .nav a:hover,
+        .nav a.active {
+            background: var(--orange);
+            color: var(--blanc);
+        }
+        .header__actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header__actions .btn {
+            padding: 8px 20px;
+            font-size: 0.85rem;
+            width: auto;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .hamburger span {
+            display: block;
+            width: 26px;
+            height: 2.5px;
+            background: var(--orange);
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        /* ===== HERO AUTOMOBILE ===== */
+        .hero-auto {
+            padding-top: 70px;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background-image: url('DMS/acceuil_automobile.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .hero-auto::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.15);
+        }
+        .hero-auto__content {
+            position: relative;
+            z-index: 2;
+            max-width: 780px;
+            padding: 40px 0;
+            text-align: center;
+            color: var(--blanc);
+        }
+        .hero-auto__content .badge {
+            display: inline-block;
+            background: var(--orange);
+            color: var(--blanc);
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 24px;
+        }
+        .hero-auto__content h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+        .hero-auto__content h1 span {
+            color: var(--jaune);
+        }
+        .hero-auto__content p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 32px;
+            max-width: 580px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+        }
+        .hero-auto__content .btn {
+            width: auto;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            padding: 80px 0;
+        }
+        .section--gris {
+            background: var(--gris-clair);
+        }
+        .section--blanc {
+            background: var(--blanc);
+        }
+        .section__titre {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto 56px;
+        }
+        .section__titre h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--gris-texte);
+            margin-bottom: 12px;
+        }
+        .section__titre h2 span {
+            color: var(--orange);
+        }
+        .section__titre p {
+            color: var(--gris-moyen);
+            font-size: 1.1rem;
+        }
+
+        /* ===== GRILLE VÉHICULES (avec sliders) ===== */
+        .vehicles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .vehicle-card {
+            background: var(--blanc);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 1px solid #E2E8F0;
+            transition: 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .vehicle-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.10);
+        }
+
+        /* Slider dans la carte */
+        .card-slider {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: #e9edf5;
+        }
+        .card-slider .slides-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.4s ease-in-out;
+        }
+        .card-slider .slide {
+            min-width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .card-slider .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            z-index: 5;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .card-slider .slider-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        .card-slider .slider-btn.prev {
+            left: 6px;
+        }
+        .card-slider .slider-btn.next {
+            right: 6px;
+        }
+        .card-slider .dots {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 5;
+        }
+        .card-slider .dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .card-slider .dots span.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        .vehicle-card__body {
+            padding: 20px 22px 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .vehicle-card__body h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .vehicle-card__body .price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--orange);
+            margin: 4px 0 6px;
+        }
+        .vehicle-card__body .price span {
+            color: var(--gris-moyen);
+            font-weight: 400;
+            font-size: 0.9rem;
+        }
+        .vehicle-card__body .specs-list {
+            font-size: 0.9rem;
+            color: var(--gris-moyen);
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        .vehicle-card__body .specs-list i {
+            color: var(--orange);
+            width: 18px;
+        }
+        .vehicle-card__body .dispo {
+            display: inline-block;
+            background: #FEF3C7;
+            color: #92400E;
+            padding: 2px 14px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            align-self: flex-start;
+        }
+        .vehicle-card__body .btn {
+            margin-top: auto;
+            justify-content: center;
+        }
+
+        /* ===== AVANTAGES ===== */
+        .avantages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .avantage-item {
+            text-align: center;
+            padding: 20px;
+        }
+        .avantage-item i {
+            font-size: 2.8rem;
+            color: var(--orange);
+            margin-bottom: 12px;
+            display: block;
+        }
+        .avantage-item h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .avantage-item p {
+            color: var(--gris-moyen);
+            font-size: 0.95rem;
+        }
+
+        /* ===== TEMOIGNAGES ===== */
+        .temoignages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .temoignage {
+            background: var(--blanc);
+            padding: 24px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--orange);
+        }
+        .temoignage .stars {
+            color: var(--orange);
+            margin-bottom: 8px;
+        }
+        .temoignage p {
+            font-style: italic;
+            color: var(--gris-moyen);
+            margin-bottom: 12px;
+        }
+        .temoignage .author {
+            font-weight: 600;
+            color: var(--gris-texte);
+        }
+
+        /* ===== CONTACT ===== */
+        .contact__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+        .contact__infos h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .contact__infos ul {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        .contact__infos ul li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--gris-moyen);
+        }
+        .contact__infos ul li i {
+            width: 24px;
+            color: var(--orange);
+            font-size: 1.2rem;
+        }
+        .contact__form input,
+        .contact__form textarea,
+        .contact__form select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            font-family: inherit;
+            font-size: 1rem;
+            margin-bottom: 14px;
+            background: var(--blanc);
+        }
+        .contact__form input:focus,
+        .contact__form textarea:focus,
+        .contact__form select:focus {
+            outline: none;
+            border-color: var(--orange);
+            box-shadow: 0 0 0 3px rgba(242, 153, 74, 0.1);
+        }
+        .contact__form textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0B1A2E;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 60px 0 30px;
+        }
+        .footer__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer h4 {
+            color: var(--blanc);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .footer ul {
+            list-style: none;
+        }
+        .footer ul li {
+            margin-bottom: 4px;
+        }
+        .footer ul li i {
+            width: 20px;
+            color: var(--orange);
+        }
+        .footer__legal {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 12px;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+        .footer__socials {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .footer__socials a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--blanc);
+            transition: 0.3s;
+        }
+        .footer__socials a:hover {
+            background: var(--orange);
+            transform: translateY(-2px);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header__inner {
+                flex-wrap: wrap;
+            }
+            .nav {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background: var(--blanc);
+                padding: 16px 0;
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                margin-top: 8px;
+                border: 1px solid #E2E8F0;
+            }
+            .nav.open {
+                display: flex;
+            }
+            .nav a {
+                width: 100%;
+                padding: 12px 20px;
+                border-radius: 0;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .hero-auto {
+                min-height: 50vh;
+            }
+            .hero-auto__content h1 {
+                font-size: 2.2rem;
+            }
+            .section {
+                padding: 60px 0;
+            }
+            .section__titre h2 {
+                font-size: 2rem;
+            }
+            .contact__grid {
+                grid-template-columns: 1fr;
+            }
+            .vehicles-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 480px) {
+            .vehicles-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-auto__content h1 {
+                font-size: 1.8rem;
+            }
+            .hero-auto__content .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* ===== REVEAL ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header" id="header">
+        <div class="container header__inner">
+            <a href="index.html" class="header__logo">
+                <img src="DMS/logo.jpg" alt="Logo DMS-C">
+                <div class="header__logo-text">
+                    <strong>DMS-C</strong>
+                    <small>Construction &amp; Automobile</small>
+                </div>
+            </a>
+            <nav class="nav" id="nav">
+                <a href="index.html">Accueil</a>
+                <a href="construction.html">Construction</a>
+                <a href="automobile.html" class="active">Automobile</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <div class="header__actions">
+                <a href="#contact" class="btn btn--accent"><i class="fas fa-file-invoice"></i> Devis</a>
+                <a href="https://wa.me/22674087512" target="_blank" class="btn btn--whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO AUTOMOBILE -->
+    <section class="hero-auto" id="hero">
+        <div class="container hero-auto__content">
+            <span class="badge"><i class="fas fa-car"></i> DMS-C Automobile</span>
+            <h1>Votre véhicule, <span>notre engagement</span></h1>
+            <p>Neuf, occasion, utilitaires et machines agricoles – nous vous trouvons le véhicule idéal.</p>
+            <a href="#vehicules" class="btn btn--blanc"><i class="fas fa-arrow-down"></i> Découvrir nos véhicules</a>
+        </div>
+    </section>
+
+    <!-- NOS VÉHICULES -->
+    <section class="section section--blanc" id="vehicules">
+        <div class="container">
+            <div class="section__titre">
+                <h2>Nos <span>véhicules</span> disponibles</h2>
+                <p>Découvrez notre sélection de véhicules neufs, d'occasion et de machines agricoles.</p>
+            </div>
+            <div class="vehicles-grid">
+
+                <!-- 1. Toyota Camry 2018 -->
+                <div class="vehicle-card reveal">
+                    <div class="card-slider" data-slider>
+                        <div class="slides-wrapper">
+                            <img src="DMS/toyota_cambry1.jpg" class="slide" alt="Camry vue 1">
+                            <img src="DMS/toyota_cambry2.jpg" class="slide" alt="Camry vue 2">
+                            <img src="DMS/toyota_cambry3.jpg" class="slide" alt="Camry vue 3">
+                        </div>
+                        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+                        <div class="dots"></div>
+                    </div>
+                    <div class="vehicle-card__body">
+                        <h4>Toyota Camry 2018</h4>
+                        <div class="price">8 900 000 F CFA <span>TTC</span></div>
+                        <div class="specs-list">
+                            <i class="fas fa-cog"></i> Boîte automatique<br>
+                            <i class="fas fa-gas-pump"></i> Moteur essence<br>
+                            <i class="fas fa-chair"></i> Intérieur cuir<br>
+                            <i class="fas fa-tv"></i> Écran multimédia
+                        </div>
+                        <span class="dispo"><i class="fas fa-clock"></i> Sur commande · Livraison 7 jours</span>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20commander%20la%20Toyota%20Camry%202018" target="_blank" class="btn btn--whatsapp">Commander</a>
+                    </div>
+                </div>
+
+                <!-- 2. Jetour X70S 2019 -->
+                <div class="vehicle-card reveal">
+                    <div class="card-slider" data-slider>
+                        <div class="slides-wrapper">
+                            <img src="DMS/jetour_1.jpg" class="slide" alt="Jetour vue 1">
+                            <img src="DMS/jetour_2.jpg" class="slide" alt="Jetour vue 2">
+                            <img src="DMS/jetour_1.jpg" class="slide" alt="Jetour vue 3">
+                        </div>
+                        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+                        <div class="dots"></div>
+                    </div>
+                    <div class="vehicle-card__body">
+                        <h4>Jetour X70S 2019</h4>
+                        <div class="price">8 900 000 F CFA <span>Hors Taxes</span></div>
+                        <div class="specs-list">
+                            <i class="fas fa-cog"></i> 1.5 Turbo · Automatique<br>
+                            <i class="fas fa-users"></i> 5 places · Terra Edition<br>
+                            <i class="fas fa-calendar-alt"></i> Année 2019
+                        </div>
+                        <span class="dispo"><i class="fas fa-clock"></i> Sur commande · Livraison 60 jours</span>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20commander%20la%20Jetour%20X70S%202019" target="_blank" class="btn btn--whatsapp">Commander</a>
+                    </div>
+                </div>
+
+                <!-- 3. Toyota RAV4 -->
+                <div class="vehicle-card reveal">
+                    <div class="card-slider" data-slider>
+                        <div class="slides-wrapper">
+                            <img src="DMS/rav4_1.jpg" class="slide" alt="RAV4 vue 1">
+                            <img src="DMS/rav4_2.jpg" class="slide" alt="RAV4 vue 2">
+                            <img src="DMS/rav4_1.jpg" class="slide" alt="RAV4 vue 3">
+                        </div>
+                        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+                        <div class="dots"></div>
+                    </div>
+                    <div class="vehicle-card__body">
+                        <h4>Toyota RAV4</h4>
+                        <div class="price">Prix sur demande</div>
+                        <div class="specs-list">
+                            <i class="fas fa-cog"></i> SUV polyvalent<br>
+                            <i class="fas fa-calendar-alt"></i> Modèle récent<br>
+                            <i class="fas fa-check-circle"></i> Disponible sur commande
+                        </div>
+                        <span class="dispo"><i class="fas fa-clock"></i> Sur commande</span>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20commander%20le%20Toyota%20RAV4" target="_blank" class="btn btn--whatsapp">Commander</a>
+                    </div>
+                </div>
+
+                <!-- 4. Toyota 4Runner 2025 -->
+                <div class="vehicle-card reveal">
+                    <div class="card-slider" data-slider>
+                        <div class="slides-wrapper">
+                            <img src="DMS/4runer_1.jpg" class="slide" alt="4Runner vue 1">
+                            <img src="DMS/4runer_2.jpg" class="slide" alt="4Runner vue 2">
+                            <img src="DMS/4runer_3.jpg" class="slide" alt="4Runner vue 3">
+                        </div>
+                        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+                        <div class="dots"></div>
+                    </div>
+                    <div class="vehicle-card__body">
+                        <h4>Toyota 4Runner 2025</h4>
+                        <div class="price">50 000 000 F CFA <span>Hors Taxes</span></div>
+                        <div class="specs-list">
+                            <i class="fas fa-cog"></i> Full Options<br>
+                            <i class="fas fa-tachometer-alt"></i> Moteur puissant<br>
+                            <i class="fas fa-star"></i> Confort haut de gamme
+                        </div>
+                        <span class="dispo"><i class="fas fa-clock"></i> Sur commande · Livraison 7 jours</span>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20commander%20le%20Toyota%204Runner%202025" target="_blank" class="btn btn--whatsapp">Commander</a>
+                    </div>
+                </div>
+
+            </div><!-- /vehicles-grid -->
+        </div>
+    </section>
+
+    <!-- POURQUOI CHOISIR DMS-C AUTOMOBILE -->
+    <section class="section section--gris" id="avantages">
+        <div class="container">
+            <div class="section__titre">
+                <h2>Pourquoi choisir <span>DMS-C Automobile</span> ?</h2>
+                <p>Des atouts qui font la différence pour votre prochain véhicule.</p>
+            </div>
+            <div class="avantages-grid">
+                <div class="avantage-item reveal">
+                    <i class="fas fa-ship"></i>
+                    <h4>Importation directe</h4>
+                    <p>Des prix compétitifs grâce à notre réseau d'importation.</p>
+                </div>
+                <div class="avantage-item reveal">
+                    <i class="fas fa-check-circle"></i>
+                    <h4>Qualité garantie</h4>
+                    <p>Véhicules contrôlés, révisés et garantis.</p>
+                </div>
+                <div class="avantage-item reveal">
+                    <i class="fas fa-truck"></i>
+                    <h4>Livraison rapide</h4>
+                    <p>Délais de 7 à 60 jours selon le modèle choisi.</p>
+                </div>
+                <div class="avantage-item reveal">
+                    <i class="fas fa-handshake"></i>
+                    <h4>Accompagnement personnalisé</h4>
+                    <p>Nous vous conseillons pour faire le meilleur choix.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TÉMOIGNAGES -->
+    <section class="section section--blanc" id="temoignages">
+        <div class="container">
+            <div class="section__titre">
+                <h2>Ils nous <span>font confiance</span></h2>
+                <p>Ce que nos clients disent de DMS-C Automobile.</p>
+            </div>
+            <div class="temoignages-grid">
+                <div class="temoignage reveal">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p>"J'ai acheté mon Toyota Camry chez DMS-C, livraison rapide et véhicule en parfait état. Je recommande !"</p>
+                    <div class="author">— Abdoulaye S., Ouagadougou</div>
+                </div>
+                <div class="temoignage reveal">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p>"Très bon suivi et conseils avisés. DMS-C Automobile est un partenaire de confiance pour l'importation."</p>
+                    <div class="author">— Fatimata Z., Bobo-Dioulasso</div>
+                </div>
+                <div class="temoignage reveal">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p>"J'ai commandé un 4Runner, livré en 7 jours comme promis. Professionnalisme et qualité au rendez-vous."</p>
+                    <div class="author">— Issa K., Koudougou</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section section--gris" id="contact">
+        <div class="container">
+            <div class="section__titre">
+                <h2>Parlons de <span>votre véhicule</span></h2>
+                <p>Contactez-nous pour toute demande d'information ou de commande.</p>
+            </div>
+            <div class="contact__grid">
+                <div class="contact__infos">
+                    <h3>Coordonnées</h3>
+                    <ul>
+                        <li><i class="fas fa-phone-alt"></i> (+226) 76 69 28 69 <span style="font-size:0.8rem; color:var(--gris-moyen);">(Standard)</span></li>
+                        <li><i class="fas fa-phone-alt"></i> (+226) 70 18 20 76 <span style="font-size:0.8rem; color:var(--gris-moyen);">(Standard)</span></li>
+                        <li><i class="fas fa-phone-alt"></i> (+226) 78 75 78 54 <span style="font-size:0.8rem; color:var(--gris-moyen);">(Standard)</span></li>
+                        <li><i class="fas fa-phone-alt"></i> (+226) 25 65 30 01 <span style="font-size:0.8rem; color:var(--gris-moyen);">(Standard)</span></li>
+                        <li><i class="fab fa-whatsapp" style="color:#25D366;"></i> (+226) 74 08 75 12 <span style="font-size:0.8rem; color:var(--gris-moyen);">(DMS-C Automobile)</span></li>
+                        <li><i class="fas fa-envelope"></i> dmsa6611@gmail.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> En bas de l'échangeur de Gounghin, non loin de SARAMAYA, Ouagadougou</li>
+                    </ul>
+                    <a href="https://wa.me/22674087512" target="_blank" class="btn btn--whatsapp"><i class="fab fa-whatsapp"></i> Écrire sur WhatsApp</a>
+                </div>
+                <div>
+                    <form class="contact__form" id="contactForm">
+                        <input type="text" placeholder="Votre nom complet" required />
+                        <input type="tel" placeholder="Téléphone" required />
+                        <input type="email" placeholder="Email (optionnel)" />
+                        <select>
+                            <option value="">Objet de votre demande</option>
+                            <option value="automobile">Achat / Commande de véhicule</option>
+                            <option value="agricole">Machine agricole</option>
+                            <option value="devis">Demande de devis</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                        <textarea placeholder="Décrivez votre besoin (modèle, budget, etc.)..." required></textarea>
+                        <button type="submit" class="btn btn--accent" style="width:100%; justify-content:center;"><i class="fas fa-paper-plane"></i> Envoyer ma demande</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__grid">
+                <div>
+                    <h4><i class="fas fa-car" style="color:var(--orange);"></i> DMS-C Automobile</h4>
+                    <p style="font-size:0.95rem; margin-bottom:8px;">Votre partenaire de confiance pour l'importation et la vente de véhicules.</p>
+                    <p style="font-size:0.85rem; opacity:0.7;">IFU : 001801191V<br>Agrément : N°6834<br>RCCM : BF OUA – 01 – 2022 – B13 – 5577</p>
+                </div>
+                <div>
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="construction.html">DMS-C Construction</a></li>
+                        <li><a href="automobile.html">DMS-C Automobile</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Nos services</h4>
+                    <ul>
+                        <li>Véhicules neufs</li>
+                        <li>Véhicules d'occasion</li>
+                        <li>Machines agricoles</li>
+                        <li>Importation sur commande</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-phone-alt"></i> (+226) 76 69 28 69</li>
+                        <li><i class="fab fa-whatsapp"></i> (+226) 74 08 75 12</li>
+                        <li><i class="fas fa-envelope"></i> dmsa6611@gmail.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Ouagadougou, Gounghin</li>
+                    </ul>
+                    <div class="footer__socials">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://wa.me/22674087512" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__legal">
+                <span>&copy; 2026 DMS-C — Tous droits réservés.</span>
+                <span><i class="fas fa-code"></i> Conçu avec <i class="fas fa-heart" style="color:var(--orange);"></i> pour le Burkina Faso</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // --- HAMBURGER ---
+            const hamburger = document.getElementById('hamburger');
+            const nav = document.getElementById('nav');
+            hamburger.addEventListener('click', function() {
+                nav.classList.toggle('open');
+            });
+            nav.querySelectorAll('a').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    nav.classList.remove('open');
+                });
+            });
+
+            // --- INITIALISATION DES SLIDERS DANS LES CARTES ---
+            const sliders = document.querySelectorAll('[data-slider]');
+
+            sliders.forEach(function(container) {
+                const wrapper = container.querySelector('.slides-wrapper');
+                const slides = container.querySelectorAll('.slide');
+                const prevBtn = container.querySelector('.prev');
+                const nextBtn = container.querySelector('.next');
+                const dotsContainer = container.querySelector('.dots');
+
+                if (!wrapper || slides.length === 0) return;
+
+                let currentIndex = 0;
+                const totalSlides = slides.length;
+
+                dotsContainer.innerHTML = '';
+                for (let i = 0; i < totalSlides; i++) {
+                    const dot = document.createElement('span');
+                    if (i === 0) dot.classList.add('active');
+                    dot.dataset.index = i;
+                    dotsContainer.appendChild(dot);
+                }
+                const dots = dotsContainer.querySelectorAll('span');
+
+                function goTo(index) {
+                    if (index < 0) index = totalSlides - 1;
+                    if (index >= totalSlides) index = 0;
+                    currentIndex = index;
+                    wrapper.style.transform = 'translateX(' + (-currentIndex * 100) + '%)';
+                    dots.forEach(function(dot, i) {
+                        dot.classList.toggle('active', i === currentIndex);
+                    });
+                }
+
+                function nextSlideCard() { goTo(currentIndex + 1); }
+                function prevSlideCard() { goTo(currentIndex - 1); }
+
+                if (prevBtn) prevBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    prevSlideCard();
+                });
+                if (nextBtn) nextBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    nextSlideCard();
+                });
+
+                dots.forEach(function(dot) {
+                    dot.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const index = parseInt(this.dataset.index, 10);
+                        goTo(index);
+                    });
+                });
+            });
+
+            // --- FORMULAIRE ---
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('✅ Votre message a été envoyé ! Nous vous recontacterons dans les 24h.');
+                this.reset();
+            });
+
+            // --- REVEAL ON SCROLL ---
+            const reveals = document.querySelectorAll('.reveal');
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+                reveals.forEach(function(el) { observer.observe(el); });
+                setTimeout(function() {
+                    reveals.forEach(function(el) {
+                        if (el.getBoundingClientRect().top < window.innerHeight) {
+                            el.classList.add('visible');
+                        }
+                    });
+                }, 200);
+            } else {
+                reveals.forEach(function(el) { el.classList.add('visible'); });
+            }
+
+        })();
+    </script>
+
+</body>
+</html>
