@@ -405,7 +405,7 @@
             font-weight: 500;
         }
 
-        /* ===== PÔLES (section "Nos deux filiales") ===== */
+        /* ===== PÔLES ===== */
         .poles {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -442,7 +442,7 @@
             margin-bottom: 20px;
         }
 
-        /* ===== POURQUOI (3 items) ===== */
+        /* ===== POURQUOI ===== */
         .pourquoi {
             background: var(--bleu);
             color: var(--blanc);
@@ -473,7 +473,7 @@
             opacity: 0.85;
         }
 
-        /* ===== NOUVELLE SECTION : RANGÉES DE 3 CARTES ===== */
+        /* ===== SERVICES : CARTES AVEC SLIDER ===== */
         .services-section {
             padding: 80px 0;
         }
@@ -514,12 +514,76 @@
             transform: translateY(-6px);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.10);
         }
-        .service-card__img {
+
+        /* Slider dans la carte */
+        .card-slider {
+            position: relative;
             width: 100%;
             height: 200px;
-            object-fit: cover;
+            overflow: hidden;
             background: #e9edf5;
         }
+        .card-slider .slides-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.4s ease-in-out;
+        }
+        .card-slider .slide {
+            min-width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .card-slider .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            z-index: 5;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .card-slider .slider-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        .card-slider .slider-btn.prev {
+            left: 6px;
+        }
+        .card-slider .slider-btn.next {
+            right: 6px;
+        }
+        .card-slider .dots {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 5;
+        }
+        .card-slider .dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .card-slider .dots span.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
         .service-card__body {
             padding: 20px 22px 24px;
             flex: 1;
@@ -529,20 +593,47 @@
         .service-card__body h4 {
             font-size: 1.2rem;
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
-        .service-card__body p {
+        .service-card__body .price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--bleu);
+            margin: 4px 0 6px;
+        }
+        .service-card__body .price span {
             color: var(--gris-moyen);
-            font-size: 0.95rem;
-            margin-bottom: 16px;
-            flex: 1;
+            font-weight: 400;
+            font-size: 0.9rem;
+        }
+        .service-card__body .specs-list {
+            font-size: 0.9rem;
+            color: var(--gris-moyen);
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        .service-card__body .specs-list i {
+            color: var(--orange);
+            width: 18px;
+        }
+        .service-card__body .dispo {
+            display: inline-block;
+            background: #FEF3C7;
+            color: #92400E;
+            padding: 2px 14px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            align-self: flex-start;
         }
         .service-card__body .btn {
             margin-top: auto;
             justify-content: center;
         }
 
-        /* ===== CATALOGUE (véhicules supplémentaires) ===== */
+        /* ===== CATALOGUE ===== */
         .catalogue__grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -712,26 +803,14 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-            .apropos {
-                grid-template-columns: 1fr;
-            }
-            .contact__grid {
-                grid-template-columns: 1fr;
-            }
-            .pourquoi__grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .services-row {
-                grid-template-columns: repeat(3, 1fr);
-            }
+            .hero h1 { font-size: 2.8rem; }
+            .apropos { grid-template-columns: 1fr; }
+            .contact__grid { grid-template-columns: 1fr; }
+            .pourquoi__grid { grid-template-columns: 1fr 1fr; }
+            .services-row { grid-template-columns: repeat(3, 1fr); }
         }
         @media (max-width: 768px) {
-            .header__inner {
-                flex-wrap: wrap;
-            }
+            .header__inner { flex-wrap: wrap; }
             .nav {
                 display: none;
                 flex-direction: column;
@@ -743,75 +822,29 @@
                 margin-top: 8px;
                 border: 1px solid #E2E8F0;
             }
-            .nav.open {
-                display: flex;
-            }
-            .nav a {
-                width: 100%;
-                padding: 12px 20px;
-                border-radius: 0;
-            }
-            .hamburger {
-                display: flex;
-            }
-            .header__actions .btn--primaire {
-                display: none;
-            }
-            .hero {
-                padding-top: 80px;
-                min-height: 70vh;
-            }
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            .hero p {
-                font-size: 1rem;
-            }
-            .section {
-                padding: 60px 0;
-            }
-            .section__titre h2 {
-                font-size: 2rem;
-            }
-            .stats__grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .stats__item h3 {
-                font-size: 1.8rem;
-            }
-            .poles {
-                grid-template-columns: 1fr;
-            }
-            .footer__grid {
-                grid-template-columns: 1fr;
-            }
-            .pourquoi__grid {
-                grid-template-columns: 1fr;
-            }
-            .services-row {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .nav.open { display: flex; }
+            .nav a { width: 100%; padding: 12px 20px; border-radius: 0; }
+            .hamburger { display: flex; }
+            .header__actions .btn--primaire { display: none; }
+            .hero { padding-top: 80px; min-height: 70vh; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero p { font-size: 1rem; }
+            .section { padding: 60px 0; }
+            .section__titre h2 { font-size: 2rem; }
+            .stats__grid { grid-template-columns: 1fr 1fr; }
+            .stats__item h3 { font-size: 1.8rem; }
+            .poles { grid-template-columns: 1fr; }
+            .footer__grid { grid-template-columns: 1fr; }
+            .pourquoi__grid { grid-template-columns: 1fr; }
+            .services-row { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 480px) {
-            .stats__grid {
-                grid-template-columns: 1fr;
-            }
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            .hero__actions .btn {
-                width: 100%;
-                justify-content: center;
-            }
-            .catalogue__grid {
-                grid-template-columns: 1fr;
-            }
-            .apropos__chiffres {
-                grid-template-columns: 1fr 1fr;
-            }
-            .services-row {
-                grid-template-columns: 1fr;
-            }
+            .stats__grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 1.8rem; }
+            .hero__actions .btn { width: 100%; justify-content: center; }
+            .catalogue__grid { grid-template-columns: 1fr; }
+            .apropos__chiffres { grid-template-columns: 1fr 1fr; }
+            .services-row { grid-template-columns: 1fr; }
         }
 
         /* ===== REVEAL ===== */
@@ -820,10 +853,7 @@
             transform: translateY(30px);
             transition: opacity 0.7s ease, transform 0.7s ease;
         }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
@@ -938,7 +968,7 @@
         </div>
     </section>
 
-    <!-- ===== NOUVELLE SECTION : RANGÉES DE 3 CARTES AVEC IMAGES ===== -->
+    <!-- ===== PRESTATIONS PHARES ===== -->
     <section class="services-section section--blanc" id="services">
         <div class="container">
             <div class="section__titre">
@@ -951,73 +981,122 @@
                 <i class="fas fa-hard-hat"></i> DMS Construction
             </h3>
             <div class="services-row">
-                <!-- Carte 1 : Construction.jpg -->
                 <div class="service-card reveal">
-                    <img class="service-card__img" src="DMS/Construction.jpg" alt="Construction clé en main">
+                    <img class="service-card__img" src="DMS/Construction.jpg" alt="Construction clé en main" style="height:200px; width:100%; object-fit:cover; background:#e9edf5;">
                     <div class="service-card__body">
                         <h4>Construction Clé en Main</h4>
-                        <p>Villas modernes R+1, budgets garantis, gestion pour la diaspora. Prise en charge intégrale.</p>
+                        <p>Villas modernes R+1, budgets garantis, gestion pour la diaspora.</p>
                         <a href="construction.html" class="btn btn--primaire">En savoir plus</a>
                     </div>
                 </div>
-                <!-- Carte 2 : Conception.jpg -->
                 <div class="service-card reveal">
-                    <img class="service-card__img" src="DMS/Conception.jpg" alt="Conception et études">
+                    <img class="service-card__img" src="DMS/Conception.jpg" alt="Conception et études" style="height:200px; width:100%; object-fit:cover; background:#e9edf5;">
                     <div class="service-card__body">
                         <h4>Conception &amp; Études</h4>
-                        <p>Plans architecturaux, devis transparents, dimensionnement, suivi technique rigoureux.</p>
+                        <p>Plans architecturaux, devis transparents, dimensionnement, suivi technique.</p>
                         <a href="construction.html" class="btn btn--primaire">En savoir plus</a>
                     </div>
                 </div>
-                <!-- Carte 3 : renovation.jpg -->
                 <div class="service-card reveal">
-                    <img class="service-card__img" src="DMS/renovation.jpg" alt="Rénovation et aménagements">
+                    <img class="service-card__img" src="DMS/renovation.jpg" alt="Rénovation et aménagements" style="height:200px; width:100%; object-fit:cover; background:#e9edf5;">
                     <div class="service-card__body">
                         <h4>Rénovation &amp; Aménagements</h4>
-                        <p>Réfection, pose de pavés, soudure, métallerie sur mesure (portails, charpentes).</p>
+                        <p>Réfection, pose de pavés, soudure, métallerie sur mesure.</p>
                         <a href="construction.html" class="btn btn--primaire">En savoir plus</a>
                     </div>
                 </div>
             </div>
 
-            <!-- RANGÉE DMS AUTOMOBILE -->
+            <!-- RANGÉE DMS AUTOMOBILE (3 véhicules : Camry, Jetour, RAV4) -->
             <h3 class="row-title row-title--automobile reveal" style="margin-top: 60px;">
                 <i class="fas fa-car"></i> DMS Automobile
             </h3>
             <div class="services-row">
-                <!-- Carte 1 : à remplacer par votre image -->
-                <div class="service-card reveal">
-                    <img class="service-card__img" src="DMS/hilux.jpg" alt="Toyota Hilux 4x4" style="object-fit:contain; background:#f0f0f0;">
-                    <div class="service-card__body">
-                        <h4>Toyota Hilux 4x4</h4>
-                        <p>Neuf · 150 ch · Double cabine</p>
-                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20Toyota%20Hilux" target="_blank" class="btn btn--whatsapp">Demander le prix</a>
-                    </div>
-                </div>
-                <!-- Carte 2 -->
-                <div class="service-card reveal">
-                    <img class="service-card__img" src="DMS/master.jpg" alt="Renault Master" style="object-fit:contain; background:#f0f0f0;">
-                    <div class="service-card__body">
-                        <h4>Renault Master</h4>
-                        <p>Occasion · 130 ch · Très bon état</p>
-                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20Renault%20Master" target="_blank" class="btn btn--whatsapp">Demander le prix</a>
-                    </div>
-                </div>
-                <!-- Carte 3 -->
-                <div class="service-card reveal">
-                    <img class="service-card__img" src="DMS/ferguson.jpg" alt="Massey Ferguson 375" style="object-fit:contain; background:#f0f0f0;">
-                    <div class="service-card__body">
-                        <h4>Massey Ferguson 375</h4>
-                        <p>Tracteur · 75 ch · Révisé</p>
-                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20tracteur%20Massey%20Ferguson" target="_blank" class="btn btn--whatsapp">Demander le prix</a>
-                    </div>
-                </div>
-            </div>
 
+                <!-- 1. Toyota Camry 2018 -->
+                <div class="service-card reveal">
+                    <div class="card-slider" data-slider>
+                        <div class="slides-wrapper">
+                            <img src="DMS/toyota_cambry1.jpg" class="slide" alt="Camry vue 1">
+                            <img src="DMS/toyota_cambry2.jpg" class="slide" alt="Camry vue 2">
+                            <img src="DMS/toyota_cambry3.jpg" class="slide" alt="Camry vue 3">
+                        </div>
+                        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+                        <div class="dots"></div>
+                    </div>
+                    <div class="service-card__body">
+                        <h4>Toyota Camry 2018</h4>
+                        <div class="price">8 900 000 F CFA <span>TTC</span></div>
+                        <div class="specs-list">
+                            <i class="fas fa-cog"></i> Boîte automatique<br>
+                            <i class="fas fa-gas-pump"></i> Moteur essence<br>
+                            <i class="fas fa-chair"></i> Intérieur cuir<br>
+                            <i class="fas fa-tv"></i> Écran multimédia<br>
+                            <i class="fas fa-circle"></i> Jantes alliage
+                        </div>
+                        <span class="dispo"><i class="fas fa-clock"></i> Sur commande · Livraison 7 jours</span>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20la%20Toyota%20Camry%202018" target="_blank" class="btn btn--whatsapp">Demander le prix</a>
+                    </div>
+                </div>
+
+                <!-- 2. Jetour X70S 2019 -->
+                <div class="service-card reveal">
+                    <div class="card-slider" data-slider>
+                        <div class="slides-wrapper">
+                            <img src="DMS/jetour_1.jpg" class="slide" alt="Jetour vue 1">
+                            <img src="DMS/jetour_2.jpg" class="slide" alt="Jetour vue 2">
+                            <!-- Ajoutez une 3e image si vous en avez, sinon on duplique -->
+                            <img src="DMS/jetour_1.jpg" class="slide" alt="Jetour vue 3">
+                        </div>
+                        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+                        <div class="dots"></div>
+                    </div>
+                    <div class="service-card__body">
+                        <h4>Jetour X70S 2019</h4>
+                        <div class="price">8 900 000 F CFA <span>Hors Taxes</span></div>
+                        <div class="specs-list">
+                            <i class="fas fa-cog"></i> 1.5 Turbo · Automatique<br>
+                            <i class="fas fa-users"></i> 5 places · Terra Edition<br>
+                            <i class="fas fa-calendar-alt"></i> Année 2019
+                        </div>
+                        <span class="dispo"><i class="fas fa-clock"></i> Sur commande · Livraison 60 jours</span>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20la%20Jetour%20X70S%202019" target="_blank" class="btn btn--whatsapp">Demander le prix</a>
+                    </div>
+                </div>
+
+                <!-- 3. Toyota RAV4 -->
+                <div class="service-card reveal">
+                    <div class="card-slider" data-slider>
+                        <div class="slides-wrapper">
+                            <img src="DMS/rav4_1.jpg" class="slide" alt="RAV4 vue 1">
+                            <img src="DMS/rav4_2.jpg" class="slide" alt="RAV4 vue 2">
+                            <!-- Ajoutez une 3e image si vous en avez -->
+                            <img src="DMS/rav4_1.jpg" class="slide" alt="RAV4 vue 3">
+                        </div>
+                        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+                        <div class="dots"></div>
+                    </div>
+                    <div class="service-card__body">
+                        <h4>Toyota RAV4</h4>
+                        <div class="price">Prix sur demande</div>
+                        <div class="specs-list">
+                            <i class="fas fa-cog"></i> SUV polyvalent<br>
+                            <i class="fas fa-calendar-alt"></i> Modèle récent<br>
+                            <i class="fas fa-check-circle"></i> Disponible sur commande
+                        </div>
+                        <span class="dispo"><i class="fas fa-clock"></i> Sur commande</span>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20Toyota%20RAV4" target="_blank" class="btn btn--whatsapp">Demander le prix</a>
+                    </div>
+                </div>
+
+            </div><!-- /services-row -->
         </div>
     </section>
 
-    <!-- POURQUOI DMS (3 items) -->
+    <!-- POURQUOI DMS -->
     <section class="pourquoi">
         <div class="container">
             <div class="section__titre section__titre--blanc">
@@ -1048,8 +1127,8 @@
     <section class="section section--gris" id="catalogue">
         <div class="container">
             <div class="section__titre">
-                <h2>Véhicules &amp; <span>machines disponibles</span></h2>
-                <p>Découvrez notre sélection de véhicules neufs, d'occasion et d'équipements agricoles.</p>
+                <h2>Autres véhicules &amp; <span>machines disponibles</span></h2>
+                <p>Découvrez notre sélection complémentaire.</p>
             </div>
             <div class="catalogue__grid" id="catalogueGrid"></div>
         </div>
@@ -1173,7 +1252,7 @@
                 });
             });
 
-            // --- CAROUSEL ---
+            // --- HERO CAROUSEL ---
             const slides = document.querySelectorAll('.hero__carousel-slide');
             const dots = document.querySelectorAll('.hero__carousel-dots button');
             const heroContent = document.getElementById('heroContent');
@@ -1251,16 +1330,71 @@
             goToSlide(0);
             startCarousel();
 
+            // --- INITIALISATION DES SLIDERS DANS LES CARTES ---
+            const sliders = document.querySelectorAll('[data-slider]');
+
+            sliders.forEach(function(container) {
+                const wrapper = container.querySelector('.slides-wrapper');
+                const slides = container.querySelectorAll('.slide');
+                const prevBtn = container.querySelector('.prev');
+                const nextBtn = container.querySelector('.next');
+                const dotsContainer = container.querySelector('.dots');
+
+                if (!wrapper || slides.length === 0) return;
+
+                let currentIndex = 0;
+                const totalSlides = slides.length;
+
+                dotsContainer.innerHTML = '';
+                for (let i = 0; i < totalSlides; i++) {
+                    const dot = document.createElement('span');
+                    if (i === 0) dot.classList.add('active');
+                    dot.dataset.index = i;
+                    dotsContainer.appendChild(dot);
+                }
+                const dots = dotsContainer.querySelectorAll('span');
+
+                function goTo(index) {
+                    if (index < 0) index = totalSlides - 1;
+                    if (index >= totalSlides) index = 0;
+                    currentIndex = index;
+                    wrapper.style.transform = 'translateX(' + (-currentIndex * 100) + '%)';
+                    dots.forEach(function(dot, i) {
+                        dot.classList.toggle('active', i === currentIndex);
+                    });
+                }
+
+                function nextSlideCard() { goTo(currentIndex + 1); }
+                function prevSlideCard() { goTo(currentIndex - 1); }
+
+                if (prevBtn) prevBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    prevSlideCard();
+                });
+                if (nextBtn) nextBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    nextSlideCard();
+                });
+
+                dots.forEach(function(dot) {
+                    dot.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const index = parseInt(this.dataset.index, 10);
+                        goTo(index);
+                    });
+                });
+            });
+
             // --- CATALOGUE (véhicules supplémentaires) ---
             const catalogueData = [
-                { id: 1, nom: 'Motoculteur BCS 740', annee: '2024', carburant: 'Diesel', puissance: '12 CV', etat: 'Neuf',
-                    statut: 'disponible', icon: '🚜' },
+                { id: 1, nom: 'Toyota 4Runner 2025', annee: '2025', carburant: 'Essence', puissance: 'Full Options',
+                    etat: 'Neuf', statut: 'commande', icon: '🚙' },
                 { id: 2, nom: 'Camionnette Renault Master', annee: '2023', carburant: 'Diesel', puissance: '130 CV',
                     etat: 'Très bon état', statut: 'disponible', icon: '🚐' },
                 { id: 3, nom: 'Tracteur Massey Ferguson 375', annee: '2022', carburant: 'Diesel', puissance: '75 CV',
                     etat: 'Révisé', statut: 'commande', icon: '🚜' },
-                { id: 4, nom: '4x4 Toyota Hilux', annee: '2023', carburant: 'Essence', puissance: '150 CV', etat: 'Neuf',
-                    statut: 'disponible', icon: '🚙' }
+                { id: 4, nom: 'Motoculteur BCS 740', annee: '2024', carburant: 'Diesel', puissance: '12 CV', etat: 'Neuf',
+                    statut: 'disponible', icon: '🚜' }
             ];
 
             const catalogueGrid = document.getElementById('catalogueGrid');
