@@ -43,12 +43,6 @@
             cursor: pointer;
             transition: 0.3s;
         }
-        .btn--blanc {
-            background: var(--blanc);
-            color: var(--bleu);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-        }
-        .btn--blanc:hover { background: var(--gris-clair); transform: translateY(-2px); }
         .btn--primaire { background: var(--bleu); color: var(--blanc); }
         .btn--primaire:hover { background: var(--bleu-fonce); }
         .btn--whatsapp { background: #25D366; color: var(--blanc); }
@@ -138,10 +132,10 @@
             transition: 0.3s;
         }
 
-        /* ===== HERO CONSTRUCTION – HAUTEUR RÉDUITE ===== */
+        /* ===== BANNIÈRE CONSTRUCTION – HAUTEUR 65vh ===== */
         .hero-construction {
             padding-top: 70px;
-            min-height: 55vh; /* ← HAUTEUR RÉDUITE (au lieu de 100vh) */
+            min-height: 65vh; /* ← HAUTEUR AUGMENTÉE (65vh) */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -155,28 +149,8 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: rgba(0,0,0,0.15);
+            background: rgba(0,0,0,0.10);
         }
-
-        /* Boutons flottants en bas de l'image */
-        .hero-construction .hero__overlay-buttons {
-            position: absolute;
-            bottom: 40px; /* ← remonté car l'image est moins haute */
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .hero-construction .hero__overlay-buttons .btn {
-            padding: 12px 30px;
-            font-size: 0.95rem;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-        }
-        .btn--construction { background: var(--bleu); color: var(--blanc); }
-        .btn--construction:hover { background: var(--bleu-fonce); }
 
         /* ===== SECTIONS ===== */
         .section { padding: 80px 0; }
@@ -196,7 +170,7 @@
         .section__titre h2 span { color: var(--bleu); }
         .section__titre p { color: var(--gris-moyen); font-size: 1.1rem; }
 
-        /* ===== SERVICES ===== */
+        /* ===== SERVICES AVEC IMAGES ===== */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -204,25 +178,36 @@
         }
         .service-card {
             background: var(--blanc);
-            padding: 30px 24px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            text-align: center;
-            border-left: 4px solid var(--bleu);
+            overflow: hidden;
             transition: 0.3s;
+            border: 1px solid #E2E8F0;
         }
         .service-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-6px);
             box-shadow: var(--shadow-premium);
         }
-        .service-card i {
-            font-size: 2.8rem;
-            color: var(--bleu);
-            margin-bottom: 12px;
-            display: block;
+        .service-card .service-img {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
         }
-        .service-card h4 { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
-        .service-card p { color: var(--gris-moyen); font-size: 0.95rem; }
+        .service-card .service-body {
+            padding: 24px 20px 28px;
+            text-align: center;
+        }
+        .service-card .service-body h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--gris-texte);
+        }
+        .service-card .service-body p {
+            color: var(--gris-moyen);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
 
         /* ===== GALERIE ===== */
         .mini-gallery {
@@ -347,16 +332,13 @@
             .nav a { width: 100%; padding: 12px 20px; border-radius: 0; }
             .hamburger { display: flex; }
             .header__actions .btn--primaire { display: none; }
-            .hero-construction { padding-top: 70px; min-height: 45vh; }
-            .hero-construction .hero__overlay-buttons { bottom: 30px; gap: 12px; }
-            .hero-construction .hero__overlay-buttons .btn { padding: 10px 20px; font-size: 0.85rem; }
+            .hero-construction { padding-top: 70px; min-height: 50vh; }
             .section { padding: 60px 0; }
             .section__titre h2 { font-size: 2rem; }
             .services-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 480px) {
-            .hero-construction .hero__overlay-buttons { flex-direction: column; align-items: center; bottom: 40px; }
-            .hero-construction .hero__overlay-buttons .btn { width: 180px; justify-content: center; }
+            .hero-construction { min-height: 40vh; }
             .mini-gallery { grid-template-columns: 1fr; }
         }
 
@@ -396,16 +378,11 @@
     </header>
 
     <!-- ============================================================ -->
-    <!-- HERO CONSTRUCTION – IMAGE SEULEMENT (hauteur réduite)        -->
+    <!-- BANNIÈRE CONSTRUCTION – JUSTE L'IMAGE (65vh)                  -->
     <!-- ============================================================ -->
-    <section class="hero-construction" id="hero">
-        <div class="hero__overlay-buttons">
-            <a href="#prestations" class="btn btn--blanc"><i class="fas fa-cogs"></i> Nos prestations</a>
-            <a href="#contact" class="btn btn--construction"><i class="fas fa-file-invoice"></i> Demander un devis</a>
-        </div>
-    </section>
+    <section class="hero-construction" id="hero"></section>
 
-    <!-- NOS PRESTATIONS -->
+    <!-- NOS PRESTATIONS (AVEC IMAGES) -->
     <section class="section section--blanc" id="prestations">
         <div class="container">
             <div class="section__titre">
@@ -413,35 +390,53 @@
                 <p>Des services complets pour concrétiser vos projets.</p>
             </div>
             <div class="services-grid">
+                <!-- 1. Construction -->
                 <div class="service-card reveal">
-                    <i class="fas fa-building"></i>
-                    <h4>Construction de bâtiments</h4>
-                    <p>Villas, immeubles R+1/R+2, bâtiments scolaires, génie civil et aménagements intérieurs.</p>
+                    <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1581092335872-5f3e90d2e4ed?w=400&h=200&fit=crop');"></div>
+                    <div class="service-body">
+                        <h4>Construction de bâtiments</h4>
+                        <p>Villas, immeubles R+1/R+2, bâtiments scolaires, génie civil et aménagements intérieurs.</p>
+                    </div>
                 </div>
+                <!-- 2. Réfection -->
                 <div class="service-card reveal">
-                    <i class="fas fa-hammer"></i>
-                    <h4>Réfection &amp; rénovation</h4>
-                    <p>Rénovation, réhabilitation et mise aux normes de bâtiments existants.</p>
+                    <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6953?w=400&h=200&fit=crop');"></div>
+                    <div class="service-body">
+                        <h4>Réfection &amp; rénovation</h4>
+                        <p>Rénovation, réhabilitation et mise aux normes de bâtiments existants.</p>
+                    </div>
                 </div>
+                <!-- 3. Pose de pavés -->
                 <div class="service-card reveal">
-                    <i class="fas fa-cubes"></i>
-                    <h4>Pose de pavés</h4>
-                    <p>Aménagements extérieurs, terrasses, voiries et espaces publics.</p>
+                    <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1586095455813-9e6bd79a21ab?w=400&h=200&fit=crop');"></div>
+                    <div class="service-body">
+                        <h4>Pose de pavés</h4>
+                        <p>Aménagements extérieurs, terrasses, voiries et espaces publics.</p>
+                    </div>
                 </div>
+                <!-- 4. Conception de plans -->
                 <div class="service-card reveal">
-                    <i class="fas fa-ruler-combined"></i>
-                    <h4>Conception de plans</h4>
-                    <p>Études architecturales, dimensionnement et plans sur-mesure.</p>
+                    <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=400&h=200&fit=crop');"></div>
+                    <div class="service-body">
+                        <h4>Conception de plans</h4>
+                        <p>Études architecturales, dimensionnement et plans sur-mesure.</p>
+                    </div>
                 </div>
+                <!-- 5. Établissement de devis -->
                 <div class="service-card reveal">
-                    <i class="fas fa-file-signature"></i>
-                    <h4>Établissement de devis</h4>
-                    <p>Devis détaillés, transparents et adaptés à votre budget.</p>
+                    <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=400&h=200&fit=crop');"></div>
+                    <div class="service-body">
+                        <h4>Établissement de devis</h4>
+                        <p>Devis détaillés, transparents et adaptés à votre budget.</p>
+                    </div>
                 </div>
+                <!-- 6. Soudure -->
                 <div class="service-card reveal">
-                    <i class="fas fa-weld"></i>
-                    <h4>Travaux de soudure</h4>
-                    <p>Charpentes métalliques, portails, escaliers, garde-corps et structures sur-mesure.</p>
+                    <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=400&h=200&fit=crop');"></div>
+                    <div class="service-body">
+                        <h4>Travaux de soudure</h4>
+                        <p>Charpentes métalliques, portails, escaliers, garde-corps et structures sur-mesure.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -487,15 +482,15 @@
                 <p>Découvrez quelques-uns de nos projets en construction, soudure et aménagement.</p>
             </div>
             <div class="mini-gallery">
-                <div class="gallery-item">🏠</div>
-                <div class="gallery-item">🏢</div>
-                <div class="gallery-item">🔩</div>
-                <div class="gallery-item">🛣️</div>
-                <div class="gallery-item">📚</div>
-                <div class="gallery-item">🪜</div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1581092335872-5f3e90d2e4ed?w=300&h=200&fit=crop'); background-size:cover; background-position:center; font-size:0;">🏠</div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1486718448742-163732cd1544?w=300&h=200&fit=crop'); background-size:cover; background-position:center; font-size:0;">🏢</div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=300&h=200&fit=crop'); background-size:cover; background-position:center; font-size:0;">🔩</div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1586095455813-9e6bd79a21ab?w=300&h=200&fit=crop'); background-size:cover; background-position:center; font-size:0;">🛣️</div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=300&h=200&fit=crop'); background-size:cover; background-position:center; font-size:0;">📚</div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6953?w=300&h=200&fit=crop'); background-size:cover; background-position:center; font-size:0;">🪜</div>
             </div>
             <div style="text-align:center; margin-top:32px;">
-                <a href="index.html#gallery" class="btn btn--primaire"><i class="fas fa-images"></i> Voir toutes nos réalisations</a>
+                <a href="#" class="btn btn--primaire"><i class="fas fa-images"></i> Voir toutes nos réalisations</a>
             </div>
         </div>
     </section>
