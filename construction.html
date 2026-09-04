@@ -42,13 +42,14 @@
             border: none;
             cursor: pointer;
             transition: 0.3s;
+            width: 100%;
         }
         .btn--primaire { background: var(--bleu); color: var(--blanc); }
         .btn--primaire:hover { background: var(--bleu-fonce); }
         .btn--whatsapp { background: #25D366; color: var(--blanc); }
         .btn--whatsapp:hover { background: #1da851; }
 
-        /* ===== HEADER (SANS BOUTONS DEVIS & WHATSAPP) ===== */
+        /* ===== HEADER ===== */
         .header {
             position: fixed;
             top: 0; left: 0; right: 0;
@@ -113,7 +114,6 @@
             align-items: center;
             gap: 10px;
         }
-        /* SUPPRESSION des boutons Devis et WhatsApp dans le header */
         .header__actions .btn { display: none; }
         .hamburger {
             display: none;
@@ -133,10 +133,10 @@
             transition: 0.3s;
         }
 
-        /* ===== BANNIÈRE CONSTRUCTION – HAUTEUR 95vh ===== */
+        /* ===== BANNIÈRE CONSTRUCTION – HAUTEUR RÉDUITE (~60vh) ===== */
         .hero-construction {
             padding-top: 70px;
-            min-height: 95vh; /* ← HAUTEUR PRESQUE PLEIN ÉCRAN */
+            min-height: 60vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -174,8 +174,8 @@
         /* ===== SERVICES AVEC IMAGES ===== */
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
         }
         .service-card {
             background: var(--blanc);
@@ -184,19 +184,24 @@
             overflow: hidden;
             transition: 0.3s;
             border: 1px solid #E2E8F0;
+            display: flex;
+            flex-direction: column;
         }
         .service-card:hover {
             transform: translateY(-6px);
             box-shadow: var(--shadow-premium);
         }
         .service-card .service-img {
-            height: 180px;
+            height: 200px;
             background-size: cover;
             background-position: center;
         }
         .service-card .service-body {
             padding: 24px 20px 28px;
             text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
         .service-card .service-body h4 {
             font-size: 1.2rem;
@@ -208,30 +213,11 @@
             color: var(--gris-moyen);
             font-size: 0.95rem;
             line-height: 1.6;
+            margin-bottom: 16px;
+            flex: 1;
         }
-
-        /* ===== GALERIE ===== */
-        .mini-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .mini-gallery .gallery-item {
-            background: #e9edf5;
-            border-radius: var(--radius);
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-size: cover;
-            background-position: center;
-            box-shadow: var(--shadow);
-            transition: 0.3s;
-        }
-        .mini-gallery .gallery-item:hover {
-            transform: scale(1.03);
-            box-shadow: var(--shadow-premium);
+        .service-card .service-body .btn {
+            margin-top: auto;
         }
 
         /* ===== AVANTAGES ===== */
@@ -316,6 +302,9 @@
         .footer__socials a:hover { background: var(--bleu); transform: translateY(-2px); }
 
         /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .services-grid { grid-template-columns: 1fr 1fr; }
+        }
         @media (max-width: 768px) {
             .header__inner { flex-wrap: wrap; }
             .nav {
@@ -332,14 +321,13 @@
             .nav.open { display: flex; }
             .nav a { width: 100%; padding: 12px 20px; border-radius: 0; }
             .hamburger { display: flex; }
-            .hero-construction { padding-top: 70px; min-height: 70vh; }
+            .hero-construction { min-height: 50vh; padding-top: 70px; }
             .section { padding: 60px 0; }
             .section__titre h2 { font-size: 2rem; }
             .services-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 480px) {
-            .hero-construction { min-height: 60vh; }
-            .mini-gallery { grid-template-columns: 1fr; }
+            .hero-construction { min-height: 40vh; }
         }
 
         /* ===== REVEAL ===== */
@@ -353,13 +341,13 @@
 </head>
 <body>
 
-    <!-- HEADER (SANS BOUTONS DEVIS & WHATSAPP) -->
+    <!-- HEADER -->
     <header class="header" id="header">
         <div class="container header__inner">
             <a href="index.html" class="header__logo">
-                <img src="DMS/logo.jpg" alt="Logo DMS">
+                <img src="DMS/logo.jpg" alt="Logo DMS-C">
                 <div class="header__logo-text">
-                    <strong>DMS</strong>
+                    <strong>DMS-C</strong>
                     <small>Construction &amp; Automobile</small>
                 </div>
             </a>
@@ -370,16 +358,15 @@
                 <a href="#contact">Contact</a>
             </nav>
             <div class="header__actions">
-                <!-- Boutons supprimés -->
                 <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
             </div>
         </div>
     </header>
 
-    <!-- BANNIÈRE CONSTRUCTION – HAUTEUR 95vh -->
+    <!-- BANNIÈRE CONSTRUCTION – HAUTEUR RÉDUITE -->
     <section class="hero-construction" id="hero"></section>
 
-    <!-- NOS PRESTATIONS -->
+    <!-- NOS PRESTATIONS (3 SERVICES DE L'INDEX AVEC DEMANDER UN DEVIS) -->
     <section class="section section--blanc" id="prestations">
         <div class="container">
             <div class="section__titre">
@@ -387,48 +374,39 @@
                 <p>Des services complets pour concrétiser vos projets.</p>
             </div>
             <div class="services-grid">
+                <!-- 1. Construction Clé en Main -->
                 <div class="service-card reveal">
-                    <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1581092335872-5f3e90d2e4ed?w=400&h=200&fit=crop');"></div>
+                    <div class="service-img" style="background-image: url('DMS/Construction.jpg');"></div>
                     <div class="service-body">
-                        <h4>Construction de bâtiments</h4>
-                        <p>Villas, immeubles R+1/R+2, bâtiments scolaires, génie civil et aménagements intérieurs.</p>
+                        <h4>Construction Clé en Main</h4>
+                        <p>Villas modernes R+1, budgets garantis, gestion pour la diaspora. Prise en charge intégrale.</p>
+                        <a href="https://wa.me/22676692869?text=Bonjour%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20les%20services%20de%20DMS-C%20Construction" target="_blank" class="btn btn--primaire">Demander un devis</a>
                     </div>
                 </div>
+                <!-- 2. Conception & Études -->
                 <div class="service-card reveal">
-                    <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6953?w=400&h=200&fit=crop');"></div>
+                    <div class="service-img" style="background-image: url('DMS/Conception.jpg');"></div>
                     <div class="service-body">
-                        <h4>Réfection &amp; rénovation</h4>
-                        <p>Rénovation, réhabilitation et mise aux normes de bâtiments existants.</p>
+                        <h4>Conception &amp; Études</h4>
+                        <p>Plans architecturaux, devis transparents, dimensionnement, suivi technique rigoureux.</p>
+                        <a href="https://wa.me/22676692869?text=Bonjour%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20les%20services%20de%20DMS-C%20Construction" target="_blank" class="btn btn--primaire">Demander un devis</a>
                     </div>
                 </div>
+                <!-- 3. Rénovation & Aménagements -->
                 <div class="service-card reveal">
-                    <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1586095455813-9e6bd79a21ab?w=400&h=200&fit=crop');"></div>
+                    <div class="service-img" style="background-image: url('DMS/renovation.jpg');"></div>
                     <div class="service-body">
-                        <h4>Pose de pavés</h4>
-                        <p>Aménagements extérieurs, terrasses, voiries et espaces publics.</p>
+                        <h4>Rénovation &amp; Aménagements</h4>
+                        <p>Réfection, pose de pavés, soudure, métallerie sur mesure (portails, charpentes).</p>
+                        <a href="https://wa.me/22676692869?text=Bonjour%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20les%20services%20de%20DMS-C%20Construction" target="_blank" class="btn btn--primaire">Demander un devis</a>
                     </div>
                 </div>
-                <div class="service-card reveal">
-                    <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=400&h=200&fit=crop');"></div>
-                    <div class="service-body">
-                        <h4>Conception de plans</h4>
-                        <p>Études architecturales, dimensionnement et plans sur-mesure.</p>
-                    </div>
-                </div>
-                <div class="service-card reveal">
-                    <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=400&h=200&fit=crop');"></div>
-                    <div class="service-body">
-                        <h4>Établissement de devis</h4>
-                        <p>Devis détaillés, transparents et adaptés à votre budget.</p>
-                    </div>
-                </div>
-                <div class="service-card reveal">
-                    <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=400&h=200&fit=crop');"></div>
-                    <div class="service-body">
-                        <h4>Travaux de soudure</h4>
-                        <p>Charpentes métalliques, portails, escaliers, garde-corps et structures sur-mesure.</p>
-                    </div>
-                </div>
+            </div>
+            <!-- Bouton principal -->
+            <div style="text-align:center; margin-top:40px;">
+                <a href="https://wa.me/22676692869?text=Bonjour%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20les%20services%20de%20DMS-C%20Construction" target="_blank" class="btn btn--primaire" style="width:auto; padding:14px 50px;">
+                    <i class="fab fa-whatsapp"></i> Demander un devis
+                </a>
             </div>
         </div>
     </section>
@@ -437,7 +415,7 @@
     <section class="section section--gris" id="avantages">
         <div class="container">
             <div class="section__titre">
-                <h2>Pourquoi choisir <span>DMS Construction</span> ?</h2>
+                <h2>Pourquoi choisir <span>DMS-C Construction</span> ?</h2>
                 <p>Des valeurs qui font la différence sur vos chantiers.</p>
             </div>
             <div class="avantages-grid">
@@ -465,43 +443,22 @@
         </div>
     </section>
 
-    <!-- RÉALISATIONS -->
-    <section class="section section--blanc" id="realisations">
-        <div class="container">
-            <div class="section__titre">
-                <h2>Nos <span>réalisations</span></h2>
-                <p>Découvrez quelques-uns de nos projets en construction, soudure et aménagement.</p>
-            </div>
-            <div class="mini-gallery">
-                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1581092335872-5f3e90d2e4ed?w=300&h=200&fit=crop');"></div>
-                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1486718448742-163732cd1544?w=300&h=200&fit=crop');"></div>
-                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=300&h=200&fit=crop');"></div>
-                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1586095455813-9e6bd79a21ab?w=300&h=200&fit=crop');"></div>
-                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=300&h=200&fit=crop');"></div>
-                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6953?w=300&h=200&fit=crop');"></div>
-            </div>
-            <div style="text-align:center; margin-top:32px;">
-                <a href="#" class="btn btn--primaire"><i class="fas fa-images"></i> Voir toutes nos réalisations</a>
-            </div>
-        </div>
-    </section>
-
     <!-- TÉMOIGNAGES -->
-    <section class="section section--gris" id="temoignages">
+    <section class="section section--blanc" id="temoignages">
         <div class="container">
             <div class="section__titre">
                 <h2>Ils nous <span>font confiance</span></h2>
-                <p>Ce que nos clients disent de DMS Construction.</p>
+                <p>Ce que nos clients disent de DMS-C Construction.</p>
             </div>
             <div class="temoignages-grid">
                 <div class="temoignage reveal">
                     <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    <p>"Très satisfait du travail réalisé par DMS Construction. Projet livré dans les délais et avec une qualité irréprochable."</p>
+                    <p>"Très satisfait du travail réalisé par DMS-C Construction. Projet livré dans les délais et avec une qualité irréprochable."</p>
                     <div class="author">— Jean K., Ouagadougou</div>
                 </div>
                 <div class="temoignage reveal">
                     <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    <p>"Une équipe professionnelle et à l'écoute. Je recommande vivement DMS pour tous vos projets de construction."</p>
+                    <p>"Une équipe professionnelle et à l'écoute. Je recommande vivement DMS-C pour tous vos projets de construction."</p>
                     <div class="author">— Marie L., Bobo-Dioulasso</div>
                 </div>
                 <div class="temoignage reveal">
@@ -514,14 +471,14 @@
     </section>
 
     <!-- CONTACT -->
-    <section class="section section--blanc" id="contact" style="text-align:center; padding:60px 0;">
+    <section class="section section--gris" id="contact" style="text-align:center; padding:60px 0;">
         <div class="container">
             <h2 style="font-size:2.2rem; font-weight:800; margin-bottom:16px;">Vous avez un <span style="color:var(--bleu);">projet</span> ?</h2>
             <p style="color:var(--gris-moyen); font-size:1.2rem; max-width:600px; margin:0 auto 32px;">Contactez-nous dès maintenant pour un devis gratuit et personnalisé.</p>
-            <a href="https://wa.me/22674087512" target="_blank" class="btn btn--whatsapp" style="padding:14px 40px; font-size:1.1rem;">
+            <a href="https://wa.me/22676692869" target="_blank" class="btn btn--whatsapp" style="padding:14px 40px; font-size:1.1rem; width:auto;">
                 <i class="fab fa-whatsapp"></i> WhatsApp
             </a>
-            <a href="mailto:dmsa6611@gmail.com" class="btn btn--primaire" style="padding:14px 40px; font-size:1.1rem; margin-left:12px;">
+            <a href="mailto:dmsa6611@gmail.com" class="btn btn--primaire" style="padding:14px 40px; font-size:1.1rem; margin-left:12px; width:auto;">
                 <i class="fas fa-envelope"></i> Email
             </a>
             <div style="margin-top:24px; font-size:1rem; color:var(--gris-moyen);">
@@ -536,7 +493,7 @@
         <div class="container">
             <div class="footer__grid">
                 <div>
-                    <h4><i class="fas fa-building" style="color:var(--orange);"></i> DMS Construction</h4>
+                    <h4><i class="fas fa-building" style="color:var(--orange);"></i> DMS-C Construction</h4>
                     <p style="font-size:0.95rem; margin-bottom:8px;">Votre partenaire de confiance en construction.</p>
                     <p style="font-size:0.85rem; opacity:0.7;">IFU : 001801191V<br>Agrément : N°6834<br>RCCM : BF OUA – 01 – 2022 – B13 – 5577</p>
                 </div>
@@ -544,8 +501,8 @@
                     <h4>Navigation</h4>
                     <ul>
                         <li><a href="index.html">Accueil</a></li>
-                        <li><a href="construction.html">DMS Construction</a></li>
-                        <li><a href="automobile.html">DMS Automobile</a></li>
+                        <li><a href="construction.html">DMS-C Construction</a></li>
+                        <li><a href="automobile.html">DMS-C Automobile</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
@@ -563,19 +520,18 @@
                     <h4>Contact</h4>
                     <ul>
                         <li><i class="fas fa-phone-alt"></i> (+226) 76 69 28 69</li>
-                        <li><i class="fab fa-whatsapp"></i> (+226) 74 08 75 12</li>
                         <li><i class="fas fa-envelope"></i> dmsa6611@gmail.com</li>
                         <li><i class="fas fa-map-marker-alt"></i> Ouagadougou, Gounghin</li>
                     </ul>
                     <div class="footer__socials">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://wa.me/22674087512" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://wa.me/22676692869" target="_blank"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
             </div>
             <div class="footer__legal">
-                <span>&copy; 2026 DMS — Tous droits réservés.</span>
+                <span>&copy; 2026 DMS-C — Tous droits réservés.</span>
                 <span><i class="fas fa-code"></i> Conçu avec <i class="fas fa-heart" style="color:var(--orange);"></i> pour le Burkina Faso</span>
             </div>
         </div>
