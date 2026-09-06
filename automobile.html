@@ -232,40 +232,7 @@
             text-align: center;
             color: var(--blanc);
         }
-        .hero-auto__content .badge {
-            display: inline-block;
-            background: var(--orange);
-            color: var(--blanc);
-            padding: 6px 20px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: 24px;
-        }
-        .hero-auto__content h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            line-height: 1.15;
-            margin-bottom: 16px;
-            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-        }
-        .hero-auto__content h1 span {
-            color: var(--jaune);
-        }
-        .hero-auto__content p {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 32px;
-            max-width: 580px;
-            margin-left: auto;
-            margin-right: auto;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
-        }
-        .hero-auto__content .btn {
-            width: auto;
-        }
+        /* Tous les textes de la hero ont été supprimés sur demande */
 
         /* ===== SECTIONS ===== */
         .section {
@@ -628,9 +595,6 @@
             .hero-auto {
                 min-height: 50vh;
             }
-            .hero-auto__content h1 {
-                font-size: 2.2rem;
-            }
             .section {
                 padding: 60px 0;
             }
@@ -647,13 +611,6 @@
         @media (max-width: 480px) {
             .vehicles-grid {
                 grid-template-columns: 1fr;
-            }
-            .hero-auto__content h1 {
-                font-size: 1.8rem;
-            }
-            .hero-auto__content .btn {
-                width: 100%;
-                justify-content: center;
             }
         }
 
@@ -695,13 +652,10 @@
         </div>
     </header>
 
-    <!-- HERO AUTOMOBILE -->
+    <!-- HERO AUTOMOBILE (uniquement l'image de fond) -->
     <section class="hero-auto" id="hero">
         <div class="container hero-auto__content">
-            <span class="badge"><i class="fas fa-car"></i> DMS-C Automobile</span>
-            <h1>Votre véhicule, <span>notre engagement</span></h1>
-            <p>Neuf, occasion, utilitaires et machines agricoles – nous vous trouvons le véhicule idéal.</p>
-            <a href="#vehicules" class="btn btn--blanc"><i class="fas fa-arrow-down"></i> Découvrir nos véhicules</a>
+            <!-- Tous les textes ont été retirés sur demande -->
         </div>
     </section>
 
@@ -714,7 +668,118 @@
             </div>
             <div class="vehicles-grid">
 
-                <!-- 1. Toyota Camry 2018 -->
+                <!-- ============================================================ -->
+                <!-- 1. Mazda CX-5 2017-2018 (NOUVEAU – MIS EN PREMIER)           -->
+                <!-- ============================================================ -->
+                <div class="vehicle-card reveal">
+                    <div class="card-slider" data-slider>
+                        <div class="slides-wrapper">
+                            <img src="DMS/mazda_1.jpg" class="slide" alt="Mazda CX-5 vue 1">
+                            <img src="DMS/mazda_2.jpg" class="slide" alt="Mazda CX-5 vue 2">
+                            <img src="DMS/mazda_3.jpg" class="slide" alt="Mazda CX-5 vue 3">
+                        </div>
+                        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+                        <div class="dots"></div>
+                    </div>
+                    <div class="vehicle-card__body">
+                        <h4>Mazda CX-5 2017-2018</h4>
+                        <div class="price">11 500 000 F CFA <span>TTC</span></div>
+                        <div class="specs-list">
+                            <i class="fas fa-cog"></i> Full Options<br>
+                            <i class="fas fa-star"></i> SUV Premium · Confort &amp; Élégance<br>
+                            <i class="fas fa-tachometer-alt"></i> Performance exceptionnelle
+                        </div>
+                        <span class="dispo"><i class="fas fa-clock"></i> Sur commande · Livraison 7 jours</span>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20commander%20la%20Mazda%20CX-5%202017-2018" target="_blank" class="btn btn--whatsapp">Commander</a>
+                    </div>
+                </div>
+
+                <!-- ============================================================ -->
+                <!-- 2. HOWO Camion 10 Tonnes (EN DEUXIÈME)                       -->
+                <!-- ============================================================ -->
+                <div class="vehicle-card reveal">
+                    <div class="card-slider" data-slider>
+                        <div class="slides-wrapper">
+                            <img src="DMS/camion1.jpg" class="slide" alt="Camion HOWO vue 1">
+                            <img src="DMS/camion2.jpg" class="slide" alt="Camion HOWO vue 2">
+                            <img src="DMS/camion3.jpg" class="slide" alt="Camion HOWO vue 3">
+                        </div>
+                        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+                        <div class="dots"></div>
+                    </div>
+                    <div class="vehicle-card__body">
+                        <h4>Camion HOWO – 10 Tonnes</h4>
+                        <div class="price">18 900 000 F CFA <span>TTC</span></div>
+                        <div class="specs-list">
+                            <i class="fas fa-weight-hanging"></i> Capacité 10 tonnes<br>
+                            <i class="fas fa-gas-pump"></i> Moteur Diesel puissant<br>
+                            <i class="fas fa-chair"></i> Cabine moderne &amp; confortable<br>
+                            <i class="fas fa-truck"></i> Plateau à ridelles · Châssis robuste
+                        </div>
+                        <span class="dispo"><i class="fas fa-clock"></i> Sur commande · Livraison 60 jours</span>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20commander%20le%20camion%20HOWO%2010%20tonnes" target="_blank" class="btn btn--whatsapp">Commander</a>
+                    </div>
+                </div>
+
+                <!-- ============================================================ -->
+                <!-- 3. Hyundai Tucson 2010-2011                                  -->
+                <!-- ============================================================ -->
+                <div class="vehicle-card reveal">
+                    <div class="card-slider" data-slider>
+                        <div class="slides-wrapper">
+                            <img src="DMS/HYUNDAI_1.jpg" class="slide" alt="Hyundai Tucson vue 1">
+                            <img src="DMS/HYUNDAI_2.jpg" class="slide" alt="Hyundai Tucson vue 2">
+                            <img src="DMS/HYUNDAI_3.jpg" class="slide" alt="Hyundai Tucson vue 3">
+                        </div>
+                        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+                        <div class="dots"></div>
+                    </div>
+                    <div class="vehicle-card__body">
+                        <h4>Hyundai Tucson 2010-2011</h4>
+                        <div class="price">4 990 000 F CFA <span>TTC</span></div>
+                        <div class="specs-list">
+                            <i class="fas fa-tag"></i> Offre spéciale · 3 clients max<br>
+                            <i class="fas fa-shield-alt"></i> Garantie moteur<br>
+                            <i class="fas fa-rocket"></i> Livraison express 7 jours
+                        </div>
+                        <span class="dispo"><i class="fas fa-clock"></i> Sur commande · Livraison 7 jours · Offre limitée</span>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20commander%20le%20Hyundai%20Tucson%202010-2011" target="_blank" class="btn btn--whatsapp">Commander</a>
+                    </div>
+                </div>
+
+                <!-- ============================================================ -->
+                <!-- 4. Toyota Corolla Cross 2026 Hybrid                          -->
+                <!-- ============================================================ -->
+                <div class="vehicle-card reveal">
+                    <div class="card-slider" data-slider>
+                        <div class="slides-wrapper">
+                            <img src="DMS/corolla_1.jpg" class="slide" alt="Corolla Cross vue 1">
+                            <img src="DMS/corola_2.jpg" class="slide" alt="Corolla Cross vue 2">
+                            <img src="DMS/corola_3.jpg" class="slide" alt="Corolla Cross vue 3">
+                        </div>
+                        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+                        <div class="dots"></div>
+                    </div>
+                    <div class="vehicle-card__body">
+                        <h4>Toyota Corolla Cross 2026 Hybrid</h4>
+                        <div class="price">15 500 000 F CFA <span>HT</span></div>
+                        <div class="specs-list">
+                            <i class="fas fa-leaf"></i> 2.0L Hybride · Économique<br>
+                            <i class="fas fa-tachometer-alt"></i> Zéro kilomètre<br>
+                            <i class="fas fa-star"></i> SUV moderne · Haut de gamme
+                        </div>
+                        <span class="dispo"><i class="fas fa-clock"></i> Sur commande · Livraison 60 jours · Min. 3 clients</span>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20commander%20le%20Toyota%20Corolla%20Cross%202026" target="_blank" class="btn btn--whatsapp">Commander</a>
+                    </div>
+                </div>
+
+                <!-- ============================================================ -->
+                <!-- 5. Toyota Camry 2018                                         -->
+                <!-- ============================================================ -->
                 <div class="vehicle-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
@@ -740,7 +805,9 @@
                     </div>
                 </div>
 
-                <!-- 2. Jetour X70S 2019 -->
+                <!-- ============================================================ -->
+                <!-- 6. Jetour X70S 2019                                          -->
+                <!-- ============================================================ -->
                 <div class="vehicle-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
@@ -765,7 +832,9 @@
                     </div>
                 </div>
 
-                <!-- 3. Toyota RAV4 -->
+                <!-- ============================================================ -->
+                <!-- 7. Toyota RAV4                                              -->
+                <!-- ============================================================ -->
                 <div class="vehicle-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
@@ -790,7 +859,9 @@
                     </div>
                 </div>
 
-                <!-- 4. Toyota 4Runner 2025 -->
+                <!-- ============================================================ -->
+                <!-- 8. Toyota 4Runner 2025                                      -->
+                <!-- ============================================================ -->
                 <div class="vehicle-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
@@ -815,7 +886,9 @@
                     </div>
                 </div>
 
-                <!-- 5. Jetour T2 2025 (NOUVEAU) -->
+                <!-- ============================================================ -->
+                <!-- 9. Jetour T2 2025                                           -->
+                <!-- ============================================================ -->
                 <div class="vehicle-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
@@ -840,7 +913,9 @@
                     </div>
                 </div>
 
-                <!-- 6. Matériel agricole (NOUVEAU) -->
+                <!-- ============================================================ -->
+                <!-- 10. Matériel agricole                                       -->
+                <!-- ============================================================ -->
                 <div class="vehicle-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
@@ -865,7 +940,9 @@
                     </div>
                 </div>
 
-                <!-- 7. BAW 212 4×4 2.0 Turbo (NOUVEAU) -->
+                <!-- ============================================================ -->
+                <!-- 11. BAW 212 4×4 2.0 Turbo                                  -->
+                <!-- ============================================================ -->
                 <div class="vehicle-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
