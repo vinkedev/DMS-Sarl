@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>DMS-C — Inventons le futur</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
@@ -147,6 +147,8 @@
             position: relative;
             overflow: hidden;
             isolation: isolate;
+            min-height: 44px;
+            text-align: center;
         }
         .btn::before {
             content: '';
@@ -232,15 +234,17 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             gap: 12px;
+            position: relative;
         }
         .header__logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             font-weight: 700;
             color: var(--bleu);
+            flex-shrink: 0;
         }
         .header__logo img {
             height: 50px;
@@ -310,11 +314,13 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-shrink: 0;
         }
         .header__actions .btn {
             padding: 8px 20px;
             font-size: 0.85rem;
             width: auto;
+            min-height: 38px;
         }
         .hamburger {
             display: none;
@@ -324,6 +330,7 @@
             border: none;
             cursor: pointer;
             padding: 4px;
+            margin-left: 8px;
         }
         .hamburger span {
             display: block;
@@ -671,26 +678,28 @@
         .service-card:hover .service-card__img {
             transform: scale(1.06);
         }
-
-        /* Slider dans la carte */
         .card-slider {
             position: relative;
             width: 100%;
             height: 200px;
             overflow: hidden;
             background: #e9edf5;
+            touch-action: pan-y;
         }
         .card-slider .slides-wrapper {
             display: flex;
             width: 100%;
             height: 100%;
             transition: transform 0.5s var(--ease);
+            will-change: transform;
         }
         .card-slider .slide {
             min-width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
+            user-select: none;
+            -webkit-user-drag: none;
         }
         .card-slider .slider-btn {
             position: absolute;
@@ -745,7 +754,6 @@
             background: white;
             transform: scale(1.3);
         }
-
         .service-card__body {
             padding: 20px 22px 24px;
             flex: 1;
@@ -943,63 +951,380 @@
             transform: translateY(-4px);
         }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 992px) {
-            .hero h1 { font-size: 2.8rem; }
-            .apropos { grid-template-columns: 1fr; }
-            .contact__grid { grid-template-columns: 1fr; }
-            .pourquoi__grid { grid-template-columns: 1fr 1fr; }
-            .services-row { grid-template-columns: repeat(3, 1fr); }
-        }
-        @media (max-width: 768px) {
-            .header__inner { flex-wrap: wrap; }
-            .nav {
-                display: none;
-                flex-direction: column;
-                width: 100%;
-                background: var(--blanc);
-                padding: 16px 0;
-                border-radius: var(--radius);
-                box-shadow: var(--shadow);
-                margin-top: 8px;
-                border: 1px solid #E2E8F0;
-                opacity: 0;
-                transform: translateY(-8px);
-                transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
-            }
-            .nav.open {
-                display: flex;
-                opacity: 1;
-                transform: translateY(0);
-            }
-            .nav a { width: 100%; padding: 12px 20px; border-radius: 0; }
-            .hamburger { display: flex; }
-            .header__actions .btn--primaire { display: none; }
-            .hero { padding-top: 80px; min-height: 70vh; }
-            .hero h1 { font-size: 2.2rem; }
-            .hero p { font-size: 1rem; }
-            .section { padding: 60px 0; }
-            .section__titre h2 { font-size: 2rem; }
-            .poles { grid-template-columns: 1fr; }
-            .footer__grid { grid-template-columns: 1fr; }
-            .pourquoi__grid { grid-template-columns: 1fr; }
-            .services-row { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 480px) {
-            .hero h1 { font-size: 1.8rem; }
-            .hero__actions .btn { width: 100%; justify-content: center; }
-            .apropos__chiffres { grid-template-columns: 1fr 1fr; }
-            .services-row { grid-template-columns: 1fr; }
-        }
-
         /* ===== REVEAL ===== */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.7s var(--ease-soft), transform 0.7s var(--ease-soft);
         }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
+        /* ============================================================ */
+        /* ===== RESPONSIVE ===== */
+        /* ============================================================ */
+
+        /* ------ Tablettes et petits écrans ------ */
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 2.8rem; }
+            .apropos { grid-template-columns: 1fr; }
+            .contact__grid { grid-template-columns: 1fr; }
+            .pourquoi__grid { grid-template-columns: 1fr 1fr; }
+            .services-row { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* ------ Mobiles (max 768px) ------ */
+        @media (max-width: 768px) {
+            /* Header & navigation */
+            .header__inner {
+                flex-wrap: nowrap;
+                gap: 8px;
+            }
+            .header__logo img {
+                height: 35px;
+                padding: 2px;
+            }
+            .header__logo-text strong {
+                font-size: 0.9rem;
+            }
+            .header__logo-text small {
+                font-size: 0.5rem;
+            }
+            .header__actions .btn {
+                padding: 6px 12px;
+                font-size: 0.7rem;
+                min-height: 32px;
+            }
+            .header__actions .btn--primaire {
+                display: inline-flex;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .hamburger span {
+                width: 22px;
+                height: 2px;
+            }
+
+            .nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--blanc);
+                padding: 12px 0;
+                border-radius: 0 0 var(--radius) var(--radius);
+                box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+                border: none;
+                border-top: 2px solid var(--bleu);
+                z-index: 1000;
+                transform: translateY(-10px);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s var(--ease);
+                flex-direction: column;
+                gap: 0;
+            }
+            .nav.open {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            .nav a {
+                padding: 12px 24px;
+                font-size: 1rem;
+                border-radius: 0;
+                border-bottom: 1px solid #f0f0f0;
+                width: 100%;
+                text-align: left;
+            }
+            .nav a:last-child {
+                border-bottom: none;
+            }
+            .nav a:hover,
+            .nav a.active {
+                background: var(--gris-clair);
+                color: var(--bleu);
+            }
+            .nav a::after {
+                display: none;
+            }
+
+            /* Hero */
+            .hero {
+                min-height: 60vh;
+                padding-top: 70px;
+            }
+            .hero__content {
+                padding: 20px 0;
+            }
+            .hero h1 {
+                font-size: 1.8rem !important;
+                line-height: 1.2;
+                word-break: break-word;
+            }
+            .hero p {
+                font-size: 0.95rem !important;
+                max-width: 100%;
+            }
+            .hero__badge {
+                font-size: 0.65rem;
+                padding: 4px 14px;
+            }
+            .hero__actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .hero__actions .btn {
+                width: 100%;
+                justify-content: center;
+                font-size: 0.9rem;
+                padding: 12px;
+            }
+            .hero__carousel-dots {
+                bottom: 16px;
+                gap: 8px;
+            }
+            .hero__carousel-dots button {
+                width: 8px;
+                height: 8px;
+            }
+
+            /* Sections */
+            .section {
+                padding: 40px 0;
+            }
+            .section__titre {
+                margin-bottom: 32px;
+            }
+            .section__titre h2 {
+                font-size: 1.6rem !important;
+            }
+            .section__titre p {
+                font-size: 0.95rem;
+            }
+            .container {
+                padding: 0 16px;
+            }
+
+            /* À propos */
+            .apropos {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .apropos__image img {
+                max-height: 250px;
+                object-fit: cover;
+            }
+            .apropos__texte h3 {
+                font-size: 1.4rem;
+            }
+            .apropos__texte p {
+                font-size: 0.95rem;
+            }
+            .apropos__chiffres {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+            .apropos__chiffres strong {
+                font-size: 1.5rem;
+            }
+
+            /* Pôles */
+            .poles {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .pole {
+                padding: 28px 20px;
+            }
+            .pole__icon {
+                font-size: 2.5rem;
+            }
+            .pole h3 {
+                font-size: 1.3rem;
+            }
+
+            /* Pourquoi */
+            .pourquoi__grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .pourquoi__item i {
+                font-size: 2.2rem;
+            }
+            .pourquoi__item h4 {
+                font-size: 1.1rem;
+            }
+            .pourquoi__item p {
+                font-size: 0.95rem;
+            }
+
+            /* Services row */
+            .services-row {
+                grid-template-columns: 1fr !important;
+                gap: 20px;
+            }
+            .service-card {
+                max-width: 100%;
+                margin: 0 auto;
+            }
+            .service-card__img,
+            .card-slider {
+                height: 180px;
+            }
+            .service-card__body {
+                padding: 16px 18px 20px;
+            }
+            .service-card__body h4 {
+                font-size: 1.05rem;
+            }
+            .service-card__body .price {
+                font-size: 1rem;
+            }
+            .service-card__body .specs-list {
+                font-size: 0.85rem;
+            }
+            .service-card__body .dispo {
+                font-size: 0.65rem;
+                padding: 2px 10px;
+            }
+            .row-title {
+                font-size: 1.5rem;
+                flex-wrap: wrap;
+            }
+            .row-title i {
+                font-size: 1.4rem;
+            }
+            .row-sub {
+                font-size: 0.95rem;
+            }
+
+            /* Contact */
+            .contact__grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .contact__infos h3 {
+                font-size: 1.2rem;
+            }
+            .contact__infos ul li {
+                font-size: 0.9rem;
+                padding: 6px 0;
+                flex-wrap: wrap;
+            }
+            .contact__infos ul li span {
+                display: block;
+                margin-left: 36px;
+                font-size: 0.75rem !important;
+            }
+            .contact__form input,
+            .contact__form textarea,
+            .contact__form select {
+                font-size: 0.95rem;
+                padding: 10px 14px;
+            }
+            .contact__form textarea {
+                min-height: 100px;
+            }
+
+            /* Footer */
+            .footer {
+                padding: 40px 0 20px;
+            }
+            .footer__grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .footer h4 {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            .footer ul li {
+                font-size: 0.9rem;
+            }
+            .footer__socials {
+                justify-content: flex-start;
+            }
+            .footer__legal {
+                flex-direction: column;
+                text-align: center;
+                font-size: 0.7rem;
+            }
+
+            /* Back to top */
+            .back-to-top {
+                width: 40px;
+                height: 40px;
+                right: 16px;
+                bottom: 16px;
+                font-size: 0.9rem;
+            }
+
+            /* Boutons généraux */
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.85rem;
+                min-height: 44px;
+            }
+        }
+
+        /* ------ Très petits mobiles (max 480px) ------ */
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.5rem !important;
+            }
+            .hero__actions .btn {
+                font-size: 0.8rem;
+                padding: 10px;
+            }
+            .apropos__chiffres {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .apropos__chiffres strong {
+                font-size: 1.2rem;
+            }
+            .section__titre h2 {
+                font-size: 1.4rem !important;
+            }
+            .header__logo-text strong {
+                font-size: 0.8rem;
+            }
+            .header__logo-text small {
+                font-size: 0.45rem;
+            }
+            .header__actions .btn {
+                padding: 4px 10px;
+                font-size: 0.6rem;
+                min-height: 28px;
+            }
+            .header__actions .btn--primaire {
+                display: none; /* optionnel : cacher le bouton devis sur très petit */
+            }
+            .header__actions .btn--whatsapp {
+                padding: 4px 10px;
+            }
+            .hamburger span {
+                width: 18px;
+                height: 2px;
+            }
+            .card-slider .slider-btn {
+                width: 24px;
+                height: 24px;
+                font-size: 10px;
+            }
+            .card-slider .slider-btn.prev {
+                left: 2px;
+            }
+            .card-slider .slider-btn.next {
+                right: 2px;
+            }
+        }
+
+        /* ===== Réduction des animations si nécessaire ===== */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.001ms !important;
@@ -1015,7 +1340,7 @@
     <!-- PRELOADER -->
     <div class="preloader" id="preloader">
         <div class="preloader__logo">
-            <img src="DMS/logo.jpg" alt="DMS-C">
+            <img src="DMS/logo.jpg" alt="DMS-C" loading="lazy">
         </div>
         <div class="preloader__bar"></div>
         <div class="preloader__tag">Inventons le futur</div>
@@ -1025,7 +1350,7 @@
     <header class="header" id="header">
         <div class="container header__inner">
             <a href="index.html" class="header__logo">
-                <img src="DMS/logo.jpg" alt="Logo DMS-C">
+                <img src="DMS/logo.jpg" alt="Logo DMS-C" loading="lazy">
                 <div class="header__logo-text">
                     <strong>DMS-C</strong>
                     <small>Inventons le futur</small>
@@ -1041,12 +1366,12 @@
             <div class="header__actions">
                 <a href="index.html#contact" class="btn btn--primaire"><i class="fas fa-file-invoice"></i> Devis</a>
                 <a href="https://wa.me/22674087512" target="_blank" class="btn btn--whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+                <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
             </div>
         </div>
     </header>
 
-    <!-- HERO CAROUSEL (version originale complète) -->
+    <!-- HERO CAROUSEL -->
     <section class="hero" id="hero">
         <div class="hero__carousel">
             <div class="hero__carousel-slide active" style="background-image: url('DMS/acceuil_construction.jpg');"></div>
@@ -1055,9 +1380,9 @@
         </div>
         <div class="container hero__content" id="heroContent"></div>
         <div class="hero__carousel-dots">
-            <button class="active" data-index="0"></button>
-            <button data-index="1"></button>
-            <button data-index="2"></button>
+            <button class="active" data-index="0" aria-label="Slide 1"></button>
+            <button data-index="1" aria-label="Slide 2"></button>
+            <button data-index="2" aria-label="Slide 3"></button>
         </div>
     </section>
 
@@ -1070,7 +1395,7 @@
             </div>
             <div class="apropos">
                 <div class="apropos__image reveal">
-                    <img src="DMS/apropos.jpeg" alt="DMS-C">
+                    <img src="DMS/apropos.jpeg" alt="DMS-C" loading="lazy">
                 </div>
                 <div class="apropos__texte reveal">
                     <h3>Des savoir‑faire multiples pour vos projets.</h3>
@@ -1130,7 +1455,7 @@
             </div>
             <div class="services-row">
                 <div class="service-card reveal">
-                    <img class="service-card__img" src="DMS/Construction.jpg" alt="Construction et aménagement">
+                    <img class="service-card__img" src="DMS/Construction.jpg" alt="Construction et aménagement" loading="lazy">
                     <div class="service-card__body">
                         <h4>Construction &amp; Aménagement</h4>
                         <ul class="specs-list" style="list-style:none; padding-left:0;">
@@ -1143,7 +1468,7 @@
                     </div>
                 </div>
                 <div class="service-card reveal">
-                    <img class="service-card__img" src="DMS/Conception.jpg" alt="Soudure métallique et métallerie">
+                    <img class="service-card__img" src="DMS/Conception.jpg" alt="Soudure métallique et métallerie" loading="lazy">
                     <div class="service-card__body">
                         <h4>Soudure Métallique &amp; Métallerie</h4>
                         <ul class="specs-list" style="list-style:none; padding-left:0;">
@@ -1155,7 +1480,7 @@
                     </div>
                 </div>
                 <div class="service-card reveal">
-                    <img class="service-card__img" src="DMS/renovation.jpg" alt="Études et services techniques">
+                    <img class="service-card__img" src="DMS/renovation.jpg" alt="Études et services techniques" loading="lazy">
                     <div class="service-card__body">
                         <h4>Études &amp; Services Techniques</h4>
                         <ul class="specs-list" style="list-style:none; padding-left:0;">
@@ -1188,12 +1513,12 @@
                 <div class="service-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
-                            <img src="DMS/toyota_cambry1.jpg" class="slide" alt="Camry vue 1">
-                            <img src="DMS/toyota_cambry2.jpg" class="slide" alt="Camry vue 2">
-                            <img src="DMS/toyota_cambry3.jpg" class="slide" alt="Camry vue 3">
+                            <img src="DMS/toyota_cambry1.jpg" class="slide" alt="Camry vue 1" loading="lazy">
+                            <img src="DMS/toyota_cambry2.jpg" class="slide" alt="Camry vue 2" loading="lazy">
+                            <img src="DMS/toyota_cambry3.jpg" class="slide" alt="Camry vue 3" loading="lazy">
                         </div>
-                        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
-                        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+                        <button class="slider-btn prev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
                         <div class="dots"></div>
                     </div>
                     <div class="service-card__body">
@@ -1215,12 +1540,12 @@
                 <div class="service-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
-                            <img src="DMS/jetour_1.jpg" class="slide" alt="Jetour vue 1">
-                            <img src="DMS/jetour_2.jpg" class="slide" alt="Jetour vue 2">
-                            <img src="DMS/jetour_1.jpg" class="slide" alt="Jetour vue 3">
+                            <img src="DMS/jetour_1.jpg" class="slide" alt="Jetour vue 1" loading="lazy">
+                            <img src="DMS/jetour_2.jpg" class="slide" alt="Jetour vue 2" loading="lazy">
+                            <img src="DMS/jetour_1.jpg" class="slide" alt="Jetour vue 3" loading="lazy">
                         </div>
-                        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
-                        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+                        <button class="slider-btn prev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
                         <div class="dots"></div>
                     </div>
                     <div class="service-card__body">
@@ -1240,12 +1565,12 @@
                 <div class="service-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
-                            <img src="DMS/rav4_1.jpg" class="slide" alt="RAV4 vue 1">
-                            <img src="DMS/rav4_2.jpg" class="slide" alt="RAV4 vue 2">
-                            <img src="DMS/rav4_1.jpg" class="slide" alt="RAV4 vue 3">
+                            <img src="DMS/rav4_1.jpg" class="slide" alt="RAV4 vue 1" loading="lazy">
+                            <img src="DMS/rav4_2.jpg" class="slide" alt="RAV4 vue 2" loading="lazy">
+                            <img src="DMS/rav4_1.jpg" class="slide" alt="RAV4 vue 3" loading="lazy">
                         </div>
-                        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
-                        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+                        <button class="slider-btn prev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
                         <div class="dots"></div>
                     </div>
                     <div class="service-card__body">
@@ -1298,7 +1623,7 @@
         </div>
     </section>
 
-    <!-- CONTACT (numéros corrigés) -->
+    <!-- CONTACT -->
     <section class="section section--blanc" id="contact">
         <div class="container">
             <div class="section__titre reveal">
@@ -1386,9 +1711,9 @@
                         <li><i class="fas fa-map-marker-alt"></i> Ouagadougou, Gounghin</li>
                     </ul>
                     <div class="footer__socials">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://wa.me/22674087512" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://wa.me/22674087512" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
             </div>
@@ -1406,7 +1731,7 @@
         (function() {
             'use strict';
 
-            // --- PRELOADER (plus rapide) ---
+            // --- PRELOADER ---
             const preloader = document.getElementById('preloader');
             const body = document.body;
             function hidePreloader() {
@@ -1417,7 +1742,7 @@
             window.addEventListener('load', function() {
                 setTimeout(hidePreloader, 300);
             });
-            setTimeout(hidePreloader, 2000); // sécurité
+            setTimeout(hidePreloader, 2000);
 
             // --- HAMBURGER ---
             const hamburger = document.getElementById('hamburger');
@@ -1450,7 +1775,7 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            // --- HERO CAROUSEL (contenu original) ---
+            // --- HERO CAROUSEL ---
             const slides = document.querySelectorAll('.hero__carousel-slide');
             const dots = document.querySelectorAll('.hero__carousel-dots button');
             const heroContent = document.getElementById('heroContent');
@@ -1528,7 +1853,7 @@
             goToSlide(0);
             startCarousel();
 
-            // --- SLIDERS DANS LES CARTES ---
+            // --- SLIDERS DANS LES CARTES (avec swipe tactile) ---
             const sliders = document.querySelectorAll('[data-slider]');
             sliders.forEach(function(container) {
                 const wrapper = container.querySelector('.slides-wrapper');
@@ -1541,7 +1866,11 @@
 
                 let currentIndex = 0;
                 const totalSlides = slides.length;
+                let touchStartX = 0;
+                let touchEndX = 0;
+                let isSwiping = false;
 
+                // Création des dots
                 dotsContainer.innerHTML = '';
                 for (let i = 0; i < totalSlides; i++) {
                     const dot = document.createElement('span');
@@ -1555,31 +1884,65 @@
                     if (index < 0) index = totalSlides - 1;
                     if (index >= totalSlides) index = 0;
                     currentIndex = index;
+                    wrapper.style.transition = 'transform 0.4s var(--ease)';
                     wrapper.style.transform = 'translateX(' + (-currentIndex * 100) + '%)';
                     dots.forEach(function(dot, i) {
                         dot.classList.toggle('active', i === currentIndex);
                     });
                 }
 
-                function nextSlideCard() { goTo(currentIndex + 1); }
-                function prevSlideCard() { goTo(currentIndex - 1); }
-
+                // Navigation boutons
                 if (prevBtn) prevBtn.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    prevSlideCard();
+                    goTo(currentIndex - 1);
                 });
                 if (nextBtn) nextBtn.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    nextSlideCard();
+                    goTo(currentIndex + 1);
                 });
 
                 dots.forEach(function(dot) {
                     dot.addEventListener('click', function(e) {
                         e.stopPropagation();
-                        const index = parseInt(this.dataset.index, 10);
-                        goTo(index);
+                        goTo(parseInt(this.dataset.index, 10));
                     });
                 });
+
+                // Gestion du swipe (touch)
+                container.addEventListener('touchstart', function(e) {
+                    touchStartX = e.changedTouches[0].screenX;
+                    isSwiping = true;
+                    wrapper.style.transition = 'none';
+                }, { passive: true });
+
+                container.addEventListener('touchmove', function(e) {
+                    if (!isSwiping) return;
+                    const deltaX = e.changedTouches[0].screenX - touchStartX;
+                    const offset = -currentIndex * 100 + (deltaX / container.offsetWidth * 100);
+                    wrapper.style.transform = 'translateX(' + offset + '%)';
+                }, { passive: true });
+
+                container.addEventListener('touchend', function(e) {
+                    if (!isSwiping) return;
+                    isSwiping = false;
+                    touchEndX = e.changedTouches[0].screenX;
+                    const diff = touchStartX - touchEndX;
+                    wrapper.style.transition = 'transform 0.4s var(--ease)';
+                    
+                    if (Math.abs(diff) > 50) {
+                        if (diff > 0) {
+                            goTo(currentIndex + 1);
+                        } else {
+                            goTo(currentIndex - 1);
+                        }
+                    } else {
+                        goTo(currentIndex);
+                    }
+                }, { passive: true });
+
+                // Pour les souris (click sur les flèches déjà géré)
+                // On initialise la première slide
+                goTo(0);
             });
 
             // --- FORMULAIRE ---
@@ -1611,7 +1974,7 @@
                 reveals.forEach(function(el) { el.classList.add('visible'); });
             }
 
-            // --- ACTIVE NAV ---
+            // --- ACTIVE NAV (sur défilement) ---
             const sections = document.querySelectorAll('section[id]');
             const navLinks = document.querySelectorAll('.nav a');
             let ticking = false;
@@ -1646,6 +2009,5 @@
 
         })();
     </script>
-
 </body>
 </html>
