@@ -66,7 +66,7 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            gap: 22px;
+            gap: 20px;
             transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
         }
         .preloader.hidden {
@@ -75,38 +75,34 @@
             pointer-events: none;
         }
         .preloader__logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: var(--blanc);
             display: flex;
-            align-items: baseline;
-            gap: 2px;
-            font-weight: 800;
-            font-size: 2.6rem;
-            color: var(--blanc);
-            letter-spacing: 0.02em;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.15), 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: pulseLogo 1.4s ease-in-out infinite alternate;
         }
-        .preloader__logo span {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(16px) scale(0.85);
-            animation: letterPop 0.6s var(--ease-soft) forwards;
+        .preloader__logo img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            border-radius: 50%;
         }
-        .preloader__logo span.dash {
-            color: var(--jaune);
-        }
-        .preloader__logo span:nth-child(1) { animation-delay: 0.05s; }
-        .preloader__logo span:nth-child(2) { animation-delay: 0.12s; }
-        .preloader__logo span:nth-child(3) { animation-delay: 0.19s; }
-        .preloader__logo span:nth-child(4) { animation-delay: 0.26s; }
-        .preloader__logo span:nth-child(5) { animation-delay: 0.33s; }
-        @keyframes letterPop {
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        @keyframes pulseLogo {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 20px 60px rgba(0,0,0,0.3); }
+            100% { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.25), 0 30px 80px rgba(0,0,0,0.4); }
         }
         .preloader__bar {
-            width: 180px;
+            width: 200px;
             height: 3px;
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.15);
             overflow: hidden;
             position: relative;
+            margin-top: 8px;
         }
         .preloader__bar::after {
             content: '';
@@ -128,7 +124,7 @@
             text-transform: uppercase;
             opacity: 0;
             animation: fadeInTag 0.6s var(--ease-soft) forwards;
-            animation-delay: 0.5s;
+            animation-delay: 0.4s;
         }
         @keyframes fadeInTag {
             to { opacity: 1; }
@@ -456,41 +452,6 @@
             transform: scale(1.25);
         }
 
-        /* ===== STATS ===== */
-        .stats {
-            background: var(--bleu);
-            color: var(--blanc);
-            padding: 48px 0;
-        }
-        .stats__grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 24px;
-            text-align: center;
-        }
-        .stats__item {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.7s var(--ease-soft), transform 0.7s var(--ease-soft);
-        }
-        .stats__item.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .stats__item:nth-child(1) { transition-delay: 0.05s; }
-        .stats__item:nth-child(2) { transition-delay: 0.15s; }
-        .stats__item:nth-child(3) { transition-delay: 0.25s; }
-        .stats__item:nth-child(4) { transition-delay: 0.35s; }
-        .stats__item h3 {
-            font-size: 2.4rem;
-            font-weight: 800;
-        }
-        .stats__item p {
-            opacity: 0.85;
-            margin-top: 4px;
-            font-weight: 500;
-        }
-
         /* ===== SECTIONS ===== */
         .section {
             padding: 80px 0;
@@ -666,7 +627,7 @@
         .row-title {
             font-size: 1.9rem;
             font-weight: 800;
-            margin-bottom: 24px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -679,6 +640,12 @@
         }
         .row-title i {
             font-size: 1.8rem;
+        }
+        .row-sub {
+            font-size: 1rem;
+            color: var(--gris-moyen);
+            margin-bottom: 24px;
+            line-height: 1.6;
         }
         .service-card {
             background: var(--blanc);
@@ -696,6 +663,10 @@
         }
         .service-card__img {
             transition: transform 0.6s var(--ease);
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            background: #e9edf5;
         }
         .service-card:hover .service-card__img {
             transform: scale(1.06);
@@ -1009,15 +980,12 @@
             .hero p { font-size: 1rem; }
             .section { padding: 60px 0; }
             .section__titre h2 { font-size: 2rem; }
-            .stats__grid { grid-template-columns: 1fr 1fr; }
-            .stats__item h3 { font-size: 1.8rem; }
             .poles { grid-template-columns: 1fr; }
             .footer__grid { grid-template-columns: 1fr; }
             .pourquoi__grid { grid-template-columns: 1fr; }
             .services-row { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 480px) {
-            .stats__grid { grid-template-columns: 1fr; }
             .hero h1 { font-size: 1.8rem; }
             .hero__actions .btn { width: 100%; justify-content: center; }
             .apropos__chiffres { grid-template-columns: 1fr 1fr; }
@@ -1044,10 +1012,10 @@
 </head>
 <body class="loading">
 
-    <!-- PRELOADER -->
+    <!-- PRELOADER avec logo -->
     <div class="preloader" id="preloader">
         <div class="preloader__logo">
-            <span>D</span><span>M</span><span>S</span><span class="dash">-</span><span>C</span>
+            <img src="DMS/logo.jpg" alt="DMS-C">
         </div>
         <div class="preloader__bar"></div>
         <div class="preloader__tag">Construction &amp; Automobile</div>
@@ -1081,35 +1049,19 @@
     <!-- HERO CAROUSEL -->
     <section class="hero" id="hero">
         <div class="hero__carousel">
-            <div class="hero__carousel-slide active" style="background-image: url('DMS/acceuil.jpg');"></div>
-            <div class="hero__carousel-slide" style="background-image: url('DMS/acceuil_construction.jpg');"></div>
+            <div class="hero__carousel-slide active" style="background-image: url('DMS/acceuil_construction.jpg');"></div>
             <div class="hero__carousel-slide" style="background-image: url('DMS/acceuil_automobile.jpg');"></div>
+            <div class="hero__carousel-slide" style="background-image: url('DMS/acceuil.jpg');"></div>
         </div>
 
         <div class="container hero__content" id="heroContent">
-            <span class="hero__badge"><i class="fas fa-building"></i> DMS-C — Groupe</span>
-            <h1>Des solutions pour <span>construire, équiper</span> et avancer.</h1>
-            <p>Entreprise active dans plusieurs domaines : BTP, vente de véhicules, machines agricoles, soudure et diverses autres prestations.</p>
-            <div class="hero__actions">
-                <a href="index.html#apropos" class="btn btn--blanc"><i class="fas fa-info-circle"></i> Découvrir DMS-C</a>
-                <a href="index.html#contact" class="btn btn--secondaire"><i class="fas fa-phone"></i> Nous contacter</a>
-            </div>
+            <!-- Le contenu sera injecté par JS -->
         </div>
 
         <div class="hero__carousel-dots">
             <button class="active" data-index="0"></button>
             <button data-index="1"></button>
             <button data-index="2"></button>
-        </div>
-    </section>
-
-    <!-- STATS -->
-    <section class="stats">
-        <div class="container stats__grid">
-            <div class="stats__item"><h3>+10 ans</h3><p>d'expérience</p></div>
-            <div class="stats__item"><h3>+50</h3><p>Chantiers livrés</p></div>
-            <div class="stats__item"><h3>+100</h3><p>Véhicules &amp; machines vendus</p></div>
-            <div class="stats__item"><h3>🌍</h3><p>Intervention toute région</p></div>
         </div>
     </section>
 
@@ -1125,9 +1077,9 @@
                     <img src="DMS/apropos.jpeg" alt="DMS-C">
                 </div>
                 <div class="apropos__texte reveal">
-                    <h3>Des savoir-faire multiples pour vos projets.</h3>
+                    <h3>Des savoir‑faire multiples pour vos projets.</h3>
                     <p><strong>DMS-C</strong> est une entreprise dynamique active dans de nombreux secteurs : la <strong>construction (BTP)</strong>, la <strong>vente de véhicules</strong> neufs et d'occasion, les <strong>machines agricoles</strong>, la <strong>soudure</strong>, ainsi que diverses autres prestations adaptées aux besoins de ses clients.</p>
-                    <p>Nous mettons notre expérience et notre rigueur au service de vos projets, qu'il s'agisse de construire un bâtiment, d'acquérir un véhicule ou de réaliser des ouvrages métalliques sur-mesure. Votre satisfaction est notre priorité.</p>
+                    <p>Nous mettons notre expérience et notre rigueur au service de vos projets, qu'il s'agisse de construire un bâtiment, d'acquérir un véhicule ou de réaliser des ouvrages métalliques sur‑mesure. Votre satisfaction est notre priorité.</p>
                     <div class="apropos__chiffres">
                         <div><strong>50+</strong><span>Projets réalisés</span></div>
                         <div><strong>100+</strong><span>Clients satisfaits</span></div>
@@ -1149,13 +1101,13 @@
             <div class="poles">
                 <div class="pole reveal">
                     <span class="pole__icon">🏗️</span>
-                    <h3>DMS-C Construction</h3>
+                    <h3>DMS Construction</h3>
                     <p>Construction, réfection, pose de pavés, conception de plans, devis, soudure et autres prestations.<br><strong>Votre projet, notre engagement.</strong></p>
                     <a href="construction.html" class="btn btn--primaire">Découvrir</a>
                 </div>
                 <div class="pole pole--auto reveal">
                     <span class="pole__icon">🚗</span>
-                    <h3>DMS-C Automobile</h3>
+                    <h3>DMS Automobile</h3>
                     <p>Vente et distribution de véhicules neufs et d'occasion, machines agricoles et autres équipements.<br><strong>La satisfaction du client au cœur de nos priorités.</strong></p>
                     <a href="automobile.html" class="btn btn--accent">Découvrir</a>
                 </div>
@@ -1171,48 +1123,70 @@
                 <p>Découvrez nos offres clés en construction et notre sélection de véhicules.</p>
             </div>
 
-            <!-- RANGÉE DMS-C CONSTRUCTION -->
-            <h3 class="row-title row-title--construction reveal">
-                <i class="fas fa-hard-hat"></i> DMS-C Construction
-            </h3>
+            <!-- RANGÉE DMS Construction -->
+            <div class="reveal">
+                <h3 class="row-title row-title--construction">
+                    <i class="fas fa-hard-hat"></i> DMS Construction
+                </h3>
+                <p class="row-sub">
+                    <strong>DMS-CONSTRUCTION</strong> est une filiale spécialisée dans le bâtiment et les travaux publics. Nous intervenons sur tous types de projets (villas, immeubles, bâtiments scolaires) avec un accompagnement complet : conception, suivi et livraison.
+                </p>
+            </div>
             <div class="services-row">
                 <div class="service-card reveal">
-                    <img class="service-card__img" src="DMS/Construction.jpg" alt="Construction clé en main" style="height:200px; width:100%; object-fit:cover; background:#e9edf5;">
+                    <img class="service-card__img" src="DMS/Construction.jpg" alt="Construction et aménagement">
                     <div class="service-card__body">
-                        <h4>Construction Clé en Main</h4>
-                        <p>Villas modernes R+1, budgets garantis, gestion pour la diaspora.</p>
-                        <!-- Lien WhatsApp vers le numéro dédié à la construction -->
+                        <h4>Construction &amp; Aménagement</h4>
+                        <ul class="specs-list" style="list-style:none; padding-left:0;">
+                            <li><i class="fas fa-check"></i> Villas basses modernes et traditionnelles</li>
+                            <li><i class="fas fa-check"></i> Immeubles d'habitation, commerciaux, administratifs</li>
+                            <li><i class="fas fa-check"></i> Bâtiments scolaires et infrastructures diverses</li>
+                            <li><i class="fas fa-check"></i> Aménagements intérieurs et extérieurs</li>
+                        </ul>
                         <a href="https://wa.me/22676692869?text=Bonjour%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20les%20services%20de%20DMS-C%20Construction" target="_blank" class="btn btn--primaire">Demander un devis</a>
                     </div>
                 </div>
                 <div class="service-card reveal">
-                    <img class="service-card__img" src="DMS/Conception.jpg" alt="Conception et études" style="height:200px; width:100%; object-fit:cover; background:#e9edf5;">
+                    <img class="service-card__img" src="DMS/Conception.jpg" alt="Soudure métallique et métallerie">
                     <div class="service-card__body">
-                        <h4>Conception &amp; Études</h4>
-                        <p>Plans architecturaux, devis transparents, dimensionnement, suivi technique.</p>
+                        <h4>Soudure Métallique &amp; Métallerie</h4>
+                        <ul class="specs-list" style="list-style:none; padding-left:0;">
+                            <li><i class="fas fa-check"></i> Portails, grilles, portes et fenêtres métalliques</li>
+                            <li><i class="fas fa-check"></i> Charpentes et structures métalliques</li>
+                            <li><i class="fas fa-check"></i> Escaliers et garde‑corps en métal</li>
+                        </ul>
                         <a href="https://wa.me/22676692869?text=Bonjour%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20les%20services%20de%20DMS-C%20Construction" target="_blank" class="btn btn--primaire">Demander un devis</a>
                     </div>
                 </div>
                 <div class="service-card reveal">
-                    <img class="service-card__img" src="DMS/renovation.jpg" alt="Rénovation et aménagements" style="height:200px; width:100%; object-fit:cover; background:#e9edf5;">
+                    <img class="service-card__img" src="DMS/renovation.jpg" alt="Études et services techniques">
                     <div class="service-card__body">
-                        <h4>Rénovation &amp; Aménagements</h4>
-                        <p>Réfection, pose de pavés, soudure, métallerie sur mesure.</p>
+                        <h4>Études &amp; Services Techniques</h4>
+                        <ul class="specs-list" style="list-style:none; padding-left:0;">
+                            <li><i class="fas fa-check"></i> Conception de plans architecturaux sur mesure</li>
+                            <li><i class="fas fa-check"></i> Établissement de devis détaillés et dimensionnement</li>
+                            <li><i class="fas fa-check"></i> Contrôle, suivi de chantier et accompagnement pour le permis de construire</li>
+                        </ul>
                         <a href="https://wa.me/22676692869?text=Bonjour%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20les%20services%20de%20DMS-C%20Construction" target="_blank" class="btn btn--primaire">Demander un devis</a>
                     </div>
                 </div>
             </div>
-            <!-- Bouton "En savoir plus sur DMS-C Construction" (comme pour automobile) -->
+            <!-- Bouton "En savoir plus sur DMS Construction" -->
             <div style="text-align: center; margin-top: 20px; margin-bottom: 50px;">
                 <a href="construction.html" class="btn btn--primaire" style="width: auto; padding: 14px 50px;">
-                    En savoir plus sur DMS-C Construction <i class="fas fa-arrow-right"></i>
+                    En savoir plus sur DMS Construction <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
 
-            <!-- RANGÉE DMS-C AUTOMOBILE -->
-            <h3 class="row-title row-title--automobile reveal" style="margin-top: 60px;">
-                <i class="fas fa-car"></i> DMS-C Automobile
-            </h3>
+            <!-- RANGÉE DMS Automobile -->
+            <div class="reveal">
+                <h3 class="row-title row-title--automobile" style="margin-top: 60px;">
+                    <i class="fas fa-car"></i> DMS Automobile
+                </h3>
+                <p class="row-sub">
+                    <strong>DMS Automobile</strong> est spécialisée dans la vente et la distribution de véhicules neufs et d’occasion, d’équipements agricoles et bien d’autres articles. La satisfaction du client est notre priorité.
+                </p>
+            </div>
             <div class="services-row">
 
                 <!-- 1. Toyota Camry 2018 -->
@@ -1293,10 +1267,10 @@
                 </div>
 
             </div><!-- /services-row -->
-            <!-- Bouton principal pour DMS-C Automobile -->
+            <!-- Bouton principal pour DMS Automobile -->
             <div style="text-align: center; margin-top: 20px;">
                 <a href="automobile.html" class="btn btn--accent" style="width: auto; padding: 14px 50px;">
-                    En savoir plus sur DMS-C Automobile <i class="fas fa-arrow-right"></i>
+                    En savoir plus sur DMS Automobile <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
 
@@ -1341,11 +1315,11 @@
                 <div class="contact__infos reveal">
                     <h3>Coordonnées</h3>
                     <ul>
-                        <li><i class="fas fa-phone-alt"></i> (+226) 76 69 28 69 <span style="font-size:0.8rem; color:var(--gris-moyen);">(DMS-C Construction)</span></li>
-                        <li><i class="fas fa-phone-alt"></i> (+226) 70 18 20 76 <span style="font-size:0.8rem; color:var(--gris-moyen);">(DMS-C Construction)</span></li>
-                        <li><i class="fas fa-phone-alt"></i> (+226) 78 75 78 54 <span style="font-size:0.8rem; color:var(--gris-moyen);">(DMS-C Construction)</span></li>
+                        <li><i class="fas fa-phone-alt"></i> (+226) 76 69 28 69 <span style="font-size:0.8rem; color:var(--gris-moyen);">(DMS Construction)</span></li>
+                        <li><i class="fas fa-phone-alt"></i> (+226) 70 18 20 76 <span style="font-size:0.8rem; color:var(--gris-moyen);">(DMS Construction)</span></li>
+                        <li><i class="fas fa-phone-alt"></i> (+226) 78 75 78 54 <span style="font-size:0.8rem; color:var(--gris-moyen);">(DMS Construction)</span></li>
                         <li><i class="fas fa-phone-alt"></i> (+226) 25 65 30 01 <span style="font-size:0.8rem; color:var(--gris-moyen);">(Standard)</span></li>
-                        <li><i class="fab fa-whatsapp" style="color:#25D366;"></i> (+226) 74 08 75 12 <span style="font-size:0.8rem; color:var(--gris-moyen);">(DMS-C Automobile)</span></li>
+                        <li><i class="fab fa-whatsapp" style="color:#25D366;"></i> (+226) 74 08 75 12 <span style="font-size:0.8rem; color:var(--gris-moyen);">(DMS Automobile)</span></li>
                         <li><i class="fas fa-envelope"></i> dmsa6611@gmail.com</li>
                         <li><i class="fas fa-map-marker-alt"></i> En bas de l'échangeur de Gounghin, non loin de SARAMAYA, Ouagadougou</li>
                     </ul>
@@ -1387,13 +1361,13 @@
                     <ul>
                         <li><a href="index.html">Accueil</a></li>
                         <li><a href="index.html#apropos">À propos</a></li>
-                        <li><a href="construction.html">DMS-C Construction</a></li>
-                        <li><a href="automobile.html">DMS-C Automobile</a></li>
+                        <li><a href="construction.html">DMS Construction</a></li>
+                        <li><a href="automobile.html">DMS Automobile</a></li>
                         <li><a href="index.html#contact">Contact</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4>DMS-C Construction</h4>
+                    <h4>DMS Construction</h4>
                     <ul>
                         <li>Construction</li>
                         <li>Réfection</li>
@@ -1403,7 +1377,7 @@
                     </ul>
                 </div>
                 <div>
-                    <h4>DMS-C Automobile</h4>
+                    <h4>DMS Automobile</h4>
                     <ul>
                         <li>Véhicules neufs</li>
                         <li>Véhicules d'occasion</li>
@@ -1451,7 +1425,6 @@
             window.addEventListener('load', function() {
                 setTimeout(hidePreloader, 500);
             });
-            // Fallback in case 'load' takes too long (slow connections)
             setTimeout(hidePreloader, 3500);
 
             // --- HAMBURGER ---
@@ -1468,7 +1441,7 @@
                 });
             });
 
-            // --- HEADER SHADOW ON SCROLL ---
+            // --- HEADER SHADOW ---
             const header = document.getElementById('header');
             function updateHeaderShadow() {
                 header.classList.toggle('scrolled', window.scrollY > 20);
@@ -1501,20 +1474,20 @@
                 btn2: 'Nous contacter',
                 btn2Link: 'index.html#contact'
             }, {
-                badge: 'DMS-C CONSTRUCTION',
-                title: 'Construire avec <span>expertise</span> et savoir‑faire.',
-                desc: 'Spécialisée dans les travaux de construction et de réfection de bâtiments, la pose de pavés, la conception de plans, l\'établissement de devis, la soudure et bien d\'autres prestations.',
-                btn1: 'Découvrir DMS-C Construction',
-                btn1Link: 'construction.html',
-                btn2: 'Demander un devis',
-                btn2Link: 'index.html#contact'
-            }, {
-                badge: 'DMS-C AUTOMOBILE',
+                badge: 'DMS Automobile',
                 title: 'Des solutions automobiles <span>adaptées</span> à vos besoins.',
                 desc: 'Spécialisée dans la vente et la distribution de véhicules neufs et d\'occasion, ainsi que dans les machines et équipements agricoles et divers autres articles.',
-                btn1: 'Découvrir DMS-C Automobile',
+                btn1: 'Découvrir DMS Automobile',
                 btn1Link: 'automobile.html',
                 btn2: 'Nous contacter',
+                btn2Link: 'index.html#contact'
+            }, {
+                badge: 'DMS Construction',
+                title: 'Construire avec <span>expertise</span> et savoir‑faire.',
+                desc: 'Spécialisée dans les travaux de construction et de réfection de bâtiments, la pose de pavés, la conception de plans, l\'établissement de devis, la soudure et bien d\'autres prestations.',
+                btn1: 'Découvrir DMS Construction',
+                btn1Link: 'construction.html',
+                btn2: 'Demander un devis',
                 btn2Link: 'index.html#contact'
             }];
 
@@ -1563,9 +1536,8 @@
             goToSlide(0);
             startCarousel();
 
-            // --- INITIALISATION DES SLIDERS DANS LES CARTES ---
+            // --- SLIDERS DANS LES CARTES ---
             const sliders = document.querySelectorAll('[data-slider]');
-
             sliders.forEach(function(container) {
                 const wrapper = container.querySelector('.slides-wrapper');
                 const slides = container.querySelectorAll('.slide');
@@ -1627,7 +1599,6 @@
 
             // --- REVEAL ON SCROLL ---
             const reveals = document.querySelectorAll('.reveal');
-            const statsItems = document.querySelectorAll('.stats__item');
             if ('IntersectionObserver' in window) {
                 const observer = new IntersectionObserver(function(entries) {
                     entries.forEach(function(entry) {
@@ -1637,14 +1608,8 @@
                     });
                 }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
                 reveals.forEach(function(el) { observer.observe(el); });
-                statsItems.forEach(function(el) { observer.observe(el); });
                 setTimeout(function() {
                     reveals.forEach(function(el) {
-                        if (el.getBoundingClientRect().top < window.innerHeight) {
-                            el.classList.add('visible');
-                        }
-                    });
-                    statsItems.forEach(function(el) {
                         if (el.getBoundingClientRect().top < window.innerHeight) {
                             el.classList.add('visible');
                         }
@@ -1652,7 +1617,6 @@
                 }, 200);
             } else {
                 reveals.forEach(function(el) { el.classList.add('visible'); });
-                statsItems.forEach(function(el) { el.classList.add('visible'); });
             }
 
             // --- ACTIVE NAV ---
