@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DMS-C — Construction &amp; Automobile</title>
+    <title>DMS-C — Inventons le futur</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
@@ -1012,13 +1012,13 @@
 </head>
 <body class="loading">
 
-    <!-- PRELOADER avec logo -->
+    <!-- PRELOADER -->
     <div class="preloader" id="preloader">
         <div class="preloader__logo">
             <img src="DMS/logo.jpg" alt="DMS-C">
         </div>
         <div class="preloader__bar"></div>
-        <div class="preloader__tag">Construction &amp; Automobile</div>
+        <div class="preloader__tag">Inventons le futur</div>
     </div>
 
     <!-- HEADER -->
@@ -1028,7 +1028,7 @@
                 <img src="DMS/logo.jpg" alt="Logo DMS-C">
                 <div class="header__logo-text">
                     <strong>DMS-C</strong>
-                    <small>Construction &amp; Automobile</small>
+                    <small>Inventons le futur</small>
                 </div>
             </a>
             <nav class="nav" id="nav">
@@ -1053,11 +1053,7 @@
             <div class="hero__carousel-slide" style="background-image: url('DMS/acceuil_automobile.jpg');"></div>
             <div class="hero__carousel-slide" style="background-image: url('DMS/acceuil.jpg');"></div>
         </div>
-
-        <div class="container hero__content" id="heroContent">
-            <!-- Le contenu sera injecté par JS -->
-        </div>
-
+        <div class="container hero__content" id="heroContent"></div>
         <div class="hero__carousel-dots">
             <button class="active" data-index="0"></button>
             <button data-index="1"></button>
@@ -1078,8 +1074,7 @@
                 </div>
                 <div class="apropos__texte reveal">
                     <h3>Des savoir‑faire multiples pour vos projets.</h3>
-                    <p><strong>DMS-C</strong> est une entreprise dynamique active dans de nombreux secteurs : la <strong>construction (BTP)</strong>, la <strong>vente de véhicules</strong> neufs et d'occasion, les <strong>machines agricoles</strong>, la <strong>soudure</strong>, ainsi que diverses autres prestations adaptées aux besoins de ses clients.</p>
-                    <p>Nous mettons notre expérience et notre rigueur au service de vos projets, qu'il s'agisse de construire un bâtiment, d'acquérir un véhicule ou de réaliser des ouvrages métalliques sur‑mesure. Votre satisfaction est notre priorité.</p>
+                    <p><strong>DMS-C</strong> intervient dans le BTP, la vente de véhicules neufs et d'occasion, les machines agricoles, la soudure, et bien d'autres prestations. Nous mettons notre expérience au service de vos projets, de la conception à la livraison.</p>
                     <div class="apropos__chiffres">
                         <div><strong>50+</strong><span>Projets réalisés</span></div>
                         <div><strong>100+</strong><span>Clients satisfaits</span></div>
@@ -1096,19 +1091,19 @@
         <div class="container">
             <div class="section__titre reveal">
                 <h2>Nos <span>deux filiales</span></h2>
-                <p>Deux expertises complémentaires pour répondre à tous vos besoins.</p>
+                <p>Deux expertises complémentaires.</p>
             </div>
             <div class="poles">
                 <div class="pole reveal">
                     <span class="pole__icon">🏗️</span>
                     <h3>DMS Construction</h3>
-                    <p>Construction, réfection, pose de pavés, conception de plans, devis, soudure et autres prestations.<br><strong>Votre projet, notre engagement.</strong></p>
+                    <p>Construction, réfection, pavage, plans, devis, soudure.<br><strong>Votre projet, notre engagement.</strong></p>
                     <a href="construction.html" class="btn btn--primaire">Découvrir</a>
                 </div>
                 <div class="pole pole--auto reveal">
                     <span class="pole__icon">🚗</span>
                     <h3>DMS Automobile</h3>
-                    <p>Vente et distribution de véhicules neufs et d'occasion, machines agricoles et autres équipements.<br><strong>La satisfaction du client au cœur de nos priorités.</strong></p>
+                    <p>Véhicules neufs & d'occasion, machines agricoles, équipements.<br><strong>La satisfaction au cœur.</strong></p>
                     <a href="automobile.html" class="btn btn--accent">Découvrir</a>
                 </div>
             </div>
@@ -1120,7 +1115,7 @@
         <div class="container">
             <div class="section__titre reveal">
                 <h2>Nos <span>prestations phares</span></h2>
-                <p>Découvrez nos offres clés en construction et notre sélection de véhicules.</p>
+                <p>Découvrez nos offres clés.</p>
             </div>
 
             <!-- RANGÉE DMS Construction -->
@@ -1128,53 +1123,46 @@
                 <h3 class="row-title row-title--construction">
                     <i class="fas fa-hard-hat"></i> DMS Construction
                 </h3>
-                <p class="row-sub">
-                    <strong>DMS-CONSTRUCTION</strong> est une filiale spécialisée dans le bâtiment et les travaux publics. Nous intervenons sur tous types de projets (villas, immeubles, bâtiments scolaires) avec un accompagnement complet : conception, suivi et livraison.
-                </p>
+                <!-- row-sub supprimé pour alléger -->
             </div>
             <div class="services-row">
                 <div class="service-card reveal">
-                    <img class="service-card__img" src="DMS/Construction.jpg" alt="Construction et aménagement">
+                    <img class="service-card__img" src="DMS/Construction.jpg" alt="Construction">
                     <div class="service-card__body">
                         <h4>Construction &amp; Aménagement</h4>
                         <ul class="specs-list" style="list-style:none; padding-left:0;">
-                            <li><i class="fas fa-check"></i> Villas basses modernes et traditionnelles</li>
-                            <li><i class="fas fa-check"></i> Immeubles d'habitation, commerciaux, administratifs</li>
-                            <li><i class="fas fa-check"></i> Bâtiments scolaires et infrastructures diverses</li>
-                            <li><i class="fas fa-check"></i> Aménagements intérieurs et extérieurs</li>
+                            <li><i class="fas fa-check"></i> Villas, immeubles, bâtiments scolaires</li>
+                            <li><i class="fas fa-check"></i> Aménagements intérieurs / extérieurs</li>
                         </ul>
-                        <a href="https://wa.me/22676692869?text=Bonjour%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20les%20services%20de%20DMS-C%20Construction" target="_blank" class="btn btn--primaire">Demander un devis</a>
+                        <a href="https://wa.me/22676692869?text=Bonjour%2C%20je%20souhaite%20un%20devis%20Construction" target="_blank" class="btn btn--primaire">Devis</a>
                     </div>
                 </div>
                 <div class="service-card reveal">
-                    <img class="service-card__img" src="DMS/Conception.jpg" alt="Soudure métallique et métallerie">
+                    <img class="service-card__img" src="DMS/Conception.jpg" alt="Soudure">
                     <div class="service-card__body">
-                        <h4>Soudure Métallique &amp; Métallerie</h4>
+                        <h4>Soudure &amp; Métallerie</h4>
                         <ul class="specs-list" style="list-style:none; padding-left:0;">
-                            <li><i class="fas fa-check"></i> Portails, grilles, portes et fenêtres métalliques</li>
-                            <li><i class="fas fa-check"></i> Charpentes et structures métalliques</li>
-                            <li><i class="fas fa-check"></i> Escaliers et garde‑corps en métal</li>
+                            <li><i class="fas fa-check"></i> Portails, grilles, portes métalliques</li>
+                            <li><i class="fas fa-check"></i> Charpentes, escaliers, garde‑corps</li>
                         </ul>
-                        <a href="https://wa.me/22676692869?text=Bonjour%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20les%20services%20de%20DMS-C%20Construction" target="_blank" class="btn btn--primaire">Demander un devis</a>
+                        <a href="https://wa.me/22676692869?text=Bonjour%2C%20je%20souhaite%20un%20devis%20Soudure" target="_blank" class="btn btn--primaire">Devis</a>
                     </div>
                 </div>
                 <div class="service-card reveal">
-                    <img class="service-card__img" src="DMS/renovation.jpg" alt="Études et services techniques">
+                    <img class="service-card__img" src="DMS/renovation.jpg" alt="Études">
                     <div class="service-card__body">
                         <h4>Études &amp; Services Techniques</h4>
                         <ul class="specs-list" style="list-style:none; padding-left:0;">
-                            <li><i class="fas fa-check"></i> Conception de plans architecturaux sur mesure</li>
-                            <li><i class="fas fa-check"></i> Établissement de devis détaillés et dimensionnement</li>
-                            <li><i class="fas fa-check"></i> Contrôle, suivi de chantier et accompagnement pour le permis de construire</li>
+                            <li><i class="fas fa-check"></i> Plans sur mesure, devis détaillés</li>
+                            <li><i class="fas fa-check"></i> Suivi de chantier, permis de construire</li>
                         </ul>
-                        <a href="https://wa.me/22676692869?text=Bonjour%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20les%20services%20de%20DMS-C%20Construction" target="_blank" class="btn btn--primaire">Demander un devis</a>
+                        <a href="https://wa.me/22676692869?text=Bonjour%2C%20je%20souhaite%20un%20devis%20Études" target="_blank" class="btn btn--primaire">Devis</a>
                     </div>
                 </div>
             </div>
-            <!-- Bouton "En savoir plus sur DMS Construction" -->
             <div style="text-align: center; margin-top: 20px; margin-bottom: 50px;">
                 <a href="construction.html" class="btn btn--primaire" style="width: auto; padding: 14px 50px;">
-                    En savoir plus sur DMS Construction <i class="fas fa-arrow-right"></i>
+                    En savoir plus <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
 
@@ -1183,19 +1171,17 @@
                 <h3 class="row-title row-title--automobile" style="margin-top: 60px;">
                     <i class="fas fa-car"></i> DMS Automobile
                 </h3>
-                <p class="row-sub">
-                    <strong>DMS Automobile</strong> est spécialisée dans la vente et la distribution de véhicules neufs et d’occasion, d’équipements agricoles et bien d’autres articles. La satisfaction du client est notre priorité.
-                </p>
+                <!-- row-sub supprimé -->
             </div>
             <div class="services-row">
 
-                <!-- 1. Toyota Camry 2018 -->
+                <!-- Toyota Camry 2018 -->
                 <div class="service-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
-                            <img src="DMS/toyota_cambry1.jpg" class="slide" alt="Camry vue 1">
-                            <img src="DMS/toyota_cambry2.jpg" class="slide" alt="Camry vue 2">
-                            <img src="DMS/toyota_cambry3.jpg" class="slide" alt="Camry vue 3">
+                            <img src="DMS/toyota_cambry1.jpg" class="slide" alt="Camry 1">
+                            <img src="DMS/toyota_cambry2.jpg" class="slide" alt="Camry 2">
+                            <img src="DMS/toyota_cambry3.jpg" class="slide" alt="Camry 3">
                         </div>
                         <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
                         <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
@@ -1205,24 +1191,21 @@
                         <h4>Toyota Camry 2018</h4>
                         <div class="price">8 900 000 F CFA <span>TTC</span></div>
                         <div class="specs-list">
-                            <i class="fas fa-cog"></i> Boîte automatique<br>
-                            <i class="fas fa-gas-pump"></i> Moteur essence<br>
-                            <i class="fas fa-chair"></i> Intérieur cuir<br>
-                            <i class="fas fa-tv"></i> Écran multimédia<br>
+                            <i class="fas fa-cog"></i> Auto · Essence · Cuir · Écran<br>
                             <i class="fas fa-circle"></i> Jantes alliage
                         </div>
-                        <span class="dispo"><i class="fas fa-clock"></i> Sur commande · Livraison 7 jours</span>
-                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20commander%20la%20Toyota%20Camry%202018" target="_blank" class="btn btn--whatsapp">Commander</a>
+                        <span class="dispo"><i class="fas fa-clock"></i> Livraison 7 jours</span>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20la%20Camry%202018" target="_blank" class="btn btn--whatsapp">Commander</a>
                     </div>
                 </div>
 
-                <!-- 2. Jetour X70S 2019 -->
+                <!-- Jetour X70S 2019 -->
                 <div class="service-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
-                            <img src="DMS/jetour_1.jpg" class="slide" alt="Jetour vue 1">
-                            <img src="DMS/jetour_2.jpg" class="slide" alt="Jetour vue 2">
-                            <img src="DMS/jetour_1.jpg" class="slide" alt="Jetour vue 3">
+                            <img src="DMS/jetour_1.jpg" class="slide" alt="Jetour 1">
+                            <img src="DMS/jetour_2.jpg" class="slide" alt="Jetour 2">
+                            <img src="DMS/jetour_1.jpg" class="slide" alt="Jetour 3">
                         </div>
                         <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
                         <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
@@ -1230,24 +1213,23 @@
                     </div>
                     <div class="service-card__body">
                         <h4>Jetour X70S 2019</h4>
-                        <div class="price">8 900 000 F CFA <span>Hors Taxes</span></div>
+                        <div class="price">8 900 000 F CFA <span>HT</span></div>
                         <div class="specs-list">
-                            <i class="fas fa-cog"></i> 1.5 Turbo · Automatique<br>
-                            <i class="fas fa-users"></i> 5 places · Terra Edition<br>
-                            <i class="fas fa-calendar-alt"></i> Année 2019
+                            <i class="fas fa-cog"></i> 1.5 Turbo · Auto · 5 places<br>
+                            <i class="fas fa-calendar-alt"></i> Terra Edition 2019
                         </div>
-                        <span class="dispo"><i class="fas fa-clock"></i> Sur commande · Livraison 60 jours</span>
-                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20commander%20la%20Jetour%20X70S%202019" target="_blank" class="btn btn--whatsapp">Commander</a>
+                        <span class="dispo"><i class="fas fa-clock"></i> Livraison 60 jours</span>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20la%20Jetour%20X70S" target="_blank" class="btn btn--whatsapp">Commander</a>
                     </div>
                 </div>
 
-                <!-- 3. Toyota RAV4 -->
+                <!-- Toyota RAV4 -->
                 <div class="service-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
-                            <img src="DMS/rav4_1.jpg" class="slide" alt="RAV4 vue 1">
-                            <img src="DMS/rav4_2.jpg" class="slide" alt="RAV4 vue 2">
-                            <img src="DMS/rav4_1.jpg" class="slide" alt="RAV4 vue 3">
+                            <img src="DMS/rav4_1.jpg" class="slide" alt="RAV4 1">
+                            <img src="DMS/rav4_2.jpg" class="slide" alt="RAV4 2">
+                            <img src="DMS/rav4_1.jpg" class="slide" alt="RAV4 3">
                         </div>
                         <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
                         <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
@@ -1257,23 +1239,20 @@
                         <h4>Toyota RAV4</h4>
                         <div class="price">Prix sur demande</div>
                         <div class="specs-list">
-                            <i class="fas fa-cog"></i> SUV polyvalent<br>
-                            <i class="fas fa-calendar-alt"></i> Modèle récent<br>
+                            <i class="fas fa-cog"></i> SUV polyvalent · Modèle récent<br>
                             <i class="fas fa-check-circle"></i> Disponible sur commande
                         </div>
                         <span class="dispo"><i class="fas fa-clock"></i> Sur commande</span>
-                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20commander%20le%20Toyota%20RAV4" target="_blank" class="btn btn--whatsapp">Commander</a>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20le%20RAV4" target="_blank" class="btn btn--whatsapp">Commander</a>
                     </div>
                 </div>
 
             </div><!-- /services-row -->
-            <!-- Bouton principal pour DMS Automobile -->
             <div style="text-align: center; margin-top: 20px;">
                 <a href="automobile.html" class="btn btn--accent" style="width: auto; padding: 14px 50px;">
-                    En savoir plus sur DMS Automobile <i class="fas fa-arrow-right"></i>
+                    En savoir plus <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
-
         </div>
     </section>
 
@@ -1288,17 +1267,17 @@
                 <div class="pourquoi__item reveal">
                     <i class="fas fa-user-tie"></i>
                     <h4>Expertise &amp; Polyvalence</h4>
-                    <p>Une expérience solide dans le BTP, l'automobile, les machines agricoles et la soudure.</p>
+                    <p>BTP, automobile, machines agricoles, soudure.</p>
                 </div>
                 <div class="pourquoi__item reveal">
                     <i class="fas fa-arrows-alt-h"></i>
                     <h4>Diversité des services</h4>
-                    <p>Nous intervenons dans de multiples domaines pour répondre à tous vos besoins en un seul partenaire.</p>
+                    <p>Un seul partenaire pour tous vos besoins.</p>
                 </div>
                 <div class="pourquoi__item reveal">
                     <i class="fas fa-smile"></i>
                     <h4>Satisfaction client</h4>
-                    <p>Votre entière satisfaction est notre priorité absolue, de la conception à la livraison.</p>
+                    <p>De la conception à la livraison, nous vous accompagnons.</p>
                 </div>
             </div>
         </div>
@@ -1309,38 +1288,38 @@
         <div class="container">
             <div class="section__titre reveal">
                 <h2>Parlons de <span>votre projet</span></h2>
-                <p>Nous sommes à votre écoute pour tout renseignement ou demande.</p>
+                <p>Nous sommes à votre écoute.</p>
             </div>
             <div class="contact__grid">
                 <div class="contact__infos reveal">
                     <h3>Coordonnées</h3>
                     <ul>
-                        <li><i class="fas fa-phone-alt"></i> (+226) 76 69 28 69 <span style="font-size:0.8rem; color:var(--gris-moyen);">(DMS Construction)</span></li>
-                        <li><i class="fas fa-phone-alt"></i> (+226) 70 18 20 76 <span style="font-size:0.8rem; color:var(--gris-moyen);">(DMS Construction)</span></li>
-                        <li><i class="fas fa-phone-alt"></i> (+226) 78 75 78 54 <span style="font-size:0.8rem; color:var(--gris-moyen);">(DMS Construction)</span></li>
+                        <li><i class="fas fa-phone-alt"></i> (+226) 76 69 28 69 <span style="font-size:0.8rem; color:var(--gris-moyen);">(Construction)</span></li>
+                        <li><i class="fas fa-phone-alt"></i> (+226) 70 18 20 76 <span style="font-size:0.8rem; color:var(--gris-moyen);">(Construction)</span></li>
+                        <li><i class="fas fa-phone-alt"></i> (+226) 78 75 78 54 <span style="font-size:0.8rem; color:var(--gris-moyen);">(Construction)</span></li>
                         <li><i class="fas fa-phone-alt"></i> (+226) 25 65 30 01 <span style="font-size:0.8rem; color:var(--gris-moyen);">(Standard)</span></li>
-                        <li><i class="fab fa-whatsapp" style="color:#25D366;"></i> (+226) 74 08 75 12 <span style="font-size:0.8rem; color:var(--gris-moyen);">(DMS Automobile)</span></li>
+                        <li><i class="fab fa-whatsapp" style="color:#25D366;"></i> (+226) 74 08 75 12 <span style="font-size:0.8rem; color:var(--gris-moyen);">(Automobile)</span></li>
                         <li><i class="fas fa-envelope"></i> dmsa6611@gmail.com</li>
-                        <li><i class="fas fa-map-marker-alt"></i> En bas de l'échangeur de Gounghin, non loin de SARAMAYA, Ouagadougou</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Gounghin (échangeur) · Ouagadougou</li>
                     </ul>
-                    <a href="https://wa.me/22674087512" target="_blank" class="btn btn--whatsapp"><i class="fab fa-whatsapp"></i> Écrire sur WhatsApp</a>
+                    <a href="https://wa.me/22674087512" target="_blank" class="btn btn--whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
                 </div>
                 <div class="reveal">
                     <form class="contact__form" id="contactForm">
-                        <input type="text" placeholder="Votre nom complet" required />
+                        <input type="text" placeholder="Nom complet" required />
                         <input type="tel" placeholder="Téléphone" required />
                         <input type="email" placeholder="Email (optionnel)" />
                         <select>
-                            <option value="">Objet de votre demande</option>
+                            <option value="">Objet</option>
                             <option value="construction">Construction / BTP</option>
                             <option value="automobile">Automobile / Véhicule</option>
                             <option value="agricole">Machine agricole</option>
                             <option value="soudure">Soudure / Métallerie</option>
-                            <option value="devis">Demande de devis</option>
+                            <option value="devis">Devis</option>
                             <option value="autre">Autre</option>
                         </select>
-                        <textarea placeholder="Décrivez votre projet ou votre besoin..." required></textarea>
-                        <button type="submit" class="btn btn--primaire" style="width:100%; justify-content:center;"><i class="fas fa-paper-plane"></i> Envoyer ma demande</button>
+                        <textarea placeholder="Votre besoin..." required></textarea>
+                        <button type="submit" class="btn btn--primaire" style="width:100%; justify-content:center;"><i class="fas fa-paper-plane"></i> Envoyer</button>
                     </form>
                 </div>
             </div>
@@ -1402,7 +1381,7 @@
             </div>
             <div class="footer__legal">
                 <span>&copy; 2026 DMS-C — Tous droits réservés.</span>
-                <span><i class="fas fa-code"></i> Conçu avec <i class="fas fa-heart" style="color:var(--orange);"></i> pour le Burkina Faso</span>
+                <span><i class="fas fa-code"></i> Inventons le futur · <i class="fas fa-heart" style="color:var(--orange);"></i> Burkina Faso</span>
             </div>
         </div>
     </footer>
@@ -1466,9 +1445,9 @@
             let interval;
 
             const slideData = [{
-                badge: 'DMS-C — Groupe',
+                badge: 'DMS-C — Inventons le futur',
                 title: 'Des solutions pour <span>construire, équiper</span> et avancer.',
-                desc: 'Entreprise active dans plusieurs domaines : BTP, vente de véhicules, machines agricoles, soudure et diverses autres prestations.',
+                desc: 'BTP, véhicules, machines agricoles, soudure… nous répondons à vos besoins avec expertise.',
                 btn1: 'Découvrir DMS-C',
                 btn1Link: 'index.html#apropos',
                 btn2: 'Nous contacter',
@@ -1476,7 +1455,7 @@
             }, {
                 badge: 'DMS Automobile',
                 title: 'Des solutions automobiles <span>adaptées</span> à vos besoins.',
-                desc: 'Spécialisée dans la vente et la distribution de véhicules neufs et d\'occasion, ainsi que dans les machines et équipements agricoles et divers autres articles.',
+                desc: 'Vente de véhicules neufs et d\'occasion, machines agricoles et équipements divers.',
                 btn1: 'Découvrir DMS Automobile',
                 btn1Link: 'automobile.html',
                 btn2: 'Nous contacter',
@@ -1484,7 +1463,7 @@
             }, {
                 badge: 'DMS Construction',
                 title: 'Construire avec <span>expertise</span> et savoir‑faire.',
-                desc: 'Spécialisée dans les travaux de construction et de réfection de bâtiments, la pose de pavés, la conception de plans, l\'établissement de devis, la soudure et bien d\'autres prestations.',
+                desc: 'Construction, réfection, pavage, plans, devis, soudure et suivi de chantier.',
                 btn1: 'Découvrir DMS Construction',
                 btn1Link: 'construction.html',
                 btn2: 'Demander un devis',
@@ -1593,7 +1572,7 @@
             // --- FORMULAIRE ---
             document.getElementById('contactForm').addEventListener('submit', function(e) {
                 e.preventDefault();
-                alert('✅ Votre message a été envoyé ! Nous vous recontacterons dans les 24h.');
+                alert('✅ Votre message a été envoyé ! Nous vous recontacterons rapidement.');
                 this.reset();
             });
 
