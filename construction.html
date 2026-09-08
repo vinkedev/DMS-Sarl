@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>DMS-C Construction — BTP • Métallerie • Devis</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
@@ -22,6 +22,8 @@
             --shadow-premium: 0 8px 30px rgba(0,115,230,0.15);
             --radius: 16px;
             --font: 'Inter', sans-serif;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
         }
         html { scroll-behavior: smooth; }
         body { font-family: var(--font); color: var(--gris-texte); background: var(--blanc); line-height: 1.6; }
@@ -41,13 +43,15 @@
             font-size: 0.95rem;
             border: none;
             cursor: pointer;
-            transition: 0.3s;
+            transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
             width: 100%;
+            min-height: 44px;
+            text-align: center;
         }
         .btn--primaire { background: var(--bleu); color: var(--blanc); }
-        .btn--primaire:hover { background: var(--bleu-fonce); }
+        .btn--primaire:hover { background: var(--bleu-fonce); transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,115,230,0.35); }
         .btn--whatsapp { background: #25D366; color: var(--blanc); }
-        .btn--whatsapp:hover { background: #1da851; }
+        .btn--whatsapp:hover { background: #1da851; transform: translateY(-3px); box-shadow: 0 10px 24px rgba(37,211,102,0.35); }
 
         /* ===== HEADER ===== */
         .header {
@@ -58,37 +62,36 @@
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(0,0,0,0.04);
             padding: 10px 0;
+            transition: box-shadow 0.4s var(--ease), padding 0.4s var(--ease);
         }
+        .header.scrolled { padding: 6px 0; box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
         .header__inner {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             gap: 12px;
+            position: relative;
         }
         .header__logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             font-weight: 700;
             color: var(--bleu);
+            flex-shrink: 0;
         }
         .header__logo img {
             height: 50px;
             width: auto;
-            object-fit: contain;
             border-radius: 12px;
             border: 2px solid rgba(0,115,230,0.3);
             padding: 4px;
             background: white;
             box-shadow: var(--shadow-premium);
-            transition: 0.3s;
+            transition: 0.35s var(--ease);
         }
-        .header__logo img:hover {
-            border-color: var(--orange);
-            box-shadow: 0 8px 35px rgba(242,153,74,0.25);
-            transform: scale(1.02);
-        }
+        .header__logo img:hover { border-color: var(--orange); transform: scale(1.02); }
         .header__logo-text strong { font-size: 1.15rem; font-weight: 800; }
         .header__logo-text small { font-size: 0.65rem; font-weight: 500; color: var(--gris-moyen); text-transform: uppercase; display: block; }
         .nav {
@@ -102,19 +105,11 @@
             border-radius: 40px;
             font-weight: 500;
             font-size: 0.9rem;
-            transition: 0.3s;
+            transition: 0.3s ease;
             color: var(--gris-texte);
         }
-        .nav a:hover, .nav a.active {
-            background: var(--bleu);
-            color: var(--blanc);
-        }
-        .header__actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .header__actions .btn { display: none; }
+        .nav a:hover, .nav a.active { background: var(--bleu); color: var(--blanc); }
+        .header__actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
         .hamburger {
             display: none;
             flex-direction: column;
@@ -123,6 +118,7 @@
             border: none;
             cursor: pointer;
             padding: 4px;
+            margin-left: 8px;
         }
         .hamburger span {
             display: block;
@@ -130,13 +126,16 @@
             height: 2.5px;
             background: var(--bleu);
             border-radius: 4px;
-            transition: 0.3s;
+            transition: 0.3s var(--ease);
         }
+        .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
 
-        /* ===== BANNIÈRE CONSTRUCTION – HAUTEUR AUGMENTÉE ===== */
+        /* ===== BANNIÈRE CONSTRUCTION ===== */
         .hero-construction {
-            padding-top: 70px;
-            min-height: 85vh;
+            padding-top: 80px;
+            min-height: 80vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -171,25 +170,29 @@
         .section__titre h2 span { color: var(--bleu); }
         .section__titre p { color: var(--gris-moyen); font-size: 1.1rem; }
 
-        /* ===== SLIDER POUR PROJETS ===== */
+        /* ===== SLIDER PROJETS ===== */
         .project-slider {
             position: relative;
             width: 100%;
             height: 260px;
             overflow: hidden;
             background: #e9edf5;
+            touch-action: pan-y;
         }
         .project-slider .slides-wrapper {
             display: flex;
             width: 100%;
             height: 100%;
-            transition: transform 0.4s ease-in-out;
+            transition: transform 0.4s var(--ease);
+            will-change: transform;
         }
         .project-slider .slide {
             min-width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
+            user-select: none;
+            -webkit-user-drag: none;
         }
         .project-slider .slider-btn {
             position: absolute;
@@ -207,9 +210,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: 0.2s;
+            transition: 0.25s var(--ease);
+            opacity: 0;
         }
-        .project-slider .slider-btn:hover { background: rgba(0,0,0,0.8); }
+        .project-slider:hover .slider-btn { opacity: 1; }
+        .project-slider .slider-btn:hover { background: rgba(0,0,0,0.8); transform: translateY(-50%) scale(1.1); }
         .project-slider .slider-btn.prev { left: 6px; }
         .project-slider .slider-btn.next { right: 6px; }
         .project-slider .dots {
@@ -227,9 +232,9 @@
             border-radius: 50%;
             background: rgba(255,255,255,0.5);
             cursor: pointer;
-            transition: 0.2s;
+            transition: 0.25s var(--ease);
         }
-        .project-slider .dots span.active { background: white; transform: scale(1.2); }
+        .project-slider .dots span.active { background: white; transform: scale(1.3); }
 
         /* ===== PROJETS ===== */
         .projects-grid {
@@ -243,43 +248,32 @@
             box-shadow: var(--shadow);
             overflow: hidden;
             border: 1px solid #E2E8F0;
-            transition: 0.3s;
+            transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
             display: flex;
             flex-direction: column;
         }
-        .project-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-premium); }
+        .project-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-premium); }
         .project-card__body {
             padding: 20px 22px 24px;
             flex: 1;
             display: flex;
             flex-direction: column;
         }
-        .project-card__body h4 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
+        .project-card__body h4 { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
         .project-card__body .price {
             font-size: 1.1rem;
             font-weight: 700;
             color: var(--bleu);
             margin: 4px 0 6px;
         }
-        .project-card__body .price span {
-            color: var(--gris-moyen);
-            font-weight: 400;
-            font-size: 0.9rem;
-        }
+        .project-card__body .price span { color: var(--gris-moyen); font-weight: 400; font-size: 0.9rem; }
         .project-card__body .specs-list {
             font-size: 0.9rem;
             color: var(--gris-moyen);
             margin-bottom: 10px;
             line-height: 1.6;
         }
-        .project-card__body .specs-list i {
-            color: var(--bleu);
-            width: 18px;
-        }
+        .project-card__body .specs-list i { color: var(--bleu); width: 18px; }
         .project-card__body .dispo {
             display: inline-block;
             background: #DBEAFE;
@@ -305,20 +299,13 @@
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             overflow: hidden;
-            transition: 0.3s;
+            transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
             border: 1px solid #E2E8F0;
             display: flex;
             flex-direction: column;
         }
-        .service-card:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-premium);
-        }
-        .service-card .service-img {
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-        }
+        .service-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-premium); }
+        .service-card .service-img { height: 200px; background-size: cover; background-position: center; }
         .service-card .service-body {
             padding: 24px 20px 28px;
             text-align: center;
@@ -326,12 +313,7 @@
             display: flex;
             flex-direction: column;
         }
-        .service-card .service-body h4 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: var(--gris-texte);
-        }
+        .service-card .service-body h4 { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; color: var(--gris-texte); }
         .service-card .service-body p {
             color: var(--gris-moyen);
             font-size: 0.95rem;
@@ -348,20 +330,12 @@
             gap: 30px;
             margin-top: 20px;
         }
-        .avantage-item {
-            text-align: center;
-            padding: 20px;
-        }
-        .avantage-item i {
-            font-size: 2.8rem;
-            color: var(--bleu);
-            margin-bottom: 12px;
-            display: block;
-        }
+        .avantage-item { text-align: center; padding: 20px; }
+        .avantage-item i { font-size: 2.8rem; color: var(--bleu); margin-bottom: 12px; display: block; }
         .avantage-item h4 { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
         .avantage-item p { color: var(--gris-moyen); font-size: 0.95rem; }
 
-        /* ===== TEMOIGNAGES ===== */
+        /* ===== TÉMOIGNAGES ===== */
         .temoignages-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -377,6 +351,17 @@
         .temoignage .stars { color: var(--orange); margin-bottom: 8px; }
         .temoignage p { font-style: italic; color: var(--gris-moyen); margin-bottom: 12px; }
         .temoignage .author { font-weight: 600; color: var(--gris-texte); }
+
+        /* ===== CONTACT ===== */
+        .contact-section { text-align: center; padding: 60px 0; }
+        .contact-section h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 16px; }
+        .contact-section h2 span { color: var(--bleu); }
+        .contact-section .contact-desc { color: var(--gris-moyen); font-size: 1.2rem; max-width: 600px; margin: 0 auto 32px; }
+        .contact-section .btn-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+        .contact-section .btn-group .btn { width: auto; padding: 14px 40px; font-size: 1.1rem; }
+        .contact-section .contact-infos { margin-top: 24px; font-size: 1rem; color: var(--gris-moyen); }
+        .contact-section .contact-infos p { margin-bottom: 4px; }
+        .contact-section .contact-infos i { width: 24px; color: var(--bleu); }
 
         /* ===== FOOTER ===== */
         .footer {
@@ -418,46 +403,148 @@
             border-radius: 50%;
             background: rgba(255,255,255,0.06);
             color: var(--blanc);
-            transition: 0.3s;
+            transition: 0.3s var(--ease);
         }
-        .footer__socials a:hover { background: var(--bleu); transform: translateY(-2px); }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 992px) {
-            .projects-grid, .services-grid { grid-template-columns: 1fr 1fr; }
-        }
-        @media (max-width: 768px) {
-            .header__inner { flex-wrap: wrap; }
-            .nav {
-                display: none;
-                flex-direction: column;
-                width: 100%;
-                background: var(--blanc);
-                padding: 16px 0;
-                border-radius: var(--radius);
-                box-shadow: var(--shadow);
-                margin-top: 8px;
-                border: 1px solid #E2E8F0;
-            }
-            .nav.open { display: flex; }
-            .nav a { width: 100%; padding: 12px 20px; border-radius: 0; }
-            .hamburger { display: flex; }
-            .hero-construction { min-height: 60vh; padding-top: 70px; }
-            .section { padding: 60px 0; }
-            .section__titre h2 { font-size: 2rem; }
-            .projects-grid, .services-grid { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 480px) {
-            .hero-construction { min-height: 50vh; }
-        }
+        .footer__socials a:hover { background: var(--bleu); transform: translateY(-3px) scale(1.08); }
 
         /* ===== REVEAL ===== */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
+            transition: opacity 0.7s var(--ease-soft), transform 0.7s var(--ease-soft);
         }
         .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ============================================================ */
+        /* ===== RESPONSIVE ===== */
+        /* ============================================================ */
+
+        /* ------ Tablettes ------ */
+        @media (max-width: 992px) {
+            .projects-grid, .services-grid { grid-template-columns: 1fr 1fr; }
+            .section__titre h2 { font-size: 2.2rem; }
+        }
+
+        /* ------ Mobiles (max 768px) ------ */
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+
+            /* Header */
+            .header__logo img { height: 35px; padding: 2px; }
+            .header__logo-text strong { font-size: 0.9rem; }
+            .header__logo-text small { font-size: 0.5rem; }
+            .hamburger { display: flex; }
+            .hamburger span { width: 22px; height: 2px; }
+
+            .nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--blanc);
+                padding: 12px 0;
+                border-radius: 0 0 var(--radius) var(--radius);
+                box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+                border-top: 2px solid var(--bleu);
+                z-index: 1000;
+                transform: translateY(-10px);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s var(--ease);
+                flex-direction: column;
+                gap: 0;
+            }
+            .nav.open {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            .nav a {
+                padding: 12px 24px;
+                font-size: 1rem;
+                border-radius: 0;
+                border-bottom: 1px solid #f0f0f0;
+                width: 100%;
+                text-align: left;
+            }
+            .nav a:last-child { border-bottom: none; }
+            .nav a:hover, .nav a.active { background: var(--gris-clair); color: var(--bleu); }
+
+            /* Bannière */
+            .hero-construction { min-height: 50vh; padding-top: 70px; }
+
+            /* Sections */
+            .section { padding: 60px 0; }
+            .section__titre { margin-bottom: 32px; }
+            .section__titre h2 { font-size: 1.8rem !important; }
+            .section__titre p { font-size: 0.95rem; }
+
+            /* Projets & Services */
+            .projects-grid, .services-grid { grid-template-columns: 1fr !important; gap: 20px; }
+            .project-slider { height: 200px; }
+            .project-card__body { padding: 16px 18px 20px; }
+            .project-card__body h4 { font-size: 1.05rem; }
+            .project-card__body .price { font-size: 1rem; }
+            .project-card__body .specs-list { font-size: 0.85rem; }
+            .project-card__body .dispo { font-size: 0.65rem; padding: 2px 10px; }
+            .service-card .service-img { height: 160px; }
+            .service-card .service-body { padding: 20px 16px 24px; }
+            .service-card .service-body h4 { font-size: 1.05rem; }
+            .service-card .service-body p { font-size: 0.9rem; }
+
+            /* Avantages */
+            .avantages-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+            .avantage-item { padding: 12px; }
+            .avantage-item i { font-size: 2.2rem; }
+            .avantage-item h4 { font-size: 1rem; }
+            .avantage-item p { font-size: 0.9rem; }
+
+            /* Témoignages */
+            .temoignages-grid { grid-template-columns: 1fr; gap: 20px; }
+            .temoignage { padding: 20px; }
+
+            /* Contact */
+            .contact-section { padding: 40px 0; }
+            .contact-section h2 { font-size: 1.8rem !important; }
+            .contact-section .contact-desc { font-size: 1rem; }
+            .contact-section .btn-group .btn { width: 100%; padding: 12px 20px; font-size: 1rem; }
+            .contact-section .contact-infos { font-size: 0.9rem; }
+            .contact-section .contact-infos p { margin-bottom: 6px; }
+
+            /* Footer */
+            .footer { padding: 40px 0 20px; }
+            .footer__grid { grid-template-columns: 1fr; gap: 30px; }
+            .footer h4 { font-size: 1rem; margin-bottom: 10px; }
+            .footer ul li { font-size: 0.9rem; }
+            .footer__socials { justify-content: flex-start; }
+            .footer__legal { flex-direction: column; text-align: center; font-size: 0.7rem; }
+
+            /* Boutons généraux */
+            .btn { padding: 10px 20px; font-size: 0.85rem; min-height: 44px; }
+        }
+
+        /* ------ Très petits mobiles (max 480px) ------ */
+        @media (max-width: 480px) {
+            .hero-construction { min-height: 40vh; }
+            .section__titre h2 { font-size: 1.5rem !important; }
+            .avantages-grid { grid-template-columns: 1fr; }
+            .header__logo-text strong { font-size: 0.8rem; }
+            .header__logo-text small { font-size: 0.45rem; }
+            .hamburger span { width: 18px; height: 2px; }
+            .project-slider .slider-btn { width: 24px; height: 24px; font-size: 10px; }
+            .project-slider .slider-btn.prev { left: 2px; }
+            .project-slider .slider-btn.next { right: 2px; }
+            .contact-section .btn-group .btn { padding: 10px 16px; font-size: 0.9rem; }
+        }
+
+        /* ===== Réduction animations ===== */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                transition-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -466,7 +553,7 @@
     <header class="header" id="header">
         <div class="container header__inner">
             <a href="index.html" class="header__logo">
-                <img src="DMS/logo.jpg" alt="Logo DMS-C">
+                <img src="DMS/logo.jpg" alt="Logo DMS-C" loading="lazy">
                 <div class="header__logo-text">
                     <strong>DMS-C</strong>
                     <small>Construction &amp; Automobile</small>
@@ -479,18 +566,18 @@
                 <a href="#contact">Contact</a>
             </nav>
             <div class="header__actions">
-                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+                <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
             </div>
         </div>
     </header>
 
-    <!-- BANNIÈRE CONSTRUCTION – HAUTEUR AUGMENTÉE -->
+    <!-- BANNIÈRE CONSTRUCTION -->
     <section class="hero-construction" id="hero"></section>
 
     <!-- ==================== PROJETS CLÉ EN MAIN ==================== -->
     <section class="section section--blanc" id="projets">
         <div class="container">
-            <div class="section__titre">
+            <div class="section__titre reveal">
                 <h2>Nos <span>projets</span> clé en main</h2>
                 <p>Des réalisations complètes, de la conception à la remise des clés.</p>
             </div>
@@ -500,12 +587,12 @@
                 <div class="project-card reveal">
                     <div class="project-slider" data-slider>
                         <div class="slides-wrapper">
-                            <img src="DMS/F4_1.jpg" class="slide" alt="F4 vue 1">
-                            <img src="DMS/F4_2.jpg" class="slide" alt="F4 vue 2">
-                            <img src="DMS/F4_3.jpg" class="slide" alt="F4 vue 3">
+                            <img src="DMS/F4_1.jpg" class="slide" alt="F4 vue 1" loading="lazy">
+                            <img src="DMS/F4_2.jpg" class="slide" alt="F4 vue 2" loading="lazy">
+                            <img src="DMS/F4_3.jpg" class="slide" alt="F4 vue 3" loading="lazy">
                         </div>
-                        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
-                        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+                        <button class="slider-btn prev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
                         <div class="dots"></div>
                     </div>
                     <div class="project-card__body">
@@ -527,12 +614,12 @@
                 <div class="project-card reveal">
                     <div class="project-slider" data-slider>
                         <div class="slides-wrapper">
-                            <img src="DMS/Duplex_1.jpg" class="slide" alt="Duplex vue 1">
-                            <img src="DMS/Duplex_2.jpg" class="slide" alt="Duplex vue 2">
-                            <img src="DMS/Duplex_3.jpg" class="slide" alt="Duplex vue 3">
+                            <img src="DMS/Duplex_1.jpg" class="slide" alt="Duplex vue 1" loading="lazy">
+                            <img src="DMS/Duplex_2.jpg" class="slide" alt="Duplex vue 2" loading="lazy">
+                            <img src="DMS/Duplex_3.jpg" class="slide" alt="Duplex vue 3" loading="lazy">
                         </div>
-                        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
-                        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+                        <button class="slider-btn prev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
                         <div class="dots"></div>
                     </div>
                     <div class="project-card__body">
@@ -553,12 +640,12 @@
                 <div class="project-card reveal">
                     <div class="project-slider" data-slider>
                         <div class="slides-wrapper">
-                            <img src="DMS/R2_1.jpg" class="slide" alt="R+2 vue 1">
-                            <img src="DMS/R2_2.jpg" class="slide" alt="R+2 vue 2">
-                            <img src="DMS/R3_3.jpg" class="slide" alt="R+2 vue 3">
+                            <img src="DMS/R2_1.jpg" class="slide" alt="R+2 vue 1" loading="lazy">
+                            <img src="DMS/R2_2.jpg" class="slide" alt="R+2 vue 2" loading="lazy">
+                            <img src="DMS/R3_3.jpg" class="slide" alt="R+2 vue 3" loading="lazy">
                         </div>
-                        <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
-                        <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+                        <button class="slider-btn prev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
                         <div class="dots"></div>
                     </div>
                     <div class="project-card__body">
@@ -583,7 +670,7 @@
     <!-- ==================== NOS PRESTATIONS ==================== -->
     <section class="section section--gris" id="prestations">
         <div class="container">
-            <div class="section__titre">
+            <div class="section__titre reveal">
                 <h2>Nos <span>prestations</span> en construction</h2>
                 <p>Des services complets pour concrétiser vos projets.</p>
             </div>
@@ -615,7 +702,7 @@
                         <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20la%20r%C3%A9novation" target="_blank" class="btn btn--primaire">Demander un devis</a>
                     </div>
                 </div>
-                <!-- 4. Réfection & Rénovation (NOUVELLE IMAGE) -->
+                <!-- 4. Réfection & Rénovation -->
                 <div class="service-card reveal">
                     <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1571327073757-71d13c24de30?w=400&h=200&fit=crop');"></div>
                     <div class="service-body">
@@ -624,7 +711,7 @@
                         <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20la%20r%C3%A9fection" target="_blank" class="btn btn--primaire">Demander un devis</a>
                     </div>
                 </div>
-                <!-- 5. Pose de pavés (NOUVELLE IMAGE) -->
+                <!-- 5. Pose de pavés -->
                 <div class="service-card reveal">
                     <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85f5b3?w=400&h=200&fit=crop');"></div>
                     <div class="service-body">
@@ -633,7 +720,7 @@
                         <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20la%20pose%20de%20pav%C3%A9s" target="_blank" class="btn btn--primaire">Demander un devis</a>
                     </div>
                 </div>
-                <!-- 6. Travaux de soudure (NOUVELLE IMAGE) -->
+                <!-- 6. Travaux de soudure -->
                 <div class="service-card reveal">
                     <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&h=200&fit=crop');"></div>
                     <div class="service-body">
@@ -649,7 +736,7 @@
     <!-- ==================== POURQUOI NOUS CHOISIR ==================== -->
     <section class="section section--blanc" id="avantages">
         <div class="container">
-            <div class="section__titre">
+            <div class="section__titre reveal">
                 <h2>Pourquoi choisir <span>DMS-C Construction</span> ?</h2>
                 <p>Des valeurs qui font la différence sur vos chantiers.</p>
             </div>
@@ -681,7 +768,7 @@
     <!-- ==================== TÉMOIGNAGES ==================== -->
     <section class="section section--gris" id="temoignages">
         <div class="container">
-            <div class="section__titre">
+            <div class="section__titre reveal">
                 <h2>Ils nous <span>font confiance</span></h2>
                 <p>Ce que nos clients disent de DMS-C Construction.</p>
             </div>
@@ -706,19 +793,19 @@
     </section>
 
     <!-- ==================== CONTACT ==================== -->
-    <section class="section section--blanc" id="contact" style="text-align:center; padding:60px 0;">
+    <section class="contact-section section--blanc" id="contact">
         <div class="container">
-            <h2 style="font-size:2.2rem; font-weight:800; margin-bottom:16px;">Vous avez un <span style="color:var(--bleu);">projet</span> ?</h2>
-            <p style="color:var(--gris-moyen); font-size:1.2rem; max-width:600px; margin:0 auto 32px;">Contactez-nous dès maintenant pour un devis gratuit et personnalisé.</p>
-            <a href="https://wa.me/22670182076" target="_blank" class="btn btn--whatsapp" style="padding:14px 40px; font-size:1.1rem; width:auto;">
-                <i class="fab fa-whatsapp"></i> WhatsApp
-            </a>
-            <a href="mailto:dmsa6611@gmail.com" class="btn btn--primaire" style="padding:14px 40px; font-size:1.1rem; margin-left:12px; width:auto;">
-                <i class="fas fa-envelope"></i> Email
-            </a>
-            <div style="margin-top:24px; font-size:1rem; color:var(--gris-moyen);">
-                <p><i class="fas fa-phone-alt"></i> (+226) 76 69 28 69 / 70 18 20 76 / 78 75 78 54</p>
-                <p><i class="fas fa-map-marker-alt"></i> En bas de l'échangeur de Gounghin, non loin de SARAMAYA, Ouagadougou</p>
+            <div class="reveal">
+                <h2>Vous avez un <span>projet</span> ?</h2>
+                <p class="contact-desc">Contactez-nous dès maintenant pour un devis gratuit et personnalisé.</p>
+                <div class="btn-group">
+                    <a href="https://wa.me/22670182076" target="_blank" class="btn btn--whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                    <a href="mailto:dmsa6611@gmail.com" class="btn btn--primaire"><i class="fas fa-envelope"></i> Email</a>
+                </div>
+                <div class="contact-infos">
+                    <p><i class="fas fa-phone-alt"></i> (+226) 76 69 28 69 / 70 18 20 76 / 78 75 78 54</p>
+                    <p><i class="fas fa-map-marker-alt"></i> En bas de l'échangeur de Gounghin, non loin de SARAMAYA, Ouagadougou</p>
+                </div>
             </div>
         </div>
     </section>
@@ -759,9 +846,9 @@
                         <li><i class="fas fa-map-marker-alt"></i> Ouagadougou, Gounghin</li>
                     </ul>
                     <div class="footer__socials">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://wa.me/22670182076" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://wa.me/22670182076" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
             </div>
@@ -776,19 +863,29 @@
         (function() {
             'use strict';
 
-            // Hamburger
+            // --- HAMBURGER ---
             const hamburger = document.getElementById('hamburger');
             const nav = document.getElementById('nav');
             hamburger.addEventListener('click', function() {
                 nav.classList.toggle('open');
+                hamburger.classList.toggle('open');
             });
             nav.querySelectorAll('a').forEach(function(link) {
                 link.addEventListener('click', function() {
                     nav.classList.remove('open');
+                    hamburger.classList.remove('open');
                 });
             });
 
-            // Sliders pour les projets
+            // --- HEADER SHADOW ---
+            const header = document.getElementById('header');
+            function updateHeaderShadow() {
+                header.classList.toggle('scrolled', window.scrollY > 20);
+            }
+            window.addEventListener('scroll', updateHeaderShadow);
+            updateHeaderShadow();
+
+            // --- SLIDERS PROJETS ---
             const sliders = document.querySelectorAll('[data-slider]');
             sliders.forEach(function(container) {
                 const wrapper = container.querySelector('.slides-wrapper');
@@ -801,7 +898,11 @@
 
                 let currentIndex = 0;
                 const totalSlides = slides.length;
+                let touchStartX = 0;
+                let touchEndX = 0;
+                let isSwiping = false;
 
+                // Création des dots
                 dotsContainer.innerHTML = '';
                 for (let i = 0; i < totalSlides; i++) {
                     const dot = document.createElement('span');
@@ -815,34 +916,62 @@
                     if (index < 0) index = totalSlides - 1;
                     if (index >= totalSlides) index = 0;
                     currentIndex = index;
+                    wrapper.style.transition = 'transform 0.4s var(--ease)';
                     wrapper.style.transform = 'translateX(' + (-currentIndex * 100) + '%)';
                     dots.forEach(function(dot, i) {
                         dot.classList.toggle('active', i === currentIndex);
                     });
                 }
 
-                function nextSlide() { goTo(currentIndex + 1); }
-                function prevSlide() { goTo(currentIndex - 1); }
-
+                // Navigation boutons
                 if (prevBtn) prevBtn.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    prevSlide();
+                    goTo(currentIndex - 1);
                 });
                 if (nextBtn) nextBtn.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    nextSlide();
+                    goTo(currentIndex + 1);
                 });
 
                 dots.forEach(function(dot) {
                     dot.addEventListener('click', function(e) {
                         e.stopPropagation();
-                        const index = parseInt(this.dataset.index, 10);
-                        goTo(index);
+                        goTo(parseInt(this.dataset.index, 10));
                     });
                 });
+
+                // Swipe tactile
+                container.addEventListener('touchstart', function(e) {
+                    touchStartX = e.changedTouches[0].screenX;
+                    isSwiping = true;
+                    wrapper.style.transition = 'none';
+                }, { passive: true });
+
+                container.addEventListener('touchmove', function(e) {
+                    if (!isSwiping) return;
+                    const deltaX = e.changedTouches[0].screenX - touchStartX;
+                    const offset = -currentIndex * 100 + (deltaX / container.offsetWidth * 100);
+                    wrapper.style.transform = 'translateX(' + offset + '%)';
+                }, { passive: true });
+
+                container.addEventListener('touchend', function(e) {
+                    if (!isSwiping) return;
+                    isSwiping = false;
+                    touchEndX = e.changedTouches[0].screenX;
+                    const diff = touchStartX - touchEndX;
+                    wrapper.style.transition = 'transform 0.4s var(--ease)';
+                    if (Math.abs(diff) > 50) {
+                        if (diff > 0) goTo(currentIndex + 1);
+                        else goTo(currentIndex - 1);
+                    } else {
+                        goTo(currentIndex);
+                    }
+                }, { passive: true });
+
+                goTo(0);
             });
 
-            // Reveal on scroll
+            // --- REVEAL ON SCROLL ---
             const reveals = document.querySelectorAll('.reveal');
             if ('IntersectionObserver' in window) {
                 const observer = new IntersectionObserver(function(entries) {
