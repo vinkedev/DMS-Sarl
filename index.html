@@ -1785,7 +1785,7 @@
             const slideData = [{
                 badge: 'DMS-C — Groupe',
                 title: 'Des solutions pour <span>construire, équiper</span> et avancer.',
-                desc: 'Entreprise active dans plusieurs domaines : BTP, vente de véhicules, machines agricoles, soudure et diverses autres prestations.',
+                desc: 'BTP, véhicules, machines agricoles, soudure — tout sous un même toit.',
                 btn1: 'Découvrir DMS-C',
                 btn1Link: 'index.html#apropos',
                 btn2: 'Nous contacter',
@@ -1793,7 +1793,7 @@
             }, {
                 badge: 'DMS Automobile',
                 title: 'Des solutions automobiles <span>adaptées</span> à vos besoins.',
-                desc: 'Spécialisée dans la vente et la distribution de véhicules neufs et d\'occasion, ainsi que dans les machines et équipements agricoles et divers autres articles.',
+                desc: 'Véhicules neufs et d\'occasion, machines agricoles et équipements.',
                 btn1: 'Découvrir DMS Automobile',
                 btn1Link: 'automobile.html',
                 btn2: 'Nous contacter',
@@ -1801,7 +1801,7 @@
             }, {
                 badge: 'DMS Construction',
                 title: 'Construire avec <span>expertise</span> et savoir‑faire.',
-                desc: 'Spécialisée dans les travaux de construction et de réfection de bâtiments, la pose de pavés, la conception de plans, l\'établissement de devis, la soudure et bien d\'autres prestations.',
+                desc: 'Construction, réfection, pavage, plans et soudure — clé en main.',
                 btn1: 'Découvrir DMS Construction',
                 btn1Link: 'construction.html',
                 btn2: 'Demander un devis',
@@ -1839,7 +1839,7 @@
 
             function startCarousel() {
                 if (interval) clearInterval(interval);
-                interval = setInterval(nextSlide, 3000);
+                interval = setInterval(nextSlide, 5000); // Augmenté à 5 secondes
             }
 
             dots.forEach(function(dot) {
