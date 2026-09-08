@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>DMS-C — Inventons le futur</title>
 
-    <!-- PRELOAD DU LOGO pour éviter le flash blanc -->
+    <!-- PRELOAD DU LOGO -->
     <link rel="preload" as="image" href="DMS/logo.jpg" fetchpriority="high" />
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
@@ -41,6 +41,7 @@
             color: var(--gris-texte);
             background: var(--blanc);
             line-height: 1.6;
+            overflow-x: hidden;
         }
         body.loading {
             overflow: hidden;
@@ -107,7 +108,6 @@
             height: 70px;
             object-fit: contain;
             border-radius: 50%;
-            /* pas de lazy loading ici */
         }
         @keyframes pulseLogo {
             0% { transform: scale(0.95); box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 20px 60px rgba(0,0,0,0.3); }
@@ -218,8 +218,6 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 24px rgba(242, 153, 74, 0.35);
         }
-
-        /* PULSATION WHATSAPP */
         .btn--whatsapp {
             background: #25D366;
             color: var(--blanc);
@@ -237,7 +235,6 @@
             70% { box-shadow: 0 0 0 16px rgba(37, 211, 102, 0); }
             100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
-
         .btn:active {
             transform: translateY(0) scale(0.97);
         }
@@ -568,7 +565,6 @@
             font-size: 2rem;
             font-weight: 800;
             color: var(--bleu);
-            /* utilisé pour l'animation des compteurs */
         }
         .apropos__chiffres span {
             font-size: 0.9rem;
@@ -986,15 +982,102 @@
             transform: translateY(-4px);
         }
 
-        /* ===== REVEAL ===== */
+        /* ============================================================ */
+        /* ===== TRANSITIONS AVANCÉES AU SCROLL ===== */
+        /* ============================================================ */
+
+        /* Base : tous les éléments avec une classe de transition */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.7s var(--ease-soft), transform 0.7s var(--ease-soft);
+            transition: opacity 0.8s var(--ease-soft), transform 0.8s var(--ease-soft);
         }
-        .reveal.visible {
+
+        /* Fade-in classique (haut vers bas) */
+        .reveal-fade {
+            transform: translateY(40px);
+        }
+        .reveal-fade.visible {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        /* Entrée par la gauche */
+        .reveal-left {
+            transform: translateX(-60px);
+        }
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Entrée par la droite */
+        .reveal-right {
+            transform: translateX(60px);
+        }
+        .reveal-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Zoom progressif (les cartes s'approchent) */
+        .reveal-zoom {
+            transform: scale(0.85);
+            opacity: 0;
+        }
+        .reveal-zoom.visible {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Effet de flou → net */
+        .reveal-blur {
+            filter: blur(8px);
+            transform: scale(0.96);
+        }
+        .reveal-blur.visible {
+            filter: blur(0);
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Stagger : pour les grilles (les enfants s'affichent en cascade) */
+        .stagger-children>* {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s var(--ease-soft), transform 0.6s var(--ease-soft);
+        }
+        .stagger-children.visible>*:nth-child(1) { transition-delay: 0.05s; }
+        .stagger-children.visible>*:nth-child(2) { transition-delay: 0.12s; }
+        .stagger-children.visible>*:nth-child(3) { transition-delay: 0.19s; }
+        .stagger-children.visible>*:nth-child(4) { transition-delay: 0.26s; }
+        .stagger-children.visible>*:nth-child(5) { transition-delay: 0.33s; }
+        .stagger-children.visible>*:nth-child(6) { transition-delay: 0.40s; }
+        .stagger-children.visible>*:nth-child(7) { transition-delay: 0.47s; }
+        .stagger-children.visible>*:nth-child(8) { transition-delay: 0.54s; }
+        .stagger-children.visible>*:nth-child(9) { transition-delay: 0.61s; }
+        .stagger-children.visible>*:nth-child(10) { transition-delay: 0.68s; }
+        .stagger-children.visible>*:nth-child(11) { transition-delay: 0.75s; }
+        .stagger-children.visible>*:nth-child(12) { transition-delay: 0.82s; }
+
+        .stagger-children.visible>* {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Parallaxe léger sur les sections (décalage de fond) */
+        .parallax-section {
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Effet de dévoilement des titres (coupure progressive) */
+        .reveal-title {
+            clip-path: inset(0 100% 0 0);
+            transition: clip-path 1.2s var(--ease-soft);
+        }
+        .reveal-title.visible {
+            clip-path: inset(0 0% 0 0);
         }
 
         /* ============================================================ */
@@ -1366,7 +1449,6 @@
     <!-- PRELOADER -->
     <div class="preloader" id="preloader">
         <div class="preloader__logo">
-            <!-- loading="lazy" retiré, preload dans le head -->
             <img src="DMS/logo.jpg" alt="DMS-C" />
         </div>
         <div class="preloader__bar"></div>
@@ -1416,19 +1498,19 @@
     <!-- À PROPOS -->
     <section class="section section--blanc" id="apropos">
         <div class="container">
-            <div class="section__titre reveal">
+            <div class="section__titre reveal reveal-fade">
                 <h2>À propos de <span>DMS-C</span></h2>
                 <p>Une entreprise polyvalente, des expertises variées.</p>
             </div>
             <div class="apropos">
-                <div class="apropos__image reveal">
+                <div class="apropos__image reveal reveal-blur">
                     <img src="DMS/apropos.jpeg" alt="DMS-C" loading="lazy">
                 </div>
-                <div class="apropos__texte reveal">
+                <div class="apropos__texte reveal reveal-right">
                     <h3>Des savoir‑faire multiples pour vos projets.</h3>
                     <p><strong>DMS-C</strong> est une entreprise dynamique active dans de nombreux secteurs : la <strong>construction (BTP)</strong>, la <strong>vente de véhicules</strong> neufs et d'occasion, les <strong>machines agricoles</strong>, la <strong>soudure</strong>, ainsi que diverses autres prestations adaptées aux besoins de ses clients.</p>
                     <p>Nous mettons notre expérience et notre rigueur au service de vos projets, qu'il s'agisse de construire un bâtiment, d'acquérir un véhicule ou de réaliser des ouvrages métalliques sur‑mesure. Votre satisfaction est notre priorité.</p>
-                    <div class="apropos__chiffres" id="chiffresContainer">
+                    <div class="apropos__chiffres stagger-children" id="chiffresContainer">
                         <div class="chiffre-item">
                             <strong class="compteur" data-target="50">0</strong><span>Projets réalisés</span>
                         </div>
@@ -1450,18 +1532,18 @@
     <!-- NOS DOMAINES -->
     <section class="section section--gris" id="poles">
         <div class="container">
-            <div class="section__titre reveal">
+            <div class="section__titre reveal reveal-fade">
                 <h2>Nos <span>deux filiales</span></h2>
                 <p>Deux expertises complémentaires pour répondre à tous vos besoins.</p>
             </div>
-            <div class="poles">
-                <div class="pole reveal">
+            <div class="poles stagger-children">
+                <div class="pole reveal reveal-zoom">
                     <span class="pole__icon">🏗️</span>
                     <h3>DMS Construction</h3>
                     <p>Construction, réfection, pose de pavés, conception de plans, devis, soudure et autres prestations.<br><strong>Votre projet, notre engagement.</strong></p>
                     <a href="construction.html" class="btn btn--primaire">Découvrir</a>
                 </div>
-                <div class="pole pole--auto reveal">
+                <div class="pole pole--auto reveal reveal-zoom">
                     <span class="pole__icon">🚗</span>
                     <h3>DMS Automobile</h3>
                     <p>Vente et distribution de véhicules neufs et d'occasion, machines agricoles et autres équipements.<br><strong>La satisfaction du client au cœur de nos priorités.</strong></p>
@@ -1474,13 +1556,13 @@
     <!-- PRESTATIONS PHARES -->
     <section class="services-section section--blanc" id="services">
         <div class="container">
-            <div class="section__titre reveal">
+            <div class="section__titre reveal reveal-fade">
                 <h2>Nos <span>prestations phares</span></h2>
                 <p>Découvrez nos offres clés en construction et notre sélection de véhicules.</p>
             </div>
 
             <!-- RANGÉE DMS Construction -->
-            <div class="reveal">
+            <div class="reveal reveal-left">
                 <h3 class="row-title row-title--construction">
                     <i class="fas fa-hard-hat"></i> DMS Construction
                 </h3>
@@ -1488,8 +1570,8 @@
                     <strong>DMS-CONSTRUCTION</strong> est une filiale spécialisée dans le bâtiment et les travaux publics. Nous intervenons sur tous types de projets (villas, immeubles, bâtiments scolaires) avec un accompagnement complet : conception, suivi et livraison.
                 </p>
             </div>
-            <div class="services-row">
-                <div class="service-card reveal">
+            <div class="services-row stagger-children">
+                <div class="service-card reveal reveal-zoom">
                     <img class="service-card__img" src="DMS/Construction.jpg" alt="Construction et aménagement" loading="lazy">
                     <div class="service-card__body">
                         <h4>Construction &amp; Aménagement</h4>
@@ -1502,7 +1584,7 @@
                         <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20les%20services%20de%20DMS-C%20Construction" target="_blank" class="btn btn--primaire">Demander un devis</a>
                     </div>
                 </div>
-                <div class="service-card reveal">
+                <div class="service-card reveal reveal-zoom">
                     <img class="service-card__img" src="DMS/Conception.jpg" alt="Soudure métallique et métallerie" loading="lazy">
                     <div class="service-card__body">
                         <h4>Soudure Métallique &amp; Métallerie</h4>
@@ -1514,7 +1596,7 @@
                         <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20les%20services%20de%20DMS-C%20Construction" target="_blank" class="btn btn--primaire">Demander un devis</a>
                     </div>
                 </div>
-                <div class="service-card reveal">
+                <div class="service-card reveal reveal-zoom">
                     <img class="service-card__img" src="DMS/renovation.jpg" alt="Études et services techniques" loading="lazy">
                     <div class="service-card__body">
                         <h4>Études &amp; Services Techniques</h4>
@@ -1534,7 +1616,7 @@
             </div>
 
             <!-- RANGÉE DMS Automobile -->
-            <div class="reveal">
+            <div class="reveal reveal-right">
                 <h3 class="row-title row-title--automobile" style="margin-top: 60px;">
                     <i class="fas fa-car"></i> DMS Automobile
                 </h3>
@@ -1542,10 +1624,10 @@
                     <strong>DMS Automobile</strong> est spécialisée dans la vente et la distribution de véhicules neufs et d’occasion, d’équipements agricoles et bien d’autres articles. La satisfaction du client est notre priorité.
                 </p>
             </div>
-            <div class="services-row">
+            <div class="services-row stagger-children">
 
                 <!-- Toyota Camry 2018 -->
-                <div class="service-card reveal">
+                <div class="service-card reveal reveal-zoom">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
                             <img src="DMS/toyota_cambry1.jpg" class="slide" alt="Camry vue 1" loading="lazy">
@@ -1572,7 +1654,7 @@
                 </div>
 
                 <!-- Jetour X70S 2019 -->
-                <div class="service-card reveal">
+                <div class="service-card reveal reveal-zoom">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
                             <img src="DMS/jetour_1.jpg" class="slide" alt="Jetour vue 1" loading="lazy">
@@ -1597,7 +1679,7 @@
                 </div>
 
                 <!-- Toyota RAV4 -->
-                <div class="service-card reveal">
+                <div class="service-card reveal reveal-zoom">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
                             <img src="DMS/rav4_1.jpg" class="slide" alt="RAV4 vue 1" loading="lazy">
@@ -1634,22 +1716,22 @@
     <!-- POURQUOI DMS-C -->
     <section class="pourquoi">
         <div class="container">
-            <div class="section__titre section__titre--blanc reveal">
+            <div class="section__titre section__titre--blanc reveal reveal-fade">
                 <h2>Pourquoi <span style="color:var(--jaune);">choisir DMS-C</span> ?</h2>
                 <p>Trois raisons de nous faire confiance.</p>
             </div>
-            <div class="pourquoi__grid">
-                <div class="pourquoi__item reveal">
+            <div class="pourquoi__grid stagger-children">
+                <div class="pourquoi__item reveal reveal-zoom">
                     <i class="fas fa-user-tie"></i>
                     <h4>Expertise &amp; Polyvalence</h4>
                     <p>Une expérience solide dans le BTP, l'automobile, les machines agricoles et la soudure.</p>
                 </div>
-                <div class="pourquoi__item reveal">
+                <div class="pourquoi__item reveal reveal-zoom">
                     <i class="fas fa-arrows-alt-h"></i>
                     <h4>Diversité des services</h4>
                     <p>Nous intervenons dans de multiples domaines pour répondre à tous vos besoins en un seul partenaire.</p>
                 </div>
-                <div class="pourquoi__item reveal">
+                <div class="pourquoi__item reveal reveal-zoom">
                     <i class="fas fa-smile"></i>
                     <h4>Satisfaction client</h4>
                     <p>Votre entière satisfaction est notre priorité absolue, de la conception à la livraison.</p>
@@ -1661,12 +1743,12 @@
     <!-- CONTACT -->
     <section class="section section--blanc" id="contact">
         <div class="container">
-            <div class="section__titre reveal">
+            <div class="section__titre reveal reveal-fade">
                 <h2>Parlons de <span>votre projet</span></h2>
                 <p>Nous sommes à votre écoute pour tout renseignement ou demande.</p>
             </div>
             <div class="contact__grid">
-                <div class="contact__infos reveal">
+                <div class="contact__infos reveal reveal-left">
                     <h3>Coordonnées</h3>
                     <ul>
                         <li><i class="fas fa-phone-alt"></i> (+226) 70 18 20 76 <span style="font-size:0.8rem; color:var(--gris-moyen);">(DMS Construction)</span></li>
@@ -1677,7 +1759,7 @@
                     </ul>
                     <a href="https://wa.me/22674087512" target="_blank" class="btn btn--whatsapp"><i class="fab fa-whatsapp"></i> Écrire sur WhatsApp</a>
                 </div>
-                <div class="reveal">
+                <div class="reveal reveal-right">
                     <form class="contact__form" id="contactForm">
                         <input type="text" placeholder="Votre nom complet" required />
                         <input type="tel" placeholder="Téléphone" required />
@@ -1994,8 +2076,8 @@
                     compteurs.forEach(function(el) {
                         const cible = parseInt(el.dataset.target, 10);
                         let actuel = 0;
-                        const duree = 1200; // ms
-                        const pas = 20; // ms
+                        const duree = 1200;
+                        const pas = 20;
                         const increment = cible / (duree / pas);
                         const timer = setInterval(function() {
                             actuel += increment;
@@ -2010,11 +2092,43 @@
                 }
             }
 
-            // Écouter le scroll pour déclencher les compteurs
             window.addEventListener('scroll', animerCompteurs);
             window.addEventListener('load', function() {
                 setTimeout(animerCompteurs, 400);
             });
+
+            // --- TRANSITIONS AVANCÉES AU SCROLL (IntersectionObserver) ---
+            const revealElements = document.querySelectorAll('.reveal');
+            const observerOptions = {
+                threshold: 0.12,
+                rootMargin: '0px 0px -40px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Pour les stagger-children, on active aussi le parent
+                        if (entry.target.classList.contains('stagger-children')) {
+                            entry.target.classList.add('visible');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            revealElements.forEach(function(el) {
+                observer.observe(el);
+            });
+
+            // On vérifie aussi les éléments déjà visibles au chargement
+            setTimeout(function() {
+                revealElements.forEach(function(el) {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        el.classList.add('visible');
+                    }
+                });
+            }, 300);
 
             // --- FORMULAIRE ---
             document.getElementById('contactForm').addEventListener('submit', function(e) {
@@ -2022,28 +2136,6 @@
                 alert('✅ Votre message a été envoyé ! Nous vous recontacterons dans les 24h.');
                 this.reset();
             });
-
-            // --- REVEAL ON SCROLL ---
-            const reveals = document.querySelectorAll('.reveal');
-            if ('IntersectionObserver' in window) {
-                const observer = new IntersectionObserver(function(entries) {
-                    entries.forEach(function(entry) {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('visible');
-                        }
-                    });
-                }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-                reveals.forEach(function(el) { observer.observe(el); });
-                setTimeout(function() {
-                    reveals.forEach(function(el) {
-                        if (el.getBoundingClientRect().top < window.innerHeight) {
-                            el.classList.add('visible');
-                        }
-                    });
-                }, 200);
-            } else {
-                reveals.forEach(function(el) { el.classList.add('visible'); });
-            }
 
             // --- ACTIVE NAV (sur défilement) ---
             const sections = document.querySelectorAll('section[id]');
