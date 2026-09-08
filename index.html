@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>DMS-C — Inventons le futur</title>
+
+    <!-- PRELOAD DU LOGO pour éviter le flash blanc -->
+    <link rel="preload" as="image" href="DMS/logo.jpg" fetchpriority="high" />
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
@@ -56,6 +60,19 @@
             padding: 0 24px;
         }
 
+        /* ===== BARRE DE PROGRESSION SCROLL ===== */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--bleu), var(--orange), var(--jaune));
+            z-index: 9999;
+            width: 0%;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 12px rgba(0, 115, 230, 0.3);
+        }
+
         /* ===== PRELOADER ===== */
         .preloader {
             position: fixed;
@@ -90,6 +107,7 @@
             height: 70px;
             object-fit: contain;
             border-radius: 50%;
+            /* pas de lazy loading ici */
         }
         @keyframes pulseLogo {
             0% { transform: scale(0.95); box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 20px 60px rgba(0,0,0,0.3); }
@@ -200,15 +218,26 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 24px rgba(242, 153, 74, 0.35);
         }
+
+        /* PULSATION WHATSAPP */
         .btn--whatsapp {
             background: #25D366;
             color: var(--blanc);
+            animation: whatsappPulse 2.4s ease-in-out infinite;
+            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4);
         }
         .btn--whatsapp:hover {
             background: #1da851;
             transform: translateY(-3px);
+            animation-play-state: paused;
             box-shadow: 0 10px 24px rgba(37, 211, 102, 0.35);
         }
+        @keyframes whatsappPulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
+            70% { box-shadow: 0 0 0 16px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
         .btn:active {
             transform: translateY(0) scale(0.97);
         }
@@ -507,7 +536,7 @@
             width: 100%;
             height: auto;
             object-fit: cover;
-            object-position: top; /* garde le haut de l'image visible */
+            object-position: top;
             transition: transform 0.6s var(--ease);
             max-height: 500px;
         }
@@ -531,11 +560,15 @@
             gap: 20px;
             margin-top: 24px;
         }
+        .apropos__chiffres .chiffre-item {
+            text-align: center;
+        }
         .apropos__chiffres strong {
             display: block;
             font-size: 2rem;
             font-weight: 800;
             color: var(--bleu);
+            /* utilisé pour l'animation des compteurs */
         }
         .apropos__chiffres span {
             font-size: 0.9rem;
@@ -968,7 +1001,6 @@
         /* ===== RESPONSIVE ===== */
         /* ============================================================ */
 
-        /* ------ Tablettes et petits écrans ------ */
         @media (max-width: 992px) {
             .hero h1 { font-size: 2.8rem; }
             .apropos { grid-template-columns: 1fr; }
@@ -977,9 +1009,7 @@
             .services-row { grid-template-columns: repeat(2, 1fr); }
         }
 
-        /* ------ Mobiles (max 768px) ------ */
         @media (max-width: 768px) {
-            /* Header & navigation */
             .header__inner {
                 flex-wrap: nowrap;
                 gap: 8px;
@@ -1054,7 +1084,6 @@
                 display: none;
             }
 
-            /* Hero */
             .hero {
                 min-height: 60vh;
                 padding-top: 70px;
@@ -1094,7 +1123,6 @@
                 height: 8px;
             }
 
-            /* Sections */
             .section {
                 padding: 40px 0;
             }
@@ -1111,14 +1139,13 @@
                 padding: 0 16px;
             }
 
-            /* À propos – réglage image mobile */
             .apropos {
                 grid-template-columns: 1fr;
                 gap: 30px;
             }
             .apropos__image img {
-                max-height: 350px;        /* plus de hauteur pour bien voir le visage */
-                object-fit: contain;      /* image entière sans recadrage */
+                max-height: 350px;
+                object-fit: contain;
                 object-position: center;
                 width: 100%;
                 background: var(--gris-clair);
@@ -1138,7 +1165,6 @@
                 font-size: 1.5rem;
             }
 
-            /* Pôles */
             .poles {
                 grid-template-columns: 1fr;
                 gap: 20px;
@@ -1153,7 +1179,6 @@
                 font-size: 1.3rem;
             }
 
-            /* Pourquoi */
             .pourquoi__grid {
                 grid-template-columns: 1fr;
                 gap: 24px;
@@ -1168,7 +1193,6 @@
                 font-size: 0.95rem;
             }
 
-            /* Services row */
             .services-row {
                 grid-template-columns: 1fr !important;
                 gap: 20px;
@@ -1208,7 +1232,6 @@
                 font-size: 0.95rem;
             }
 
-            /* Contact */
             .contact__grid {
                 grid-template-columns: 1fr;
                 gap: 30px;
@@ -1236,7 +1259,6 @@
                 min-height: 100px;
             }
 
-            /* Footer */
             .footer {
                 padding: 40px 0 20px;
             }
@@ -1260,7 +1282,6 @@
                 font-size: 0.7rem;
             }
 
-            /* Back to top */
             .back-to-top {
                 width: 40px;
                 height: 40px;
@@ -1268,8 +1289,6 @@
                 bottom: 16px;
                 font-size: 0.9rem;
             }
-
-            /* Boutons généraux */
             .btn {
                 padding: 10px 20px;
                 font-size: 0.85rem;
@@ -1277,7 +1296,6 @@
             }
         }
 
-        /* ------ Très petits mobiles (max 480px) ------ */
         @media (max-width: 480px) {
             .hero h1 {
                 font-size: 1.5rem !important;
@@ -1308,7 +1326,7 @@
                 min-height: 28px;
             }
             .header__actions .btn--primaire {
-                display: none; /* optionnel : cacher le bouton devis sur très petit */
+                display: none;
             }
             .header__actions .btn--whatsapp {
                 padding: 4px 10px;
@@ -1330,7 +1348,6 @@
             }
         }
 
-        /* ===== Réduction des animations si nécessaire ===== */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.001ms !important;
@@ -1343,10 +1360,14 @@
 </head>
 <body class="loading">
 
+    <!-- BARRE DE PROGRESSION SCROLL -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
     <!-- PRELOADER -->
     <div class="preloader" id="preloader">
         <div class="preloader__logo">
-            <img src="DMS/logo.jpg" alt="DMS-C" loading="lazy">
+            <!-- loading="lazy" retiré, preload dans le head -->
+            <img src="DMS/logo.jpg" alt="DMS-C" />
         </div>
         <div class="preloader__bar"></div>
         <div class="preloader__tag">Inventons le futur</div>
@@ -1407,11 +1428,19 @@
                     <h3>Des savoir‑faire multiples pour vos projets.</h3>
                     <p><strong>DMS-C</strong> est une entreprise dynamique active dans de nombreux secteurs : la <strong>construction (BTP)</strong>, la <strong>vente de véhicules</strong> neufs et d'occasion, les <strong>machines agricoles</strong>, la <strong>soudure</strong>, ainsi que diverses autres prestations adaptées aux besoins de ses clients.</p>
                     <p>Nous mettons notre expérience et notre rigueur au service de vos projets, qu'il s'agisse de construire un bâtiment, d'acquérir un véhicule ou de réaliser des ouvrages métalliques sur‑mesure. Votre satisfaction est notre priorité.</p>
-                    <div class="apropos__chiffres">
-                        <div><strong>50+</strong><span>Projets réalisés</span></div>
-                        <div><strong>100+</strong><span>Clients satisfaits</span></div>
-                        <div><strong>10 ans</strong><span>D'expérience</span></div>
-                        <div><strong>4+</strong><span>Domaines d'activité</span></div>
+                    <div class="apropos__chiffres" id="chiffresContainer">
+                        <div class="chiffre-item">
+                            <strong class="compteur" data-target="50">0</strong><span>Projets réalisés</span>
+                        </div>
+                        <div class="chiffre-item">
+                            <strong class="compteur" data-target="100">0</strong><span>Clients satisfaits</span>
+                        </div>
+                        <div class="chiffre-item">
+                            <strong class="compteur" data-target="10">0</strong><span>D'expérience</span>
+                        </div>
+                        <div class="chiffre-item">
+                            <strong class="compteur" data-target="4">0</strong><span>Domaines d'activité</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1781,6 +1810,15 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
+            // --- BARRE DE PROGRESSION SCROLL ---
+            const progressBar = document.getElementById('scrollProgress');
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+                progressBar.style.width = progress + '%';
+            });
+
             // --- HERO CAROUSEL ---
             const slides = document.querySelectorAll('.hero__carousel-slide');
             const dots = document.querySelectorAll('.hero__carousel-dots button');
@@ -1876,7 +1914,6 @@
                 let touchEndX = 0;
                 let isSwiping = false;
 
-                // Création des dots
                 dotsContainer.innerHTML = '';
                 for (let i = 0; i < totalSlides; i++) {
                     const dot = document.createElement('span');
@@ -1897,7 +1934,6 @@
                     });
                 }
 
-                // Navigation boutons
                 if (prevBtn) prevBtn.addEventListener('click', function(e) {
                     e.stopPropagation();
                     goTo(currentIndex - 1);
@@ -1914,7 +1950,6 @@
                     });
                 });
 
-                // Gestion du swipe (touch)
                 container.addEventListener('touchstart', function(e) {
                     touchStartX = e.changedTouches[0].screenX;
                     isSwiping = true;
@@ -1934,19 +1969,51 @@
                     touchEndX = e.changedTouches[0].screenX;
                     const diff = touchStartX - touchEndX;
                     wrapper.style.transition = 'transform 0.4s var(--ease)';
-                    
                     if (Math.abs(diff) > 50) {
-                        if (diff > 0) {
-                            goTo(currentIndex + 1);
-                        } else {
-                            goTo(currentIndex - 1);
-                        }
+                        if (diff > 0) goTo(currentIndex + 1);
+                        else goTo(currentIndex - 1);
                     } else {
                         goTo(currentIndex);
                     }
                 }, { passive: true });
 
                 goTo(0);
+            });
+
+            // --- COMPTEURS ANIMÉS ---
+            const compteurs = document.querySelectorAll('.compteur');
+            let animationDeclenchee = false;
+
+            function animerCompteurs() {
+                if (animationDeclenchee) return;
+                const container = document.getElementById('chiffresContainer');
+                if (!container) return;
+                const rect = container.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    animationDeclenchee = true;
+                    compteurs.forEach(function(el) {
+                        const cible = parseInt(el.dataset.target, 10);
+                        let actuel = 0;
+                        const duree = 1200; // ms
+                        const pas = 20; // ms
+                        const increment = cible / (duree / pas);
+                        const timer = setInterval(function() {
+                            actuel += increment;
+                            if (actuel >= cible) {
+                                el.textContent = cible;
+                                clearInterval(timer);
+                            } else {
+                                el.textContent = Math.floor(actuel);
+                            }
+                        }, pas);
+                    });
+                }
+            }
+
+            // Écouter le scroll pour déclencher les compteurs
+            window.addEventListener('scroll', animerCompteurs);
+            window.addEventListener('load', function() {
+                setTimeout(animerCompteurs, 400);
             });
 
             // --- FORMULAIRE ---
