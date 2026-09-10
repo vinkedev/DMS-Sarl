@@ -201,32 +201,33 @@
             user-select: none;
             -webkit-user-drag: none;
         }
+        /* ===== FLÈCHES TOUJOURS VISIBLES ===== */
         .project-slider .slider-btn {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.55);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            width: 34px;
+            height: 34px;
             cursor: pointer;
             z-index: 5;
             font-size: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: 0.25s var(--ease);
-            opacity: 0;
+            transition: background 0.25s var(--ease), transform 0.25s var(--ease);
+            opacity: 1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-        .project-slider:hover .slider-btn { opacity: 1; }
-        .project-slider .slider-btn:hover { background: rgba(0,0,0,0.8); transform: translateY(-50%) scale(1.1); }
-        .project-slider .slider-btn.prev { left: 6px; }
-        .project-slider .slider-btn.next { right: 6px; }
+        .project-slider .slider-btn:hover { background: var(--bleu); transform: translateY(-50%) scale(1.1); }
+        .project-slider .slider-btn.prev { left: 10px; }
+        .project-slider .slider-btn.next { right: 10px; }
         .project-slider .dots {
             position: absolute;
-            bottom: 8px;
+            bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -237,9 +238,10 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.55);
             cursor: pointer;
             transition: 0.25s var(--ease);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         .project-slider .dots span.active { background: white; transform: scale(1.3); }
 
@@ -390,40 +392,41 @@
         .realisations-grid-2 .project-card__body h4 { font-size: 1.25rem; }
         .realisations-grid-2 .project-card__body .price { font-size: 1.15rem; }
 
-        /* ===== SERVICES ===== */
-        .services-grid {
+        /* ===== UNE ÉQUIPE À VOTRE SERVICE ===== */
+        .team-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
         }
-        .service-card {
-            background: var(--blanc);
+        .team-card {
+            position: relative;
             border-radius: var(--radius);
-            box-shadow: var(--shadow);
             overflow: hidden;
+            box-shadow: var(--shadow);
             transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
-            border: 1px solid #E2E8F0;
-            display: flex;
-            flex-direction: column;
+            aspect-ratio: 3 / 4;
         }
-        .service-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-premium); }
-        .service-card .service-img { height: 200px; background-size: cover; background-position: center; }
-        .service-card .service-body {
-            padding: 24px 20px 28px;
-            text-align: center;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+        .team-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-premium);
         }
-        .service-card .service-body h4 { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; color: var(--gris-texte); }
-        .service-card .service-body p {
-            color: var(--gris-moyen);
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 16px;
-            flex: 1;
+        .team-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s var(--ease);
         }
-        .service-card .service-body .btn { margin-top: auto; }
+        .team-card:hover img {
+            transform: scale(1.06);
+        }
+        .team-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(11,26,46,0.35) 0%, rgba(11,26,46,0) 45%);
+            pointer-events: none;
+        }
 
         /* ===== AVANTAGES ===== */
         .avantages-grid {
@@ -523,14 +526,17 @@
 
         /* ------ Tablettes ------ */
         @media (max-width: 992px) {
-            .projects-grid, .services-grid { grid-template-columns: 1fr 1fr; }
+            .projects-grid { grid-template-columns: 1fr 1fr; }
             .section__titre h2 { font-size: 2.2rem; }
 
             /* Réalisations */
             .realisation-feature { grid-template-columns: 1fr; }
             .realisation-feature--inverse .realisation-feature__media { order: 0; }
-            .realisation-feature__media { min-height: 300px; }
+            .realisation-feature__media { min-height: 360px; }
             .realisations-grid-2 { grid-template-columns: 1fr; }
+
+            /* Équipe */
+            .team-grid { grid-template-columns: 1fr 1fr; }
         }
 
         /* ------ Mobiles (max 768px) ------ */
@@ -587,22 +593,18 @@
             .section__titre h2 { font-size: 1.8rem !important; }
             .section__titre p { font-size: 0.95rem; }
 
-            /* Projets & Services */
-            .projects-grid, .services-grid { grid-template-columns: 1fr !important; gap: 20px; }
-            .project-slider { height: 200px; }
+            /* Projets — images plus hautes */
+            .projects-grid { grid-template-columns: 1fr !important; gap: 20px; }
+            .project-slider { height: 300px; }
             .project-card__body { padding: 16px 18px 20px; }
             .project-card__body h4 { font-size: 1.05rem; }
             .project-card__body .price { font-size: 1rem; }
             .project-card__body .specs-list { font-size: 0.85rem; }
             .project-card__body .dispo { font-size: 0.65rem; padding: 2px 10px; }
-            .service-card .service-img { height: 160px; }
-            .service-card .service-body { padding: 20px 16px 24px; }
-            .service-card .service-body h4 { font-size: 1.05rem; }
-            .service-card .service-body p { font-size: 0.9rem; }
 
-            /* Réalisations */
+            /* Réalisations — images plus hautes */
             .realisations-list { gap: 24px; }
-            .realisation-feature__media { min-height: 220px; }
+            .realisation-feature__media { min-height: 320px; }
             .realisation-feature__body { padding: 24px 20px 26px; }
             .realisation-feature__body h3 { font-size: 1.3rem; }
             .realisation-feature__body .price { font-size: 1.15rem; }
@@ -611,6 +613,12 @@
             .realisation-feature__body .btn { width: 100%; align-self: stretch; padding: 12px 20px; }
             .badge-phare { font-size: 0.62rem; padding: 3px 12px; margin-bottom: 10px; }
             .realisations-grid-2 { gap: 20px; }
+            /* Sliders dans les cartes de réalisations (grille 2) */
+            .realisations-grid-2 .project-slider { height: 300px; }
+
+            /* Équipe */
+            .team-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+            .team-card { aspect-ratio: 3 / 4; }
 
             /* Avantages */
             .avantages-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -641,6 +649,11 @@
 
             /* Boutons généraux */
             .btn { padding: 10px 20px; font-size: 0.85rem; min-height: 44px; }
+
+            /* Flèches légèrement plus grosses sur mobile pour être bien visibles */
+            .project-slider .slider-btn { width: 38px; height: 38px; font-size: 15px; }
+            .project-slider .slider-btn.prev { left: 8px; }
+            .project-slider .slider-btn.next { right: 8px; }
         }
 
         /* ------ Très petits mobiles (max 480px) ------ */
@@ -651,11 +664,16 @@
             .header__logo-text strong { font-size: 0.8rem; }
             .header__logo-text small { font-size: 0.45rem; }
             .hamburger span { width: 18px; height: 2px; }
-            .project-slider .slider-btn { width: 24px; height: 24px; font-size: 10px; }
-            .project-slider .slider-btn.prev { left: 2px; }
-            .project-slider .slider-btn.next { right: 2px; }
             .contact-section .btn-group .btn { padding: 10px 16px; font-size: 0.9rem; }
-            .realisation-feature__media { min-height: 190px; }
+
+            /* Images encore plus hautes en très petit écran */
+            .project-slider { height: 260px; }
+            .realisations-grid-2 .project-slider { height: 260px; }
+            .realisation-feature__media { min-height: 260px; }
+
+            /* Équipe en 1 colonne */
+            .team-grid { grid-template-columns: 1fr; }
+            .team-card { aspect-ratio: 4 / 5; }
         }
 
         /* ===== Réduction animations ===== */
@@ -684,6 +702,7 @@
                 <a href="index.html">Accueil</a>
                 <a href="construction.html" class="active">Construction</a>
                 <a href="#realisations">Réalisations</a>
+                <a href="#equipe">Équipe</a>
                 <a href="automobile.html">Automobile</a>
                 <a href="#contact">Contact</a>
             </nav>
@@ -939,67 +958,25 @@
         </div>
     </section>
 
-    <!-- ==================== NOS PRESTATIONS ==================== -->
-    <section class="section section--gris" id="prestations">
+    <!-- ==================== UNE ÉQUIPE À VOTRE SERVICE ==================== -->
+    <section class="section section--gris" id="equipe">
         <div class="container">
             <div class="section__titre reveal">
-                <h2>Nos <span>prestations</span> en construction</h2>
-                <p>Des services complets pour concrétiser vos projets.</p>
+                <h2>Une <span>équipe</span> à votre service</h2>
+                <p>Des professionnels passionnés et qualifiés pour mener votre projet à bien.</p>
             </div>
-            <div class="services-grid">
-                <!-- 1. Construction Clé en Main -->
-                <div class="service-card reveal">
-                    <div class="service-img" style="background-image: url('DMS/Construction.jpg');"></div>
-                    <div class="service-body">
-                        <h4>Construction Clé en Main</h4>
-                        <p>Villas modernes, budgets garantis, gestion pour la diaspora. Prise en charge intégrale.</p>
-                        <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20la%20construction" target="_blank" class="btn btn--primaire">Demander un devis</a>
-                    </div>
+            <div class="team-grid">
+                <div class="team-card reveal">
+                    <img src="construction/equipe_0.jpg" alt="Équipe DMS-C" loading="lazy">
                 </div>
-                <!-- 2. Conception & Études -->
-                <div class="service-card reveal">
-                    <div class="service-img" style="background-image: url('DMS/Conception.jpg');"></div>
-                    <div class="service-body">
-                        <h4>Conception &amp; Études</h4>
-                        <p>Plans architecturaux, devis transparents, dimensionnement, suivi technique.</p>
-                        <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20la%20conception" target="_blank" class="btn btn--primaire">Demander un devis</a>
-                    </div>
+                <div class="team-card reveal">
+                    <img src="construction/equipe_1.jpeg" alt="Équipe DMS-C" loading="lazy">
                 </div>
-                <!-- 3. Rénovation & Aménagements -->
-                <div class="service-card reveal">
-                    <div class="service-img" style="background-image: url('DMS/renovation.jpg');"></div>
-                    <div class="service-body">
-                        <h4>Rénovation &amp; Aménagements</h4>
-                        <p>Réfection, pose de pavés, soudure, métallerie sur mesure (portails, charpentes).</p>
-                        <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20la%20r%C3%A9novation" target="_blank" class="btn btn--primaire">Demander un devis</a>
-                    </div>
+                <div class="team-card reveal">
+                    <img src="construction/equipe_2.jpeg" alt="Équipe DMS-C" loading="lazy">
                 </div>
-                <!-- 4. Réfection & Rénovation -->
-                <div class="service-card reveal">
-                    <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1571327073757-71d13c24de30?w=400&h=200&fit=crop');"></div>
-                    <div class="service-body">
-                        <h4>Réfection &amp; Rénovation</h4>
-                        <p>Rénovation, réhabilitation et mise aux normes de bâtiments existants.</p>
-                        <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20la%20r%C3%A9fection" target="_blank" class="btn btn--primaire">Demander un devis</a>
-                    </div>
-                </div>
-                <!-- 5. Pose de pavés -->
-                <div class="service-card reveal">
-                    <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85f5b3?w=400&h=200&fit=crop');"></div>
-                    <div class="service-body">
-                        <h4>Pose de pavés</h4>
-                        <p>Aménagements extérieurs, terrasses, voiries et espaces publics.</p>
-                        <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20la%20pose%20de%20pav%C3%A9s" target="_blank" class="btn btn--primaire">Demander un devis</a>
-                    </div>
-                </div>
-                <!-- 6. Travaux de soudure -->
-                <div class="service-card reveal">
-                    <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&h=200&fit=crop');"></div>
-                    <div class="service-body">
-                        <h4>Travaux de soudure</h4>
-                        <p>Charpentes métalliques, portails, escaliers, garde-corps et structures sur-mesure.</p>
-                        <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20la%20soudure" target="_blank" class="btn btn--primaire">Demander un devis</a>
-                    </div>
+                <div class="team-card reveal">
+                    <img src="construction/equipe_3.jpeg" alt="Équipe DMS-C" loading="lazy">
                 </div>
             </div>
         </div>
