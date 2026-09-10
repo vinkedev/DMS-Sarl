@@ -107,7 +107,6 @@
             height: 70px;
             object-fit: contain;
             border-radius: 50%;
-            /* pas de lazy loading ici */
         }
         @keyframes pulseLogo {
             0% { transform: scale(0.95); box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 20px 60px rgba(0,0,0,0.3); }
@@ -394,7 +393,8 @@
             background-position: center;
             opacity: 0;
             transform: scale(1.08);
-            transition: opacity 1.2s var(--ease-soft), transform 6s linear;
+            /* ✅ Animation réglée sur 3 secondes */
+            transition: opacity 0.8s var(--ease-soft), transform 3s linear;
         }
         .hero__carousel-slide.active {
             opacity: 1;
@@ -568,7 +568,6 @@
             font-size: 2rem;
             font-weight: 800;
             color: var(--bleu);
-            /* utilisé pour l'animation des compteurs */
         }
         .apropos__chiffres span {
             font-size: 0.9rem;
@@ -1366,7 +1365,6 @@
     <!-- PRELOADER -->
     <div class="preloader" id="preloader">
         <div class="preloader__logo">
-            <!-- loading="lazy" retiré, preload dans le head -->
             <img src="DMS/logo.jpg" alt="DMS-C" />
         </div>
         <div class="preloader__bar"></div>
@@ -1883,7 +1881,8 @@
 
             function startCarousel() {
                 if (interval) clearInterval(interval);
-                interval = setInterval(nextSlide, 5000);
+                // ✅ Changement de slide toutes les 3 secondes
+                interval = setInterval(nextSlide, 3000);
             }
 
             dots.forEach(function(dot) {
@@ -1994,8 +1993,8 @@
                     compteurs.forEach(function(el) {
                         const cible = parseInt(el.dataset.target, 10);
                         let actuel = 0;
-                        const duree = 1200; // ms
-                        const pas = 20; // ms
+                        const duree = 1200;
+                        const pas = 20;
                         const increment = cible / (duree / pas);
                         const timer = setInterval(function() {
                             actuel += increment;
@@ -2010,7 +2009,6 @@
                 }
             }
 
-            // Écouter le scroll pour déclencher les compteurs
             window.addEventListener('scroll', animerCompteurs);
             window.addEventListener('load', function() {
                 setTimeout(animerCompteurs, 400);
