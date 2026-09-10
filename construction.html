@@ -18,6 +18,7 @@
             --gris-moyen: #64748B;
             --orange: #F2994A;
             --jaune: #F2C94C;
+            --nuit: #0B1A2E;
             --shadow: 0 10px 40px rgba(0,0,0,0.08);
             --shadow-premium: 0 8px 30px rgba(0,115,230,0.15);
             --radius: 16px;
@@ -156,6 +157,7 @@
         .section { padding: 80px 0; }
         .section--gris { background: var(--gris-clair); }
         .section--blanc { background: var(--blanc); }
+        .section--dark { background: var(--nuit); }
         .section__titre {
             text-align: center;
             max-width: 720px;
@@ -169,6 +171,11 @@
         }
         .section__titre h2 span { color: var(--bleu); }
         .section__titre p { color: var(--gris-moyen); font-size: 1.1rem; }
+
+        /* Titres sur fond sombre */
+        .section--dark .section__titre h2 { color: #FFFFFF; }
+        .section--dark .section__titre h2 span { color: var(--jaune); }
+        .section--dark .section__titre p { color: rgba(255,255,255,0.72); }
 
         /* ===== SLIDER PROJETS ===== */
         .project-slider {
@@ -287,6 +294,101 @@
             align-self: flex-start;
         }
         .project-card__body .btn { margin-top: auto; justify-content: center; }
+
+        /* ============================================================ */
+        /* ===== NOS RÉALISATIONS ===== */
+        /* ============================================================ */
+        .realisations-list {
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
+        }
+
+        .realisation-feature {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            background: var(--blanc);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255,255,255,0.08);
+            overflow: hidden;
+            transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
+        }
+        .realisation-feature:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+        }
+        .realisation-feature--inverse .realisation-feature__media { order: 2; }
+
+        .realisation-feature__media {
+            position: relative;
+            min-height: 400px;
+            background: #e9edf5;
+        }
+        .realisation-feature__media .project-slider {
+            position: absolute;
+            inset: 0;
+            height: 100%;
+            min-height: 0;
+        }
+        .realisation-feature__body {
+            padding: 38px 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .realisation-feature__body h3 {
+            font-size: 1.7rem;
+            font-weight: 800;
+            line-height: 1.25;
+            margin-bottom: 8px;
+        }
+        .realisation-feature__body .price {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--bleu);
+            margin-bottom: 16px;
+        }
+        .realisation-feature__body .price span {
+            font-size: 0.85rem;
+            color: var(--gris-moyen);
+            font-weight: 500;
+        }
+        .realisation-feature__body .specs-list {
+            font-size: 0.95rem;
+            color: var(--gris-moyen);
+            line-height: 2;
+            margin-bottom: 22px;
+        }
+        .realisation-feature__body .specs-list i { color: var(--bleu); width: 24px; }
+        .realisation-feature__body .btn {
+            align-self: flex-start;
+            width: auto;
+            padding: 12px 34px;
+        }
+
+        .badge-phare {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--orange), var(--jaune));
+            color: #FFFFFF;
+            padding: 4px 16px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 14px;
+            align-self: flex-start;
+        }
+        .badge-phare i { margin-right: 4px; }
+
+        .realisations-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .realisations-grid-2 .project-card__body h4 { font-size: 1.25rem; }
+        .realisations-grid-2 .project-card__body .price { font-size: 1.15rem; }
 
         /* ===== SERVICES ===== */
         .services-grid {
@@ -423,6 +525,12 @@
         @media (max-width: 992px) {
             .projects-grid, .services-grid { grid-template-columns: 1fr 1fr; }
             .section__titre h2 { font-size: 2.2rem; }
+
+            /* Réalisations */
+            .realisation-feature { grid-template-columns: 1fr; }
+            .realisation-feature--inverse .realisation-feature__media { order: 0; }
+            .realisation-feature__media { min-height: 300px; }
+            .realisations-grid-2 { grid-template-columns: 1fr; }
         }
 
         /* ------ Mobiles (max 768px) ------ */
@@ -492,6 +600,18 @@
             .service-card .service-body h4 { font-size: 1.05rem; }
             .service-card .service-body p { font-size: 0.9rem; }
 
+            /* Réalisations */
+            .realisations-list { gap: 24px; }
+            .realisation-feature__media { min-height: 220px; }
+            .realisation-feature__body { padding: 24px 20px 26px; }
+            .realisation-feature__body h3 { font-size: 1.3rem; }
+            .realisation-feature__body .price { font-size: 1.15rem; }
+            .realisation-feature__body .specs-list { font-size: 0.88rem; line-height: 1.9; margin-bottom: 16px; }
+            .realisation-feature__body .specs-list i { width: 20px; }
+            .realisation-feature__body .btn { width: 100%; align-self: stretch; padding: 12px 20px; }
+            .badge-phare { font-size: 0.62rem; padding: 3px 12px; margin-bottom: 10px; }
+            .realisations-grid-2 { gap: 20px; }
+
             /* Avantages */
             .avantages-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
             .avantage-item { padding: 12px; }
@@ -535,6 +655,7 @@
             .project-slider .slider-btn.prev { left: 2px; }
             .project-slider .slider-btn.next { right: 2px; }
             .contact-section .btn-group .btn { padding: 10px 16px; font-size: 0.9rem; }
+            .realisation-feature__media { min-height: 190px; }
         }
 
         /* ===== Réduction animations ===== */
@@ -562,6 +683,7 @@
             <nav class="nav" id="nav">
                 <a href="index.html">Accueil</a>
                 <a href="construction.html" class="active">Construction</a>
+                <a href="#realisations">Réalisations</a>
                 <a href="automobile.html">Automobile</a>
                 <a href="#contact">Contact</a>
             </nav>
@@ -660,6 +782,156 @@
                         </div>
                         <span class="dispo"><i class="fas fa-clock"></i> Délai : 9 mois · Plan personnalisable</span>
                         <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20projet%20R%2B2" target="_blank" class="btn btn--primaire">Demander un devis</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== NOS RÉALISATIONS ==================== -->
+    <section class="section section--dark" id="realisations">
+        <div class="container">
+            <div class="section__titre reveal">
+                <h2>Nos <span>réalisations</span></h2>
+                <p>Des chantiers livrés clé en main, du gros œuvre aux finitions décoratives.</p>
+            </div>
+
+            <div class="realisations-list">
+
+                <!-- ===== 1. CHÂTEAU 600 m² ===== -->
+                <article class="realisation-feature reveal">
+                    <div class="realisation-feature__media">
+                        <div class="project-slider" data-slider>
+                            <div class="slides-wrapper">
+                                <img src="DMS/chateau_1.jpeg" class="slide" alt="Château – vue 1" loading="lazy">
+                                <img src="DMS/chateau_2.jpeg" class="slide" alt="Château – vue 2" loading="lazy">
+                                <img src="DMS/chateau_3.jpeg" class="slide" alt="Château – vue 3" loading="lazy">
+                                <img src="DMS/chateau_4.jpeg" class="slide" alt="Château – vue 4" loading="lazy">
+                                <img src="DMS/chateau_5.jpeg" class="slide" alt="Château – vue 5" loading="lazy">
+                                <img src="DMS/chateau_6.jpeg" class="slide" alt="Château – vue 6" loading="lazy">
+                                <img src="DMS/chateau_7.jpeg" class="slide" alt="Château – vue 7" loading="lazy">
+                                <img src="DMS/chateau_8.jpeg" class="slide" alt="Château – vue 8" loading="lazy">
+                                <img src="DMS/chateau_9.jpeg" class="slide" alt="Château – vue 9" loading="lazy">
+                            </div>
+                            <button class="slider-btn prev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
+                            <button class="slider-btn next" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
+                            <div class="dots"></div>
+                        </div>
+                    </div>
+                    <div class="realisation-feature__body">
+                        <span class="badge-phare"><i class="fas fa-crown"></i> Projet phare</span>
+                        <h3>Réalisation d'un Château</h3>
+                        <div class="price">790 000 000 FCFA <span>— coût global</span></div>
+                        <div class="specs-list">
+                            <i class="fas fa-ruler-combined"></i> Surface : 600 m²<br>
+                            <i class="fas fa-clock"></i> Délai de réalisation : 12 mois<br>
+                            <i class="fas fa-file-signature"></i> Type de contrat : clé en main<br>
+                            <i class="fas fa-gem"></i> Prestations &amp; finitions haut de gamme
+                        </div>
+                        <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20la%20r%C3%A9alisation%20du%20Ch%C3%A2teau%20600m%C2%B2" target="_blank" class="btn btn--primaire">Discuter de mon projet</a>
+                    </div>
+                </article>
+
+                <!-- ===== 2. BÂTIMENT R+2 ===== -->
+                <article class="realisation-feature realisation-feature--inverse reveal">
+                    <div class="realisation-feature__media">
+                        <div class="project-slider" data-slider>
+                            <div class="slides-wrapper">
+                                <img src="DMS/batiment_1.jpeg" class="slide" alt="Bâtiment R+2 – vue 1" loading="lazy">
+                                <img src="DMS/batiment_2.jpeg" class="slide" alt="Bâtiment R+2 – vue 2" loading="lazy">
+                                <img src="DMS/batiment_3.jpeg" class="slide" alt="Bâtiment R+2 – vue 3" loading="lazy">
+                                <img src="DMS/batiment_4.jpeg" class="slide" alt="Bâtiment R+2 – vue 4" loading="lazy">
+                                <img src="DMS/batiment_5.jpeg" class="slide" alt="Bâtiment R+2 – vue 5" loading="lazy">
+                                <img src="DMS/batiment_6.jpeg" class="slide" alt="Bâtiment R+2 – vue 6" loading="lazy">
+                                <img src="DMS/batiment_7.jpeg" class="slide" alt="Bâtiment R+2 – vue 7" loading="lazy">
+                                <img src="DMS/batiment_8.jpeg" class="slide" alt="Bâtiment R+2 – vue 8" loading="lazy">
+                                <img src="DMS/batiment_9.jpeg" class="slide" alt="Bâtiment R+2 – vue 9" loading="lazy">
+                                <img src="DMS/batiment_10.jpeg" class="slide" alt="Bâtiment R+2 – vue 10" loading="lazy">
+                            </div>
+                            <button class="slider-btn prev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
+                            <button class="slider-btn next" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
+                            <div class="dots"></div>
+                        </div>
+                    </div>
+                    <div class="realisation-feature__body">
+                        <span class="badge-phare"><i class="fas fa-building"></i> Bâtiment</span>
+                        <h3>Réalisation d'un Bâtiment R+2</h3>
+                        <div class="price">159 000 000 FCFA <span>— clé en main</span></div>
+                        <div class="specs-list">
+                            <i class="fas fa-layer-group"></i> Niveaux : R+2<br>
+                            <i class="fas fa-ruler-combined"></i> Terrain : 400 m²<br>
+                            <i class="fas fa-file-signature"></i> Type de contrat : clé en main<br>
+                            <i class="fas fa-hard-hat"></i> Réalisation : DMS-C SARL
+                        </div>
+                        <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20le%20B%C3%A2timent%20R%2B2" target="_blank" class="btn btn--primaire">Discuter de mon projet</a>
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- ===== 3 & 4. DÉCORATION + AUTRES RÉALISATIONS ===== -->
+            <div class="realisations-grid-2" style="margin-top:36px;">
+
+                <!-- Décoration murale & pose de pavés -->
+                <div class="project-card reveal">
+                    <div class="project-slider" data-slider>
+                        <div class="slides-wrapper">
+                            <img src="DMS/decoration_1.jpeg" class="slide" alt="Décoration murale – vue 1" loading="lazy">
+                            <img src="DMS/decoration_2.jpeg" class="slide" alt="Décoration murale – vue 2" loading="lazy">
+                            <img src="DMS/decoration_3.jpeg" class="slide" alt="Décoration murale – vue 3" loading="lazy">
+                            <img src="DMS/decoration_4.jpeg" class="slide" alt="Décoration murale – vue 4" loading="lazy">
+                            <img src="DMS/decoration_5.jpeg" class="slide" alt="Décoration murale – vue 5" loading="lazy">
+                            <img src="DMS/decoration_6.jpeg" class="slide" alt="Décoration murale – vue 6" loading="lazy">
+                            <img src="DMS/decoration_7.jpeg" class="slide" alt="Décoration murale – vue 7" loading="lazy">
+                            <img src="DMS/decoration_8.jpeg" class="slide" alt="Décoration murale – vue 8" loading="lazy">
+                            <img src="DMS/decoration_9.jpeg" class="slide" alt="Décoration murale – vue 9" loading="lazy">
+                        </div>
+                        <button class="slider-btn prev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
+                        <div class="dots"></div>
+                    </div>
+                    <div class="project-card__body">
+                        <h4>Décoration murale &amp; pose de pavés</h4>
+                        <div class="price">Sur devis <span>— selon surface</span></div>
+                        <div class="specs-list">
+                            <i class="fas fa-paint-roller"></i> Habillage et décoration murale soignée<br>
+                            <i class="fas fa-th-large"></i> Pose de pavés extérieurs et voiries<br>
+                            <i class="fas fa-home"></i> Intégré dans nos chantiers de construction
+                        </div>
+                        <span class="dispo"><i class="fas fa-clock"></i> Délai selon l'ampleur du chantier</span>
+                        <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20la%20d%C3%A9coration%20murale%20et%20la%20pose%20de%20pav%C3%A9s" target="_blank" class="btn btn--primaire">Demander un devis</a>
+                    </div>
+                </div>
+
+                <!-- Autres réalisations -->
+                <div class="project-card reveal">
+                    <div class="project-slider" data-slider>
+                        <div class="slides-wrapper">
+                            <img src="DMS/realisation_1.jpeg" class="slide" alt="Autre réalisation – vue 1" loading="lazy">
+                            <img src="DMS/realisation_2.jpeg" class="slide" alt="Autre réalisation – vue 2" loading="lazy">
+                            <img src="DMS/realisation_3.jpeg" class="slide" alt="Autre réalisation – vue 3" loading="lazy">
+                            <img src="DMS/realisation_4.jpeg" class="slide" alt="Autre réalisation – vue 4" loading="lazy">
+                            <img src="DMS/realisation_5.jpeg" class="slide" alt="Autre réalisation – vue 5" loading="lazy">
+                            <img src="DMS/realisation_6.jpeg" class="slide" alt="Autre réalisation – vue 6" loading="lazy">
+                            <img src="DMS/realisation_7.jpeg" class="slide" alt="Autre réalisation – vue 7" loading="lazy">
+                            <img src="DMS/realisation_8.jpeg" class="slide" alt="Autre réalisation – vue 8" loading="lazy">
+                            <img src="DMS/realisation_9.jpeg" class="slide" alt="Autre réalisation – vue 9" loading="lazy">
+                        </div>
+                        <button class="slider-btn prev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
+                        <div class="dots"></div>
+                    </div>
+                    <div class="project-card__body">
+                        <h4>Autres réalisations</h4>
+                        <div class="price">Sur devis <span>— projet sur mesure</span></div>
+                        <div class="specs-list">
+                            <i class="fas fa-drafting-compass"></i> Villas, duplex, immeubles &amp; aménagements<br>
+                            <i class="fas fa-tools"></i> Gros œuvre, finitions et métallerie<br>
+                            <i class="fas fa-check-circle"></i> Chantiers livrés dans les délais
+                        </div>
+                        <span class="dispo"><i class="fas fa-star"></i> Qualité &amp; finitions garanties</span>
+                        <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20voir%20plus%20de%20r%C3%A9alisations%20DMS-C" target="_blank" class="btn btn--primaire">Voir plus / Nous contacter</a>
                     </div>
                 </div>
 
@@ -885,7 +1157,7 @@
             window.addEventListener('scroll', updateHeaderShadow);
             updateHeaderShadow();
 
-            // --- SLIDERS PROJETS ---
+            // --- SLIDERS PROJETS & RÉALISATIONS ---
             const sliders = document.querySelectorAll('[data-slider]');
             sliders.forEach(function(container) {
                 const wrapper = container.querySelector('.slides-wrapper');
