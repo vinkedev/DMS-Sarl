@@ -39,7 +39,11 @@
         }
         a { text-decoration: none; color: inherit; }
         img { max-width: 100%; display: block; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .container {
+            max-width: 1500px;      /* ✅ ÉLARGI (avant 1200px) */
+            margin: 0 auto;
+            padding: 0 24px;
+        }
 
         /* ===== BOUTONS ===== */
         .btn {
@@ -125,7 +129,11 @@
         .section__titre p { color: var(--gris-moyen); font-size: 1.1rem; }
 
         /* ===== GRILLE VÉHICULES ===== */
-        .vehicles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .vehicles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);   /* ✅ 2 COLONNES (avant 3) */
+            gap: 40px;                                /* ✅ ESPACEMENT AUGMENTÉ */
+        }
         .vehicle-card {
             background: var(--blanc); border-radius: var(--radius);
             box-shadow: var(--shadow); overflow: hidden;
@@ -137,7 +145,7 @@
 
         .card-slider {
             position: relative; width: 100%;
-            height: 320px;
+            height: 400px;                            /* ✅ ENCORE PLUS GRAND (avant 320px) */
             overflow: hidden; background: #e9edf5; touch-action: pan-y;
         }
         .card-slider .slides-wrapper {
@@ -152,40 +160,40 @@
         .card-slider .slider-btn {
             position: absolute; top: 50%; transform: translateY(-50%);
             background: rgba(0,0,0,0.55); color: white; border: none;
-            border-radius: 50%; width: 38px; height: 38px;
-            cursor: pointer; z-index: 5; font-size: 15px;
+            border-radius: 50%; width: 44px; height: 44px;
+            cursor: pointer; z-index: 5; font-size: 17px;
             display: flex; align-items: center; justify-content: center;
             transition: 0.25s var(--ease);
             opacity: 1;
             box-shadow: 0 2px 10px rgba(0,0,0,0.25);
         }
         .card-slider .slider-btn:hover { background: rgba(0,0,0,0.85); transform: translateY(-50%) scale(1.1); }
-        .card-slider .slider-btn.prev { left: 8px; }
-        .card-slider .slider-btn.next { right: 8px; }
+        .card-slider .slider-btn.prev { left: 12px; }
+        .card-slider .slider-btn.next { right: 12px; }
         .card-slider .dots {
-            position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 6px; z-index: 5;
+            position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 8px; z-index: 5;
         }
         .card-slider .dots span {
-            width: 8px; height: 8px; border-radius: 50%;
+            width: 10px; height: 10px; border-radius: 50%;
             background: rgba(255,255,255,0.5); cursor: pointer;
             transition: 0.25s var(--ease);
         }
         .card-slider .dots span.active { background: white; transform: scale(1.3); }
 
-        .vehicle-card__body { padding: 20px 22px 24px; flex: 1; display: flex; flex-direction: column; }
-        .vehicle-card__body h4 { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
-        .vehicle-card__body .price { font-size: 1.1rem; font-weight: 700; color: var(--orange); margin: 4px 0 6px; }
-        .vehicle-card__body .price span { color: var(--gris-moyen); font-weight: 400; font-size: 0.9rem; }
-        .vehicle-card__body .specs-list { font-size: 0.9rem; color: var(--gris-moyen); margin-bottom: 10px; line-height: 1.5; }
-        .vehicle-card__body .specs-list i { color: var(--orange); width: 18px; }
+        .vehicle-card__body { padding: 26px 30px 30px; flex: 1; display: flex; flex-direction: column; }
+        .vehicle-card__body h4 { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
+        .vehicle-card__body .price { font-size: 1.3rem; font-weight: 700; color: var(--orange); margin: 6px 0 10px; }
+        .vehicle-card__body .price span { color: var(--gris-moyen); font-weight: 400; font-size: 1rem; }
+        .vehicle-card__body .specs-list { font-size: 1rem; color: var(--gris-moyen); margin-bottom: 14px; line-height: 1.7; }
+        .vehicle-card__body .specs-list i { color: var(--orange); width: 22px; }
         .vehicle-card__body .dispo {
             display: inline-block; background: #FEF3C7; color: #92400E;
-            padding: 2px 14px; border-radius: 40px; font-size: 0.75rem;
+            padding: 4px 16px; border-radius: 40px; font-size: 0.8rem;
             font-weight: 700; text-transform: uppercase;
-            margin-bottom: 12px; align-self: flex-start;
+            margin-bottom: 14px; align-self: flex-start;
         }
-        .vehicle-card__body .btn { margin-top: auto; justify-content: center; }
+        .vehicle-card__body .btn { margin-top: auto; justify-content: center; font-size: 1rem; min-height: 48px; }
 
         /* ===== AVANTAGES ===== */
         .avantages-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-top: 20px; }
@@ -255,11 +263,17 @@
         /* ============================================================ */
         /* ===== RESPONSIVE ===== */
         /* ============================================================ */
+        @media (max-width: 1200px) {
+            .vehicles-grid { gap: 30px; }
+            .card-slider { height: 360px; }
+            .vehicle-card__body { padding: 22px 24px 26px; }
+        }
         @media (max-width: 992px) {
-            .vehicles-grid { grid-template-columns: 1fr 1fr; }
+            .vehicles-grid { grid-template-columns: 1fr; gap: 30px; }   /* ✅ 1 COLONNE sur tablette */
             .avantages-grid { grid-template-columns: 1fr 1fr; }
             .temoignages-grid { grid-template-columns: 1fr 1fr; }
             .section__titre h2 { font-size: 2.2rem; }
+            .card-slider { height: 380px; }
         }
         @media (max-width: 768px) {
             .container { padding: 0 16px; }
@@ -291,13 +305,13 @@
             .section__titre h2 { font-size: 1.8rem !important; }
             .section__titre p { font-size: 0.95rem; }
             .vehicles-grid { grid-template-columns: 1fr !important; gap: 20px; }
-            .card-slider { height: 300px; }
-            .vehicle-card__body { padding: 16px 18px 20px; }
-            .vehicle-card__body h4 { font-size: 1.05rem; }
-            .vehicle-card__body .price { font-size: 1rem; }
-            .vehicle-card__body .specs-list { font-size: 0.85rem; }
-            .vehicle-card__body .dispo { font-size: 0.65rem; padding: 2px 10px; }
-            .vehicle-card__body .btn { font-size: 0.9rem; padding: 10px 16px; min-height: 40px; }
+            .card-slider { height: 320px; }
+            .vehicle-card__body { padding: 18px 20px 22px; }
+            .vehicle-card__body h4 { font-size: 1.15rem; }
+            .vehicle-card__body .price { font-size: 1.1rem; }
+            .vehicle-card__body .specs-list { font-size: 0.9rem; }
+            .vehicle-card__body .dispo { font-size: 0.7rem; padding: 3px 12px; }
+            .vehicle-card__body .btn { font-size: 0.95rem; padding: 12px 18px; min-height: 44px; }
             .avantages-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
             .avantage-item { padding: 12px; }
             .avantage-item i { font-size: 2.2rem; }
@@ -330,10 +344,10 @@
             .header__actions .btn--accent { display: none; }
             .header__actions .btn--whatsapp { padding: 4px 10px; }
             .hamburger span { width: 18px; height: 2px; }
-            .card-slider { height: 240px; }
-            .card-slider .slider-btn { width: 30px; height: 30px; font-size: 12px; }
-            .card-slider .slider-btn.prev { left: 4px; }
-            .card-slider .slider-btn.next { right: 4px; }
+            .card-slider { height: 260px; }
+            .card-slider .slider-btn { width: 36px; height: 36px; font-size: 13px; }
+            .card-slider .slider-btn.prev { left: 6px; }
+            .card-slider .slider-btn.next { right: 6px; }
             .contact__infos ul li { font-size: 0.8rem; }
             .contact__infos ul li i { width: 20px; font-size: 1rem; }
         }
@@ -386,7 +400,7 @@
             </div>
             <div class="vehicles-grid">
 
-                <!-- ========== 1. TOYOTA PRADO LAND CRUISER 2011 (NOUVEAU) ========== -->
+                <!-- ========== 1. TOYOTA PRADO LAND CRUISER 2011 ========== -->
                 <div class="vehicle-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
@@ -412,7 +426,7 @@
                     </div>
                 </div>
 
-                <!-- ========== 2. MAZDA CX-5 2016 FULL OPTION (NOUVEAU) ========== -->
+                <!-- ========== 2. MAZDA CX-5 2016 FULL OPTION ========== -->
                 <div class="vehicle-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
@@ -441,7 +455,7 @@
                     </div>
                 </div>
 
-                <!-- ========== 3. MAZDA CX-5 2013–2014 (NOUVEAU) ========== -->
+                <!-- ========== 3. MAZDA CX-5 2013–2014 ========== -->
                 <div class="vehicle-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
@@ -471,7 +485,7 @@
                     </div>
                 </div>
 
-                <!-- ========== 4. MAZDA CX-5 2013 FULL OPTIONS (NOUVEAU) ========== -->
+                <!-- ========== 4. MAZDA CX-5 2013 FULL OPTIONS ========== -->
                 <div class="vehicle-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
