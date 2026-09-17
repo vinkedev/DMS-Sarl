@@ -704,7 +704,7 @@
         }
         .service-card__img {
             transition: transform 0.6s var(--ease);
-            height: 200px;
+            height: 300px;
             width: 100%;
             object-fit: cover;
             background: #e9edf5;
@@ -739,26 +739,24 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.55);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            width: 36px;
+            height: 36px;
             cursor: pointer;
             z-index: 5;
-            font-size: 14px;
+            font-size: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: 0.25s var(--ease);
-            opacity: 0;
-        }
-        .card-slider:hover .slider-btn {
-            opacity: 1;
+            opacity: 1;                    /* ✅ visible par défaut */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
         }
         .card-slider .slider-btn:hover {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             transform: translateY(-50%) scale(1.1);
         }
         .card-slider .slider-btn.prev {
@@ -1338,15 +1336,15 @@
                 height: 200px;
             }
             .card-slider .slider-btn {
-                width: 24px;
-                height: 24px;
-                font-size: 10px;
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
             }
             .card-slider .slider-btn.prev {
-                left: 2px;
+                left: 4px;
             }
             .card-slider .slider-btn.next {
-                right: 2px;
+                right: 4px;
             }
         }
 
@@ -1477,66 +1475,12 @@
         <div class="container">
             <div class="section__titre reveal">
                 <h2>Nos <span>prestations phares</span></h2>
-                <p>Découvrez nos offres clés en construction et notre sélection de véhicules.</p>
+                <p>Découvrez notre sélection de véhicules et nos offres clés en construction.</p>
             </div>
 
-            <!-- RANGÉE DMS Construction -->
+            <!-- ===== RANGÉE DMS Automobile (en premier) ===== -->
             <div class="reveal">
-                <h3 class="row-title row-title--construction">
-                    <i class="fas fa-hard-hat"></i> DMS Construction
-                </h3>
-                <p class="row-sub">
-                    <strong>DMS-CONSTRUCTION</strong> est une filiale spécialisée dans le bâtiment et les travaux publics. Nous intervenons sur tous types de projets (villas, immeubles, bâtiments scolaires) avec un accompagnement complet : conception, suivi et livraison.
-                </p>
-            </div>
-            <div class="services-row">
-                <div class="service-card reveal">
-                    <img class="service-card__img" src="DMS/Construction.jpg" alt="Construction et aménagement" loading="lazy">
-                    <div class="service-card__body">
-                        <h4>Construction &amp; Aménagement</h4>
-                        <ul class="specs-list" style="list-style:none; padding-left:0;">
-                            <li><i class="fas fa-check"></i> Villas basses modernes et traditionnelles</li>
-                            <li><i class="fas fa-check"></i> Immeubles d'habitation, commerciaux, administratifs</li>
-                            <li><i class="fas fa-check"></i> Bâtiments scolaires et infrastructures diverses</li>
-                            <li><i class="fas fa-check"></i> Aménagements intérieurs et extérieurs</li>
-                        </ul>
-                        <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20les%20services%20de%20DMS-C%20Construction" target="_blank" class="btn btn--primaire">Demander un devis</a>
-                    </div>
-                </div>
-                <div class="service-card reveal">
-                    <img class="service-card__img" src="DMS/Conception.jpg" alt="Soudure métallique et métallerie" loading="lazy">
-                    <div class="service-card__body">
-                        <h4>Soudure Métallique &amp; Métallerie</h4>
-                        <ul class="specs-list" style="list-style:none; padding-left:0;">
-                            <li><i class="fas fa-check"></i> Portails, grilles, portes et fenêtres métalliques</li>
-                            <li><i class="fas fa-check"></i> Charpentes et structures métalliques</li>
-                            <li><i class="fas fa-check"></i> Escaliers et garde‑corps en métal</li>
-                        </ul>
-                        <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20les%20services%20de%20DMS-C%20Construction" target="_blank" class="btn btn--primaire">Demander un devis</a>
-                    </div>
-                </div>
-                <div class="service-card reveal">
-                    <img class="service-card__img" src="DMS/renovation.jpg" alt="Études et services techniques" loading="lazy">
-                    <div class="service-card__body">
-                        <h4>Études &amp; Services Techniques</h4>
-                        <ul class="specs-list" style="list-style:none; padding-left:0;">
-                            <li><i class="fas fa-check"></i> Conception de plans architecturaux sur mesure</li>
-                            <li><i class="fas fa-check"></i> Établissement de devis détaillés et dimensionnement</li>
-                            <li><i class="fas fa-check"></i> Contrôle, suivi de chantier et accompagnement pour le permis de construire</li>
-                        </ul>
-                        <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20les%20services%20de%20DMS-C%20Construction" target="_blank" class="btn btn--primaire">Demander un devis</a>
-                    </div>
-                </div>
-            </div>
-            <div style="text-align: center; margin-top: 20px; margin-bottom: 50px;">
-                <a href="construction.html" class="btn btn--primaire" style="width: auto; padding: 14px 50px;">
-                    En savoir plus sur DMS Construction <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <!-- RANGÉE DMS Automobile -->
-            <div class="reveal">
-                <h3 class="row-title row-title--automobile" style="margin-top: 60px;">
+                <h3 class="row-title row-title--automobile">
                     <i class="fas fa-car"></i> DMS Automobile
                 </h3>
                 <p class="row-sub">
@@ -1632,9 +1576,63 @@
                 </div>
 
             </div><!-- /services-row -->
-            <div style="text-align: center; margin-top: 20px;">
+            <div style="text-align: center; margin-top: 20px; margin-bottom: 50px;">
                 <a href="automobile.html" class="btn btn--accent" style="width: auto; padding: 14px 50px;">
                     En savoir plus sur DMS Automobile <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- ===== RANGÉE DMS Construction (en second) ===== -->
+            <div class="reveal">
+                <h3 class="row-title row-title--construction" style="margin-top: 60px;">
+                    <i class="fas fa-hard-hat"></i> DMS Construction
+                </h3>
+                <p class="row-sub">
+                    <strong>DMS-CONSTRUCTION</strong> est une filiale spécialisée dans le bâtiment et les travaux publics. Nous intervenons sur tous types de projets (villas, immeubles, bâtiments scolaires) avec un accompagnement complet : conception, suivi et livraison.
+                </p>
+            </div>
+            <div class="services-row">
+                <div class="service-card reveal">
+                    <img class="service-card__img" src="DMS/Construction.jpg" alt="Construction et aménagement" loading="lazy">
+                    <div class="service-card__body">
+                        <h4>Construction &amp; Aménagement</h4>
+                        <ul class="specs-list" style="list-style:none; padding-left:0;">
+                            <li><i class="fas fa-check"></i> Villas basses modernes et traditionnelles</li>
+                            <li><i class="fas fa-check"></i> Immeubles d'habitation, commerciaux, administratifs</li>
+                            <li><i class="fas fa-check"></i> Bâtiments scolaires et infrastructures diverses</li>
+                            <li><i class="fas fa-check"></i> Aménagements intérieurs et extérieurs</li>
+                        </ul>
+                        <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20les%20services%20de%20DMS-C%20Construction" target="_blank" class="btn btn--primaire">Demander un devis</a>
+                    </div>
+                </div>
+                <div class="service-card reveal">
+                    <img class="service-card__img" src="DMS/Conception.jpg" alt="Soudure métallique et métallerie" loading="lazy">
+                    <div class="service-card__body">
+                        <h4>Soudure Métallique &amp; Métallerie</h4>
+                        <ul class="specs-list" style="list-style:none; padding-left:0;">
+                            <li><i class="fas fa-check"></i> Portails, grilles, portes et fenêtres métalliques</li>
+                            <li><i class="fas fa-check"></i> Charpentes et structures métalliques</li>
+                            <li><i class="fas fa-check"></i> Escaliers et garde‑corps en métal</li>
+                        </ul>
+                        <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20les%20services%20de%20DMS-C%20Construction" target="_blank" class="btn btn--primaire">Demander un devis</a>
+                    </div>
+                </div>
+                <div class="service-card reveal">
+                    <img class="service-card__img" src="DMS/renovation.jpg" alt="Études et services techniques" loading="lazy">
+                    <div class="service-card__body">
+                        <h4>Études &amp; Services Techniques</h4>
+                        <ul class="specs-list" style="list-style:none; padding-left:0;">
+                            <li><i class="fas fa-check"></i> Conception de plans architecturaux sur mesure</li>
+                            <li><i class="fas fa-check"></i> Établissement de devis détaillés et dimensionnement</li>
+                            <li><i class="fas fa-check"></i> Contrôle, suivi de chantier et accompagnement pour le permis de construire</li>
+                        </ul>
+                        <a href="https://wa.me/22670182076?text=Bonjour%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20les%20services%20de%20DMS-C%20Construction" target="_blank" class="btn btn--primaire">Demander un devis</a>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="construction.html" class="btn btn--primaire" style="width: auto; padding: 14px 50px;">
+                    En savoir plus sur DMS Construction <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
 
