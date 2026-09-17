@@ -715,7 +715,7 @@
         .card-slider {
             position: relative;
             width: 100%;
-            height: 200px;
+            height: 300px;          /* ✅ augmenté de 200px → 300px */
             overflow: hidden;
             background: #e9edf5;
             touch-action: pan-y;
@@ -1202,7 +1202,7 @@
             }
             .service-card__img,
             .card-slider {
-                height: 180px;
+                height: 240px;          /* ✅ augmenté de 180px → 240px */
             }
             .service-card__body {
                 padding: 16px 18px 20px;
@@ -1333,6 +1333,9 @@
             .hamburger span {
                 width: 18px;
                 height: 2px;
+            }
+            .card-slider {
+                height: 200px;
             }
             .card-slider .slider-btn {
                 width: 24px;
@@ -1542,80 +1545,89 @@
             </div>
             <div class="services-row">
 
-                <!-- Toyota Camry 2018 -->
+                <!-- HYUNDAI SANTA FE 2025 -->
                 <div class="service-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
-                            <img src="DMS/toyota_cambry1.jpg" class="slide" alt="Camry vue 1" loading="lazy">
-                            <img src="DMS/toyota_cambry2.jpg" class="slide" alt="Camry vue 2" loading="lazy">
-                            <img src="DMS/toyota_cambry3.jpg" class="slide" alt="Camry vue 3" loading="lazy">
+                            <img src="DMS/HYUNDAI_SANT_FE2025_1.jpg" class="slide" alt="Santa Fe 2025 vue 1" loading="lazy">
+                            <img src="DMS/HYUNDAI_SANT_FE2025_2.jpg" class="slide" alt="Santa Fe 2025 vue 2" loading="lazy">
+                            <img src="DMS/HYUNDAI_SANT_FE2025_3.jpg" class="slide" alt="Santa Fe 2025 vue 3" loading="lazy">
                         </div>
                         <button class="slider-btn prev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
                         <button class="slider-btn next" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
                         <div class="dots"></div>
                     </div>
                     <div class="service-card__body">
-                        <h4>Toyota Camry 2018</h4>
-                        <div class="price">8 900 000 F CFA <span>TTC</span></div>
+                        <h4>Hyundai Santa Fe 2025</h4>
+                        <div class="price">17 850 000 F CFA <span>HT</span></div>
                         <div class="specs-list">
-                            <i class="fas fa-cog"></i> Boîte automatique<br>
-                            <i class="fas fa-gas-pump"></i> Moteur essence<br>
-                            <i class="fas fa-chair"></i> Intérieur cuir<br>
-                            <i class="fas fa-tv"></i> Écran multimédia<br>
-                            <i class="fas fa-circle"></i> Jantes alliage
+                            <i class="fas fa-calendar-alt"></i> Année 2025<br>
+                            <i class="fas fa-cog"></i> Boîte automatique · Essence 4 cylindres<br>
+                            <i class="fas fa-chair"></i> Intérieur tissu<br>
+                            <i class="fas fa-snowflake"></i> Climatisation d'origine performante<br>
+                            <i class="fas fa-shield-alt"></i> Garantie moteur : 1 an
+                        </div>
+                        <span class="dispo"><i class="fas fa-clock"></i> Sur commande · Livraison 14 jours</span>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20commander%20la%20Hyundai%20Santa%20Fe%202025" target="_blank" class="btn btn--whatsapp">Commander</a>
+                    </div>
+                </div>
+
+                <!-- HYUNDAI KONA 2022 -->
+                <div class="service-card reveal">
+                    <div class="card-slider" data-slider>
+                        <div class="slides-wrapper">
+                            <img src="DMS/HYUNDAI_KONA%202022_1.jpg" class="slide" alt="Kona 2022 vue 1" loading="lazy">
+                            <img src="DMS/HYUNDAI_KONA%202022_2.jpg" class="slide" alt="Kona 2022 vue 2" loading="lazy">
+                            <img src="DMS/HYUNDAI_KONA%202022_3.jpg" class="slide" alt="Kona 2022 vue 3" loading="lazy">
+                            <img src="DMS/HYUNDAI_KONA%202022_4.jpg" class="slide" alt="Kona 2022 vue 4" loading="lazy">
+                        </div>
+                        <button class="slider-btn prev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn next" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
+                        <div class="dots"></div>
+                    </div>
+                    <div class="service-card__body">
+                        <h4>Hyundai Kona 2022</h4>
+                        <div class="price">13 400 000 F CFA <span>TTC</span></div>
+                        <div class="specs-list">
+                            <i class="fas fa-calendar-alt"></i> Année 2022<br>
+                            <i class="fas fa-cog"></i> Boîte automatique · Essence 4 cylindres<br>
+                            <i class="fas fa-chair"></i> Intérieur tissu<br>
+                            <i class="fas fa-tv"></i> Écran multimédia · Caméra de recul<br>
+                            <i class="fas fa-power-off"></i> Démarrage Start/Stop bouton<br>
+                            <i class="fas fa-shield-alt"></i> Garantie moteur : 1 an
                         </div>
                         <span class="dispo"><i class="fas fa-clock"></i> Sur commande · Livraison 7 jours</span>
-                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20commander%20la%20Toyota%20Camry%202018" target="_blank" class="btn btn--whatsapp">Commander</a>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20commander%20la%20Hyundai%20Kona%202022" target="_blank" class="btn btn--whatsapp">Commander</a>
                     </div>
                 </div>
 
-                <!-- Jetour X70S 2019 -->
+                <!-- TOYOTA LEVIN 2023 -->
                 <div class="service-card reveal">
                     <div class="card-slider" data-slider>
                         <div class="slides-wrapper">
-                            <img src="DMS/jetour_1.jpg" class="slide" alt="Jetour vue 1" loading="lazy">
-                            <img src="DMS/jetour_2.jpg" class="slide" alt="Jetour vue 2" loading="lazy">
-                            <img src="DMS/jetour_1.jpg" class="slide" alt="Jetour vue 3" loading="lazy">
+                            <img src="DMS/TOYOTA_LEVIN_2023_1.jpg" class="slide" alt="Levin 2023 vue 1" loading="lazy">
+                            <img src="DMS/TOYOTA_LEVIN_2023_2.jpg" class="slide" alt="Levin 2023 vue 2" loading="lazy">
+                            <img src="DMS/TOYOTA_LEVIN_2023_3.jpg" class="slide" alt="Levin 2023 vue 3" loading="lazy">
+                            <img src="DMS/TOYOTA_LEVIN_2023_4.jpg" class="slide" alt="Levin 2023 vue 4" loading="lazy">
                         </div>
                         <button class="slider-btn prev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
                         <button class="slider-btn next" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
                         <div class="dots"></div>
                     </div>
                     <div class="service-card__body">
-                        <h4>Jetour X70S 2019</h4>
-                        <div class="price">8 900 000 F CFA <span>Hors Taxes</span></div>
+                        <h4>Toyota Levin 2023 — 1.8 Hybride</h4>
+                        <div class="price">9 000 000 F CFA <span>Hors Taxe</span></div>
                         <div class="specs-list">
-                            <i class="fas fa-cog"></i> 1.5 Turbo · Automatique<br>
-                            <i class="fas fa-users"></i> 5 places · Terra Edition<br>
-                            <i class="fas fa-calendar-alt"></i> Année 2019
+                            <i class="fas fa-bolt"></i> Moteur hybride 1.8L · 137 ch<br>
+                            <i class="fas fa-cog"></i> Boîte automatique E-CVT<br>
+                            <i class="fas fa-gas-pump"></i> Consommation dès 4,1 L/100 km<br>
+                            <i class="fas fa-tv"></i> Écran tactile 10,25" · Apple CarPlay<br>
+                            <i class="fas fa-camera"></i> Caméra de recul · Éclairage LED<br>
+                            <i class="fas fa-shield-alt"></i> Toyota Safety Sense 3.0 · 8 airbags<br>
+                            <i class="fas fa-chair"></i> 5 places · Climatisation automatique
                         </div>
-                        <span class="dispo"><i class="fas fa-clock"></i> Sur commande · Livraison 60 jours</span>
-                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20commander%20la%20Jetour%20X70S%202019" target="_blank" class="btn btn--whatsapp">Commander</a>
-                    </div>
-                </div>
-
-                <!-- Toyota RAV4 -->
-                <div class="service-card reveal">
-                    <div class="card-slider" data-slider>
-                        <div class="slides-wrapper">
-                            <img src="DMS/rav4_1.jpg" class="slide" alt="RAV4 vue 1" loading="lazy">
-                            <img src="DMS/rav4_2.jpg" class="slide" alt="RAV4 vue 2" loading="lazy">
-                            <img src="DMS/rav4_1.jpg" class="slide" alt="RAV4 vue 3" loading="lazy">
-                        </div>
-                        <button class="slider-btn prev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
-                        <button class="slider-btn next" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
-                        <div class="dots"></div>
-                    </div>
-                    <div class="service-card__body">
-                        <h4>Toyota RAV4</h4>
-                        <div class="price">Prix sur demande</div>
-                        <div class="specs-list">
-                            <i class="fas fa-cog"></i> SUV polyvalent<br>
-                            <i class="fas fa-calendar-alt"></i> Modèle récent<br>
-                            <i class="fas fa-check-circle"></i> Disponible sur commande
-                        </div>
-                        <span class="dispo"><i class="fas fa-clock"></i> Sur commande</span>
-                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20commander%20le%20Toyota%20RAV4" target="_blank" class="btn btn--whatsapp">Commander</a>
+                        <span class="dispo"><i class="fas fa-clock"></i> Sur commande · Livraison ~60 jours</span>
+                        <a href="https://wa.me/22674087512?text=Bonjour%2C%20je%20veux%20commander%20la%20Toyota%20Levin%202023" target="_blank" class="btn btn--whatsapp">Commander</a>
                     </div>
                 </div>
 
